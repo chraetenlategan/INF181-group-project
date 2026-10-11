@@ -60,6 +60,15 @@ _headers                Security headers for Cloudflare Pages
 CLAUDE.md               Project brief and working rules
 ```
 
+## Who writes what
+
+Every outstanding task is allocated across four people in
+**`INF1781-work-allocation.docx`**, with a typing box under each brief. Fill in
+your part, save, and send it back — each task has a unique ID, so the answers
+map straight onto the right place on the site.
+
+`tools/` holds the scripts that build that pack and read a filled-in copy back.
+
 ## Writing the content
 
 > **Two kinds of text are on these pages.** The 36 orange boxes have no draft at

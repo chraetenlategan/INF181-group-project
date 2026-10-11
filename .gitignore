@@ -8,3 +8,7 @@ Thumbs.db
 INF1781 Group Project-1.pdf
 
 # Nothing here is built — the site is served exactly as committed.
+
+# Local python deps for tools/
+pylibs/
+venv/

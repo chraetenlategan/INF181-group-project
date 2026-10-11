@@ -1,0 +1,535 @@
+[
+ {
+  "page": "index.html",
+  "section_id": "problem",
+  "section": "The problem, stated plainly",
+  "task": "Write the opening problem statement (about 250\u2013350 words)",
+  "bullets": [
+   "What a day at Lerato's currently looks like: the duplicate book, the exercise book for accounts, the WhatsApp group for stock requests, the spreadsheet that lives on one laptop.",
+   "The moment the owner notices it is not working \u2014 be specific and human. A customer disputes an invoice; a geyser element is promised that is not on the shelf; month-end takes a weekend.",
+   "Why \"just buy software\" is not the answer on its own: the problem is how data is captured and kept, not which program it is kept in.",
+   "Land on the sentence this whole resource turns on: capture once, use many times."
+  ],
+  "evidence": "The Data quality screen in the demonstration lists every broken record by name, including a customer with R12 000 of credit whose phone number is incomplete.",
+  "sources": "Your own prescribed textbook on the data\u2013information\u2013knowledge distinction; any South African small-business survey on digital adoption you can cite properly."
+ },
+ {
+  "page": "index.html",
+  "section_id": "honest",
+  "section": "What we are not going to tell you",
+  "task": "Write the honest trade-offs section (about 200\u2013300 words)",
+  "bullets": [
+   "This is the section that earns the \"grounded in real trade-offs\" marks. Do not skip it and do not soften it.",
+   "Name what this costs: money every month, time to learn, the fortnight where things are slower, not faster.",
+   "Name what can go wrong: staff working around the system, a migration that imports the old mess, picking a vendor you cannot leave.",
+   "Name what should NOT be digitised yet, and why. Be specific about this shop.",
+   "Say plainly that a system does not fix a business that is not making money \u2014 it makes the numbers visible so the owner can act."
+  ],
+  "evidence": "The roadmap page carries the staged costs; keep this section about the honest downside and link there for the numbers.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "data-information",
+  "section": "Data, information, and why the difference costs money",
+  "task": "Explain data vs information vs knowledge, using the shop's own examples (250\u2013350 words)",
+  "bullets": [
+   "Define data, information and knowledge in plain language \u2014 no textbook phrasing the owner would skip past.",
+   "Use one fact and follow it through all three. Suggested: \"12\" (data) \u2192 \"12 metres of 20mm polycop sold to Thandi Mabaso on 11 October\" (information) \u2192 \"plumbing pipe sells in bursts after month-end, so order before the 25th\" (knowledge).",
+   "Make the point that the shop already produces all the data it needs. The failure is not collection, it is retention and structure.",
+   "Explain why this is not word games: the owner cannot act on data, only on information. Every step in this resource is about closing that gap."
+  ],
+  "evidence": "",
+  "sources": "Your prescribed IS textbook's treatment of the DIKW hierarchy \u2014 cite the edition and page."
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "row-record",
+  "section": "A row versus a record",
+  "task": "Write the row-versus-record explanation (300\u2013400 words)",
+  "bullets": [
+   "Walk the reader through the diagram above in words. Do not assume they studied it.",
+   "Explain metadata in one sentence a non-technical person would repeat correctly: data about the data.",
+   "Give the shop's own example of each envelope field mattering. Who captured it: a disputed price. When: a warranty claim. Source: a stock figure typed from memory versus counted off a delivery note. Version: \"who changed this?\".",
+   "Explain linking versus copying \u2014 the invoice points at the customer rather than containing their name. This is the single most important paragraph on the page.",
+   "Be fair to spreadsheets. Say what they are genuinely good at: a quick calculation, a one-off model, something you will throw away. The argument is against using one as a database, not against Excel."
+  ],
+  "evidence": "Open any record in the Records screen and read the _meta block. The pink keys in the JSON view are the envelope.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "structure",
+  "section": "What \"structured\" actually means",
+  "task": "Explain the structured record and the schema (250\u2013350 words)",
+  "bullets": [
+   "Point out that roughly half the record is the envelope. Explain why that is a feature, not waste.",
+   "Explain what a schema is \u2014 the shop's agreed definition of what a customer record contains \u2014 and why writing it down once means the form, the checks and the storage can never disagree.",
+   "Explain the difference between master data (customers, products, suppliers \u2014 things that exist) and transaction data (sales, stock movements \u2014 things that happened). Master data is corrected; transaction data is never edited, only reversed. Explain why that rule matters for trust.",
+   "Address the obvious objection: \"this looks complicated.\" Nobody types this. It is produced by filling in a form with eight boxes."
+  ],
+  "evidence": "The whole schema is in data/schema.js and drives the capture forms in the demonstration.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "quality",
+  "section": "Information quality: six questions, one score",
+  "task": "Write the information quality section (350\u2013450 words \u2014 this is a marked sub-topic)",
+  "bullets": [
+   "Introduce the six dimensions properly. Your textbook will have its own list; use it and cite it, then map it to the table above.",
+   "Make the cost concrete. Pick the duplicate customer and follow the consequence: two records, one person, a credit limit applied twice, a bad debt that was never authorised.",
+   "Explain the \"cost of poor quality\" idea \u2014 it is usually cheapest to prevent at capture, more expensive to correct later, most expensive when a decision has already been made on it.",
+   "Explain why the score on the demonstration is deliberately calculated over master data and not over thousands of routine sales. A score that cannot go down is worse than no score.",
+   "Be honest: no system reaches 100%, and chasing it is a waste. The useful question is which failures cost money."
+  ],
+  "evidence": "The Data quality screen lists every failing record by name, with the rule it broke.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "validation",
+  "section": "Catching it at the counter, not at month-end",
+  "task": "Explain why there are two severities and not one (200\u2013300 words)",
+  "bullets": [
+   "This is the most quietly important design decision in the whole system, and it is worth a paragraph of its own in the pitch.",
+   "Shops have genuine exceptions: a damaged item sold cheap, a trusted customer let past their limit, stock that is physically there but was never booked in.",
+   "A system that refuses every exception gets worked around \u2014 staff stop using it, or start entering fiction to make it accept the save. A system that is worked around holds worse data than no system at all.",
+   "So warnings let the human overrule the machine, and the overrule is recorded. The owner can later ask how often a limit was overridden and by whom.",
+   "Connect this to the broader point about designing systems for the people who will actually use them \u2014 it links forward to the Making it fit page."
+  ],
+  "evidence": "In the Till screen, try selling 500 bags of cement. You can, but you have to tick the acknowledgement, and it is stored on the record.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "sources",
+  "section": "Where the shop's data actually comes from",
+  "task": "Write the data sources section (250\u2013300 words)",
+  "bullets": [
+   "Explain why mapping sources comes before choosing software. You cannot integrate what you have not listed.",
+   "The last row is the serious one. Knowledge that exists only in the owner's head is a risk to the business \u2014 if they are ill, on leave, or want to sell the shop one day, it is not transferable.",
+   "Explain \"single source of truth\" here: for each fact, decide which place is authoritative. Two places holding a stock figure means they will disagree, and nobody will know which is right.",
+   "Suggest the practical first exercise: the owner writes this table out for their own shop before talking to any vendor."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "flow",
+  "section": "Reuse: the part that pays for the whole exercise",
+  "task": "Write the reuse section (250\u2013350 words)",
+  "bullets": [
+   "This is where the owner is persuaded, so spend the words. Anchor it in an afternoon they recognise.",
+   "Make the agreement point: the quote and the invoice cannot disagree, because they are two views of the same records rather than two separately typed documents.",
+   "Explain \"provenance\" \u2014 each generated document in the demonstration lists the record IDs it was built from, so an argument about an invoice is settled by looking rather than remembering.",
+   "Mention the compliance by-product: a tax invoice has required particulars under the VAT Act. Getting them onto every invoice automatically is worth money the first time SARS or a VAT-registered customer asks.",
+   "Verify the current required particulars for a tax invoice against SARS guidance and cite it \u2014 do not state the list from memory."
+  ],
+  "evidence": "Documents screen. Generate an invoice and read the grey provenance line at the bottom.",
+  "sources": "SARS guidance on tax invoices and the VAT Act requirements; the Information Regulator for the POPIA report."
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "dashboards",
+  "section": "Dashboards: what to put on one, and what to leave off",
+  "task": "Write the dashboards and data visualisation section (350\u2013450 words)",
+  "bullets": [
+   "Explain the difference between a dashboard (daily, short, action-oriented) and a report (periodic, detailed, for review).",
+   "Cover the visualisation basics properly, because \"data visualisation\" is named in the brief: pick the chart for the question, not for decoration. Columns for change over time, horizontal bars when the labels are words, a donut only for share-of-whole with few slices. Say plainly that 3-D and pie charts with fifteen slices communicate nothing.",
+   "Explain why the demonstration's main chart puts revenue columns and a margin line together: selling more and earning more are different things, and a shop can do the first while losing the second.",
+   "Cover one honest pitfall each: truncated axes that exaggerate, comparing a part-month against a full month, and averages hiding the thing that matters. The demonstration deliberately fixes the second one \u2014 explain how and why.",
+   "Explain why exceptions (band 3) are the part staff actually use, and that it is a list of names, not a number."
+  ],
+  "evidence": "The Today screen is built to this structure. Note the revenue tile compares the first 11 days of this month against the first 11 days of last month, not against a full month.",
+  "sources": "A recognised data-visualisation source \u2014 Few, Tufte, or your textbook's chapter \u2014 cited properly."
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "measure",
+  "section": "What a shop this size should actually measure",
+  "task": "Write the measurement section (250\u2013350 words)",
+  "bullets": [
+   "Define each measure in one plain sentence \u2014 assume the reader has never seen \"stock turn\" written down.",
+   "Explain why gross margin matters more than turnover to a shop of this size, with a worked example in rands.",
+   "Take the customer concentration figure seriously. 20.9% from one contractor is a risk, not an achievement. Say what the owner should do about it.",
+   "Make the point that none of these required any new data collection. They are all by-products of ringing up sales properly.",
+   "Caution against vanity metrics \u2014 numbers that feel good and change nothing."
+  ],
+  "evidence": "All six are on the Analytics screen, each with the underlying records behind it.",
+  "sources": ""
+ },
+ {
+  "page": "pages/data-management.html",
+  "section_id": "protect",
+  "section": "Keeping it: backups, retention and the stolen laptop",
+  "task": "Write the data protection and retention section (300\u2013400 words)",
+  "bullets": [
+   "Cover backups properly: more than one copy, at least one of them not in the shop, and \u2014 the part everyone skips \u2014 a restore that has actually been tested. An untested backup is a hope, not a backup.",
+   "Explain the trade-off between cloud and on-premise honestly for a South African small business: load shedding, data costs, patchy connectivity, versus the risk of the one laptop.",
+   "Cover retention from both sides: SARS requires business records to be kept for a set period, while POPIA requires personal information not to be kept longer than needed. These pull in opposite directions and the shop needs a written answer. Verify both periods against SARS and the Information Regulator and cite them \u2014 do not state them from memory.",
+   "Cover access: who can see what, and why that is about not asking staff to be careful with screens they never needed, rather than about distrust.",
+   "Mention the audit trail as the thing that answers \"who changed this?\" \u2014 unanswerable in a shared spreadsheet."
+  ],
+  "evidence": "The Audit trail records every change with the old and new value. The Your data screen exports everything to a file the owner can keep.",
+  "sources": "SARS record-retention requirements; POPIA sections 14 and 19; the Information Regulator's guidance notes."
+ },
+ {
+  "page": "pages/ethics-privacy.html",
+  "section_id": "why",
+  "section": "Why this lands on a hardware shop at all",
+  "task": "Write the opening on why POPIA applies here (250\u2013350 words)",
+  "bullets": [
+   "Define personal information and processing in plain language. Make the point that \"processing\" includes simply storing a name in a book \u2014 the shop is already doing it.",
+   "Name the roles without jargon: the shop is the responsible party, the customer is the data subject, the Information Regulator is the referee.",
+   "Confront the obvious objection head-on: \"we are too small for this\". The Act has no small-business exemption. Explain what that does and does not mean in practice for a shop of this size.",
+   "Separate the two motivations honestly \u2014 the legal one (you must) and the ethical one (these are your neighbours, and this is a community where reputation travels faster than the Regulator does).",
+   "Verify and cite the commencement date of the operative provisions and the Regulator's role. Do not state them from memory."
+  ],
+  "evidence": "",
+  "sources": "The Protection of Personal Information Act 4 of 2013 itself; the Information Regulator of South Africa's website and guidance notes."
+ },
+ {
+  "page": "pages/ethics-privacy.html",
+  "section_id": "conditions",
+  "section": "The eight conditions, and what each one means at the counter",
+  "task": "Expand two or three of the eight conditions into real paragraphs (300\u2013400 words)",
+  "bullets": [
+   "Do not just restate the table. Pick the conditions that bite hardest for this shop and go deeper.",
+   "Suggested: processing limitation (the cheapest compliance is not collecting it), security safeguards (the breach notification duty surprises people), and data subject participation (the one spreadsheets cannot satisfy).",
+   "For each, state the obligation, then what the shop would actually have to do differently on Monday.",
+   "Verify each section number you cite."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/ethics-privacy.html",
+  "section_id": "four",
+  "section": "The four questions you must be able to answer",
+  "task": "Write the four questions section (300\u2013400 words)",
+  "bullets": [
+   "Take each question and describe what answering it looks like on a Tuesday afternoon with a customer at the counter.",
+   "Question 1 is the strongest demonstration in the whole project \u2014 make sure the pitch lands it. A spreadsheet shop genuinely cannot produce a complete answer, and that is not a technicality, it is a failure to meet a right the customer actually has.",
+   "On consent: explain that consent must be voluntary, specific and informed, and that silence or a pre-ticked box is not consent. Verify the wording against s.1 and s.69.",
+   "On retention: explain the direct conflict with SARS record-keeping requirements and how a shop resolves it \u2014 keep the transaction record for tax, strip or delete the personal detail that is no longer needed."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/ethics-privacy.html",
+  "section_id": "ethics",
+  "section": "Compliance is the floor, not the ceiling",
+  "task": "Write the data ethics section (350\u2013450 words \u2014 this is a marked sub-topic)",
+  "bullets": [
+   "Separate legal from ethical clearly. Plenty of things are lawful and still wrong, and a shop lives on its reputation in a way a large company does not.",
+   "Work through at least two concrete dilemmas specific to this shop:",
+   "\u2014 The purchase history shows a customer buys building materials in a pattern suggesting they are struggling to finish a house. Is it ethical to use that to push credit at them?",
+   "\u2014 Staff can see every customer's purchase history. Should the counter assistant be able to see what a neighbour bought, and what they still owe?",
+   "\u2014 A supplier offers a discount in exchange for the shop's customer list. Lawful with consent, perhaps \u2014 but should it be done?",
+   "Cover transparency: people should not be surprised by what the shop knows about them.",
+   "Cover proportionality: collect what the job needs and nothing more. Link back to processing limitation.",
+   "Cover power: the customer has no real choice about handing over a phone number if they want an account. Consent given under that imbalance deserves more care, not less.",
+   "Close on the practical version of the ethical test: would you be comfortable if the customer read this record over your shoulder?"
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/ai-decision-support.html",
+  "section_id": "ladder",
+  "section": "Four questions, in order",
+  "task": "Write the analytics maturity section (300\u2013400 words \u2014 marked sub-topic)",
+  "bullets": [
+   "Explain each of the four levels in plain language with a Lerato's example for each. Use the examples in the diagram or better ones.",
+   "Make the dependency argument clearly: a prediction is only as trustworthy as the records underneath it. Tie this straight back to the information-quality work on the data page.",
+   "State the honest recommendation: this shop should get level 1 right and most of level 2, and that alone will pay for the system. Level 3 can wait until there are two or three years of clean trading data.",
+   "Explain why vendors sell level 4 and rarely deliver it \u2014 and what the owner should ask a salesperson to prove.",
+   "Cite your textbook's treatment of decision support and analytics maturity."
+  ],
+  "evidence": "The Analytics screen is entirely levels 1 and 2. Nothing on it is predicted; everything is calculated from what actually happened.",
+  "sources": ""
+ },
+ {
+  "page": "pages/ai-decision-support.html",
+  "section_id": "decisions",
+  "section": "Which decisions should a system make?",
+  "task": "Write the decision types section (250\u2013350 words)",
+  "bullets": [
+   "Define structured, semi-structured and unstructured decisions, citing your textbook.",
+   "Make the practical point: automate the structured ones because they are boring, repetitive and done badly by tired people at 5pm on a Friday \u2014 not because computers are clever.",
+   "Explain \"decision support\" properly: the system's job on a semi-structured decision is to put the evidence in front of the person, not to make the call.",
+   "Give the counter-example: the reorder calculation in the demonstration suggests a quantity. It does not place the order. Explain why that boundary is deliberate."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/ai-decision-support.html",
+  "section_id": "useful",
+  "section": "What is actually useful to a shop this size",
+  "task": "Write the honest assessment of AI for a small retailer (350\u2013450 words)",
+  "bullets": [
+   "This section is where the resource earns credibility with a sceptical client. Do not oversell.",
+   "Start with the deflation: most of what delivers value to a shop this size is arithmetic done consistently, not machine learning. Say so plainly.",
+   "Explain what a forecast actually is \u2014 an estimate with uncertainty \u2014 and that a forecast presented without a sense of how wrong it might be is worse than no forecast, because it invites confident bad decisions.",
+   "Explain the data requirement honestly: machine learning needs volume, history and consistency. A shop with eighteen months of spreadsheet data of uncertain quality does not have the inputs yet.",
+   "Cover bias with a retail example, not an abstract one. If the shop never stocked a line, the data shows no demand for it, and a model trained on that data will recommend never stocking it. The data records what the shop did, not what customers wanted.",
+   "Cover explainability: the owner must be able to ask \"why did it suggest that?\" and get an answer. A recommendation nobody can explain will be ignored the first time it looks odd \u2014 correctly.",
+   "Give three questions to ask any vendor selling AI, and make them questions a non-technical owner could actually ask out loud."
+  ],
+  "evidence": "",
+  "sources": "Your textbook on decision support systems and business intelligence; any reputable source on forecasting limitations or algorithmic bias."
+ },
+ {
+  "page": "pages/ai-decision-support.html",
+  "section_id": "judgement",
+  "section": "What the system must never be allowed to decide",
+  "task": "Write the human judgement section (200\u2013300 words)",
+  "bullets": [
+   "Give concrete examples specific to this shop: extending credit to a long-standing customer going through a hard patch, pricing for a neighbour, deciding whether to keep stocking a line that one loyal customer depends on.",
+   "Make the point that these decisions have social and relational content that is not in the data and never will be.",
+   "Connect to the ethics page: a system that quietly refuses credit based on purchase patterns is making a decision about a person's life with no accountability and no right of reply.",
+   "Close by saying what the system should do with these decisions instead: surface the evidence, record what was decided and by whom, and let the owner be answerable for it."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/enterprise-systems.html",
+  "section_id": "pieces",
+  "section": "The pieces, in plain language",
+  "task": "Write the enterprise systems overview (300\u2013400 words \u2014 marked sub-topic)",
+  "bullets": [
+   "Define each system properly in your own words. Define ERP carefully \u2014 it is the term most likely to come up in Q&A and the one most often misused.",
+   "Make the point in the right-hand column explicit: the shop already performs every one of these functions. The question is never \"should we have inventory management\" but \"should it be done by a book or by a system\".",
+   "Explain why a full ERP is usually wrong for a business this size: cost, implementation length, and the fact that it is designed to impose process discipline a four-person shop does not need yet.",
+   "Explain what a module is, and why buying one product that does two things well beats buying four that each do one thing.",
+   "Cite your textbook for the definitions, and name specific South African products only where you can verify what they do."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/enterprise-systems.html",
+  "section_id": "islands",
+  "section": "Islands of data",
+  "task": "Write the islands-of-data section (300\u2013400 words)",
+  "bullets": [
+   "Explain the term data silo / islands of data in plain language.",
+   "Trace one fact \u2014 the price of a bag of cement \u2014 through every place it currently lives at Lerato's, and show how they drift apart.",
+   "Explain single source of truth: for each fact, exactly one place is authoritative, and everything else reads from it.",
+   "Make the subtle point that matters most: the problem is not the duplicate copies. It is that nobody can tell which copy is right, so staff stop trusting all of them and go back to asking the owner.",
+   "Use the shop's real example: six places hold a stock figure, all six disagree, so the stock figure is effectively unknown."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/enterprise-systems.html",
+  "section_id": "joins",
+  "section": "Four ways to join two systems",
+  "task": "Write the integration approaches section (350\u2013450 words \u2014 marked sub-topic)",
+  "bullets": [
+   "Explain what an API is without jargon. A good analogy for a hardware shop: a trade counter. You do not walk into the warehouse; you hand a written order over the counter in an agreed format and get back what you asked for.",
+   "Explain real-time versus batch and why it matters here: a stock figure that updates monthly cannot support a reorder decision made today.",
+   "Work through the real integration challenges, not just the list: different systems meaning different things by the same word (is \"customer\" the person or the account?), different formats for dates and phone numbers, deciding which system wins when both have changed the same record, and what happens to data captured while the internet was down.",
+   "Cover vendor lock-in honestly: once a shop's three years of history is inside a product, moving becomes expensive and the vendor knows it. The defence is the data export test.",
+   "State the practical test to apply before signing anything: can I export everything, in a readable format, without asking permission? Link to the demonstration's export screen."
+  ],
+  "evidence": "The Your data screen exports every record with its metadata intact. Apply the same test to any product a vendor demonstrates.",
+  "sources": ""
+ },
+ {
+  "page": "pages/enterprise-systems.html",
+  "section_id": "choosing",
+  "section": "Choosing between products",
+  "task": "Write the vendor selection section (250\u2013350 words)",
+  "bullets": [
+   "Frame it as a buying guide for somebody who is not technical and will be sold to confidently.",
+   "Name actual South African options you have verified \u2014 accounting, point of sale, payments \u2014 and say what each is genuinely good at. Check current pricing on the vendors' own sites and cite the date you checked, because it will have changed.",
+   "Cover the total cost of ownership idea: subscription, hardware, training time, the cost of the fortnight where everything is slower, and the cost of getting out again.",
+   "Be explicit that the team is not recommending one product. A consultant who names a product without understanding the client's constraints is selling, not advising."
+  ],
+  "evidence": "",
+  "sources": "Vendors' own published pricing pages, with the date you checked. Do not cite a review site as a price."
+ },
+ {
+  "page": "pages/enterprise-systems.html",
+  "section_id": "reality",
+  "section": "What integration actually feels like",
+  "task": "Write the implementation reality section (250\u2013350 words)",
+  "bullets": [
+   "Set honest expectations. An integration project of this size is weeks, not days, and most of the time goes on agreeing definitions and cleaning data rather than on configuration.",
+   "Explain data migration and the rule that matters: a migration imports whatever you give it. Migrating the old mess produces a new system full of the old mess, which the shop is now also paying for.",
+   "Describe parallel running \u2014 keeping the book going alongside the system for a few weeks \u2014 and the trade-off: more work for a fortnight, but a way back if it fails.",
+   "Describe what success and failure each look like three months in, concretely."
+  ],
+  "evidence": "Every record migrated from the old spreadsheet in the demonstration is marked unverified in its metadata. Explain why that honesty is deliberate \u2014 see the Data quality screen.",
+  "sources": ""
+ },
+ {
+  "page": "pages/adapting-is.html",
+  "section_id": "spectrum",
+  "section": "Buy, configure, customise or build",
+  "task": "Write the buy-configure-customise-build section (350\u2013450 words \u2014 marked sub-topic)",
+  "bullets": [
+   "Define each of the four clearly. The configure versus customise distinction is the important one and is routinely blurred by salespeople \u2014 configuration is changing settings the product offers; customisation is code written against the product.",
+   "Explain why customisation is where small businesses get hurt: every upgrade has to be retested, the person who wrote it moves on, and the shop now owns a software project it did not plan to own.",
+   "Make the recommendation and defend it. For a four-person shop: configure heavily, customise almost never, build only the one thing that is genuinely unique to the business.",
+   "Explain fit-gap analysis in plain terms: list what the shop needs, see what the product does, and for every gap decide to change the process, accept the gap, or pay to close it. Most gaps should be the first two.",
+   "Give the test for when building is justified: the thing is central to how this business competes, no product does it, and the shop can maintain it afterwards. Very few things pass all three."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/adapting-is.html",
+  "section_id": "bend",
+  "section": "Where to bend the shop, and where to bend the system",
+  "task": "Write the bend-the-shop versus bend-the-system section (300\u2013400 words)",
+  "bullets": [
+   "Explain how to tell the two lists apart. The test: does the customer notice, and would they go elsewhere if it changed?",
+   "Take the handshake pricing example seriously. It looks like untidy data and it is actually a competitive advantage in a market built on relationships. A system that forbids it will be bypassed within a week.",
+   "Take the offline requirement seriously. Load shedding is not an edge case in South Africa; it is Tuesday. A cloud-only point of sale that cannot take a sale during an outage fails at the exact moment the shop needs it. Say what the shop should require instead.",
+   "Cover the language point. Staff and customers move between languages mid-sentence. Software in English only is usable by staff but adds friction, and a customer-facing screen in English only sends a message.",
+   "Make the organisational point: this list is a business decision, not an IT one, and the owner must make it before the demonstrations start, not during them."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/adapting-is.html",
+  "section_id": "worked",
+  "section": "A worked example: the capture form",
+  "task": "Write the adaptive interface section (300\u2013400 words)",
+  "bullets": [
+   "Explain progressive disclosure in plain language: show what is relevant now, reveal the rest when it becomes relevant. Then explain why it matters at a counter with a customer waiting.",
+   "Connect it to data quality. A shorter, more relevant form gets filled in properly; a long form with irrelevant fields gets filled with anything that lets the person move on. The interface design is a data quality control.",
+   "Explain schema-driven design without jargon: describe the thing once, and let the screen, the checks and the storage all read from that description. Say why that makes the system cheap to change \u2014 which is the whole topic of this page.",
+   "Cover accessibility and real conditions honestly: the screen is used standing up, on a counter, sometimes with dusty hands, by staff with varying levels of computer confidence. Big targets, clear errors, no jargon in messages.",
+   "Give the counter-example from the demonstration: the stock take sheet deliberately omits the system's own figure, because a counter who can see the expected number will tend to agree with it. Design decisions like that are what fitting a system to a business actually means."
+  ],
+  "evidence": "The customer form, and the stock take sheet under Documents.",
+  "sources": ""
+ },
+ {
+  "page": "pages/adapting-is.html",
+  "section_id": "adoption",
+  "section": "The part that decides whether any of this works",
+  "task": "Write the user adoption section (300\u2013400 words)",
+  "bullets": [
+   "Explain resistance fairly rather than dismissively. Staff resist for rational reasons: it is slower at first, it makes their mistakes visible, and nobody asked them.",
+   "Describe what the shop should actually do: involve Sipho and Thabo in choosing it, start with one thing that makes their day easier rather than the owner's, and let the person who learns it fastest teach the others.",
+   "Make the point about visibility honestly. A system does make individual performance visible, and that is genuinely uncomfortable. The owner should say out loud what that information will and will not be used for.",
+   "Explain why \"make the right thing the easy thing\" beats enforcement every time, with an example from the till screen.",
+   "Describe the failure signal to watch for: staff entering fiction to make the system accept a save. When that starts, the system is now producing worse data than the book it replaced, and the rule that caused it must change."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/adapting-is.html",
+  "section_id": "conditions",
+  "section": "Designing for South African conditions",
+  "task": "Write the South African conditions section (250\u2013350 words)",
+  "bullets": [
+   "This section is where the Scenario Application marks are won. Keep every example specific to this country and this kind of business.",
+   "Lead with load shedding and treat it as a design requirement rather than a complaint. What does the shop do during stage 4 at 5pm on a Friday?",
+   "Cover the cost of data honestly, and what that means for choosing software.",
+   "Cover the cash point properly: a system that assumes card payments will not reconcile for a shop where a third of takings are cash.",
+   "Find and cite at least one credible South African source on small-business digital adoption or load shedding's impact on SMEs."
+  ],
+  "evidence": "",
+  "sources": "Statistics South Africa, a reputable SME survey, or a South African banking or business-association report. Cite it properly."
+ },
+ {
+  "page": "pages/roadmap.html",
+  "section_id": "stage1",
+  "section": "Stage 1 \u2014 Point of sale and stock",
+  "task": "Write the Stage 1 justification (200\u2013300 words)",
+  "bullets": [
+   "Explain why point of sale comes first and not accounting. Everything downstream depends on the sale being captured properly; accounting built on a bad sales record is tidy nonsense.",
+   "Set the expectation honestly: the first two weeks are slower, not faster, and staff will say so. Say what the owner should do about that rather than pretending it will not happen.",
+   "Explain what parallel running means here and whether you recommend it for this shop.",
+   "Price this stage from real vendor pages and cite them."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/roadmap.html",
+  "section_id": "costs",
+  "section": "What it costs",
+  "task": "Write the cost and payback section (300\u2013400 words)",
+  "bullets": [
+   "Fill in the table with verified prices and cite every one with the date checked.",
+   "Explain total cost of ownership: subscription, hardware, migration, training, the lost productivity of the first fortnight, and the cost of leaving again.",
+   "Build an honest payback argument using the demonstration's own figures: R23 798 of dead stock, R3 616 of annual shrinkage, R99 962 of debtors. Be careful and fair \u2014 recovering dead stock is a one-off, not an annual saving, and say so. A dishonest payback calculation is the fastest way to lose a client's trust.",
+   "State plainly what this does not fix: a system does not make an unprofitable shop profitable. It makes the numbers visible so the owner can act on them."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/roadmap.html",
+  "section_id": "risks",
+  "section": "What could go wrong",
+  "task": "Write the risk section and the closing recommendation (300\u2013400 words)",
+  "bullets": [
+   "Expand the two or three risks you judge most serious for this shop and say what you would actually do about each.",
+   "Then write the consultant's closing recommendation \u2014 this is the paragraph the lecturer, playing the client, will push on hardest in Q&A.",
+   "Be decisive. Say what you would do first, what you would deliberately leave alone this year, and why. A recommendation that hedges everything is not a recommendation.",
+   "Include at least one thing you are advising the client not to spend money on, and defend it. This is what separates advice from selling.",
+   "Make sure every member of the team can defend this paragraph on their own."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/glossary.html",
+  "section_id": "",
+  "section": "(top of page)",
+  "task": "Write a plain-language definition for each of the 46 terms below",
+  "bullets": [
+   "One or two sentences each. Write as if explaining to Lerato across the counter, not as if copying a textbook.",
+   "Add the shop's own example to each \u2014 \"at Lerato's this is\u2026\". A definition without an example will not be remembered.",
+   "Where a term has a precise legal or technical meaning (POPIA terms, tax invoice, API), check the definition against a proper source and cite it on the sources page.",
+   "Split the list between members and then swap and check each other's \u2014 in Q&A any member may be asked to define any of these.",
+   "Replace the placeholder cell contents in the HTML table below. Each one is a plain <td>."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "pages/references.html",
+  "section_id": "list",
+  "section": "Reference list",
+  "task": "Compile the reference list in your required citation style",
+  "bullets": [
+   "Use the citation style your department requires. Be consistent \u2014 a mixed-style list reads as careless.",
+   "For legislation, cite the Act properly, including the Act number and year.",
+   "For vendor pricing, include the URL and the date you accessed it. Prices change; an undated price is unverifiable.",
+   "For the textbook, include the edition \u2014 section numbers and page references differ between editions.",
+   "Cross-check: every claim in the table above should appear here, and nothing here should be uncited in the body text."
+  ],
+  "evidence": "",
+  "sources": ""
+ },
+ {
+  "page": "login.html",
+  "section_id": "access",
+  "section": "How this site is actually protected",
+  "task": "Decide and write up the access position (150\u2013250 words)",
+  "bullets": [
+   "Decide whether the demonstration should be public or restricted for the submitted version. Recommendation: leave it public \u2014 the lecturer and the marker must be able to open it without being issued credentials, and there is no real data in it to protect.",
+   "Write a short paragraph explaining to the client the general principle: protect the path, not the page; never write your own login for a static site; and never store a password in client-side code where anyone can read it.",
+   "Connect it back to POPIA s.19 (security safeguards) \u2014 access control is one of the technical measures the Act expects, and it is one of the cheapest to implement.",
+   "If the team does switch Access on before the presentation, test it on the lecturer's PC first. A demonstration that asks the marker for a one-time PIN they cannot receive is a presentation that stops."
+  ],
+  "evidence": "",
+  "sources": ""
+ }
+]
