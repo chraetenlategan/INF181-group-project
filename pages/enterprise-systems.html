@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise systems and integration — Lerato's Hardware & Home</title>
+<meta name="description" content="POS, inventory, accounting and CRM explained for a small retailer: islands of data, four ways to integrate, vendor selection and what implementation really involves.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="../demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="../index.html">Home</a> › Systems &amp; integration</p>
+    <p class="eyebrow">Topic 4</p>
+    <h1>Enterprise systems and integration</h1>
+    <p class="lede">What the standard pieces of business software actually do, why they stop talking to
+      each other, and what it costs when nobody planned for the joins.</p>
+  </div>
+</div>
+
+<div class="wrap-narrow">
+  <nav class="toc" data-toc aria-label="On this page"><h2>On this page</h2></nav>
+</div>
+
+<section class="section">
+  <div class="wrap-narrow">
+
+    <h2 id="pieces">The pieces, in plain language</h2>
+    <p>Every one of these already exists at Lerato's. They are just being done by a person, a book, or
+      nobody at all.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>System</th><th>What it is for</th><th>Who does it at Lerato's today</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Point of sale (POS)</strong></td>
+              <td>Records the sale as it happens: what, how much, to whom, paid how</td>
+              <td>The duplicate invoice book, plus the Yoco machine for card payments</td></tr>
+          <tr><td><strong>Inventory management</strong></td>
+              <td>Knows what is on the shelf, what it cost, and when to order more</td>
+              <td>A spreadsheet last reconciled in June, and Thabo's memory</td></tr>
+          <tr><td><strong>Accounting</strong></td>
+              <td>Turns trading into books: VAT, profit, what is owed and owing</td>
+              <td>A bookkeeper, monthly, working from a box of paper</td></tr>
+          <tr><td><strong>Customer management (CRM)</strong></td>
+              <td>Who the customers are, what they buy, what they owe, what they consented to</td>
+              <td>The exercise book and the owner's memory</td></tr>
+          <tr><td><strong>Purchasing</strong></td>
+              <td>What to order, from whom, at what price, and whether it arrived</td>
+              <td>A phone call, and delivery notes in a box</td></tr>
+          <tr><td><strong>Reporting</strong></td>
+              <td>What happened, so the owner can decide what to do next</td>
+              <td>A feeling, confirmed or contradicted by the bank balance</td></tr>
+          <tr><td><strong>ERP</strong></td>
+              <td>All of the above in one product, sharing one database</td>
+              <td>&mdash; (and almost certainly the wrong answer for a shop this size, for now)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the enterprise systems overview (300&ndash;400 words &mdash; marked sub-topic)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Define each system properly in your own words. Define <strong>ERP</strong> carefully &mdash; it is the term most likely to come up in Q&amp;A and the one most often misused.</li><li>Make the point in the right-hand column explicit: the shop already performs every one of these functions. The question is never &quot;should we have inventory management&quot; but &quot;should it be done by a book or by a system&quot;.</li><li>Explain why a full ERP is usually wrong for a business this size: cost, implementation length, and the fact that it is designed to impose process discipline a four-person shop does not need yet.</li><li>Explain what a <strong>module</strong> is, and why buying one product that does two things well beats buying four that each do one thing.</li><li>Cite your textbook for the definitions, and name specific South African products only where you can verify what they do.</li></ul>
+</div>
+
+    <h2 id="islands">Islands of data</h2>
+    <p>This is the single most common failure in small-business IT, and it is not caused by bad software.
+      It is caused by buying good software one piece at a time, over years, with nobody asking how the
+      pieces will talk.</p>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 920 420" role="img" aria-labelledby="is-t is-d" style="width:100%;height:auto">
+  <title id="is-t">Islands of data compared with a shared source of truth</title>
+  <desc id="is-d">Above: six separate places holding overlapping copies of the same facts, joined only by a
+  person retyping between them. Below: the same six functions reading from and writing to one shared set of
+  records.</desc>
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c0342f"/>
+    </marker>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#128079"/>
+    </marker>
+  </defs>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <text x="0" y="16" font-size="13" font-weight="700" fill="#9b2423">TODAY · ISLANDS, JOINED BY RETYPING</text>
+
+    <g font-size="11" fill="#35495a">
+      <rect x="0"   y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="66" y="56" text-anchor="middle" font-weight="650">Invoice book</text>
+      <text x="66" y="73" text-anchor="middle" font-size="10" fill="#6b8299">sales, by hand</text>
+
+      <rect x="156" y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="222" y="56" text-anchor="middle" font-weight="650">Exercise book</text>
+      <text x="222" y="73" text-anchor="middle" font-size="10" fill="#6b8299">who owes what</text>
+
+      <rect x="312" y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="378" y="56" text-anchor="middle" font-weight="650">Yoco app</text>
+      <text x="378" y="73" text-anchor="middle" font-size="10" fill="#6b8299">card takings</text>
+
+      <rect x="468" y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="534" y="56" text-anchor="middle" font-weight="650">Stock sheet</text>
+      <text x="534" y="73" text-anchor="middle" font-size="10" fill="#6b8299">prices, June count</text>
+
+      <rect x="624" y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="690" y="56" text-anchor="middle" font-weight="650">WhatsApp</text>
+      <text x="690" y="73" text-anchor="middle" font-size="10" fill="#6b8299">requests, prices</text>
+
+      <rect x="780" y="34" width="132" height="52" rx="7" fill="#fbe3e1" stroke="#c0342f"/>
+      <text x="846" y="56" text-anchor="middle" font-weight="650">Bookkeeper</text>
+      <text x="846" y="73" text-anchor="middle" font-size="10" fill="#6b8299">monthly, in arrears</text>
+    </g>
+
+    <g stroke="#c0342f" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a2)" fill="none">
+      <path d="M132,60 L152,60"/><path d="M288,60 L308,60"/><path d="M444,60 L464,60"/>
+      <path d="M600,60 L620,60"/><path d="M756,60 L776,60"/>
+    </g>
+    <text x="456" y="112" text-anchor="middle" font-size="11.5" fill="#9b2423">Every join is a person retyping. Every retype is a chance to be wrong, and nothing reconciles.</text>
+    <text x="456" y="132" text-anchor="middle" font-size="11.5" fill="#6b8299">Six places hold a stock figure. They disagree. Nobody knows which one is right.</text>
+
+    <line x1="0" y1="156" x2="920" y2="156" stroke="#e0e7ed" stroke-width="2"/>
+
+    <text x="0" y="186" font-size="13" font-weight="700" fill="#0e6b66">THE GOAL · ONE SET OF RECORDS, MANY VIEWS OF IT</text>
+
+    <rect x="330" y="282" width="260" height="96" rx="10" fill="#0e6b66"/>
+    <text x="460" y="314" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Shared records</text>
+    <text x="460" y="336" text-anchor="middle" font-size="11" fill="#d8efed">customers · products · sales</text>
+    <text x="460" y="354" text-anchor="middle" font-size="11" fill="#d8efed">one fact, stored once</text>
+
+    <g font-size="11" fill="#35495a">
+      <rect x="0"   y="206" width="132" height="48" rx="7" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="66" y="226" text-anchor="middle" font-weight="650">Point of sale</text>
+      <text x="66" y="242" text-anchor="middle" font-size="10" fill="#6b8299">writes sales</text>
+
+      <rect x="186" y="206" width="132" height="48" rx="7" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="252" y="226" text-anchor="middle" font-weight="650">Stock control</text>
+      <text x="252" y="242" text-anchor="middle" font-size="10" fill="#6b8299">reads &amp; writes</text>
+
+      <rect x="372" y="206" width="132" height="48" rx="7" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="438" y="226" text-anchor="middle" font-weight="650">Accounting</text>
+      <text x="438" y="242" text-anchor="middle" font-size="10" fill="#6b8299">reads sales</text>
+
+      <rect x="558" y="206" width="132" height="48" rx="7" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="624" y="226" text-anchor="middle" font-weight="650">Customers</text>
+      <text x="624" y="242" text-anchor="middle" font-size="10" fill="#6b8299">one record each</text>
+
+      <rect x="744" y="206" width="132" height="48" rx="7" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="810" y="226" text-anchor="middle" font-weight="650">Reports</text>
+      <text x="810" y="242" text-anchor="middle" font-size="10" fill="#6b8299">reads everything</text>
+    </g>
+
+    <g stroke="#128079" stroke-width="1.5" marker-end="url(#a3)" fill="none">
+      <path d="M66,256  C66,300 240,300 326,310"/>
+      <path d="M252,256 C252,290 300,300 326,318"/>
+      <path d="M438,256 C438,270 440,272 440,278"/>
+      <path d="M624,256 C624,290 600,300 594,318"/>
+      <path d="M810,256 C810,300 640,300 594,310"/>
+    </g>
+    <text x="460" y="402" text-anchor="middle" font-size="11.5" fill="#1d6b3f">Correct a customer once and every document, report and balance that uses them is correct too.</text>
+  </g>
+</svg></div></div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the islands-of-data section (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain the term <strong>data silo</strong> / islands of data in plain language.</li><li>Trace one fact &mdash; the price of a bag of cement &mdash; through every place it currently lives at Lerato's, and show how they drift apart.</li><li>Explain <strong>single source of truth</strong>: for each fact, exactly one place is authoritative, and everything else reads from it.</li><li>Make the subtle point that matters most: the problem is not the duplicate copies. It is that nobody can tell which copy is right, so staff stop trusting all of them and go back to asking the owner.</li><li>Use the shop's real example: six places hold a stock figure, all six disagree, so the stock figure is effectively unknown.</li></ul>
+</div>
+
+    <h2 id="joins">Four ways to join two systems</h2>
+    <p>In rising order of cost and falling order of pain.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Approach</th><th>How it works</th><th>Costs</th><th>Fails when</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Re-entry</strong><br><span class="muted" style="font-size:.84rem">a person retypes</span></td>
+              <td>Somebody reads one screen and types into another</td>
+              <td><span class="badge badge--ok">R0 upfront</span><br>hours every month, forever</td>
+              <td>Immediately and invisibly. Typing errors, things done late, things skipped when it is busy.</td></tr>
+          <tr><td><strong>2. File export and import</strong><br><span class="muted" style="font-size:.84rem">CSV between systems</span></td>
+              <td>Export from one, import into the other, usually monthly</td>
+              <td><span class="badge badge--ok">Low</span><br>someone must remember</td>
+              <td>The data is only as current as the last export, and nobody notices when the export stops working.</td></tr>
+          <tr><td><strong>3. Built-in integration</strong><br><span class="muted" style="font-size:.84rem">the vendors already did it</span></td>
+              <td>Two products that were built to connect, switched on in settings</td>
+              <td><span class="badge badge--warn">Subscription</span><br>little setup</td>
+              <td>You are limited to what the vendors chose to connect, and tied to both of them.</td></tr>
+          <tr><td><strong>4. Custom integration</strong><br><span class="muted" style="font-size:.84rem">an API and a developer</span></td>
+              <td>Software written to move data between systems automatically</td>
+              <td><span class="badge badge--bad">Highest</span><br>plus ongoing maintenance</td>
+              <td>The developer leaves, or one vendor changes their API and it quietly stops. This is the one that strands small businesses.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--warn">
+      <div class="callout__title">The recommendation for this shop</div>
+      <p>Prefer option 3 and design around it. For a four-person business, choosing two products that
+        already integrate is almost always better than choosing two &quot;better&quot; products and paying
+        somebody to join them. The joined version is only better until the person who built it is
+        unavailable.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the integration approaches section (350&ndash;450 words &mdash; marked sub-topic)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain what an <strong>API</strong> is without jargon. A good analogy for a hardware shop: a trade counter. You do not walk into the warehouse; you hand a written order over the counter in an agreed format and get back what you asked for.</li><li>Explain <strong>real-time</strong> versus <strong>batch</strong> and why it matters here: a stock figure that updates monthly cannot support a reorder decision made today.</li><li>Work through the real integration challenges, not just the list: different systems meaning different things by the same word (is &quot;customer&quot; the person or the account?), different formats for dates and phone numbers, deciding which system wins when both have changed the same record, and what happens to data captured while the internet was down.</li><li>Cover <strong>vendor lock-in</strong> honestly: once a shop's three years of history is inside a product, moving becomes expensive and the vendor knows it. The defence is the data export test.</li><li>State the practical test to apply before signing anything: <em>can I export everything, in a readable format, without asking permission?</em> Link to the demonstration's export screen.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#data'>Your data screen</a> exports every record with its metadata intact. Apply the same test to any product a vendor demonstrates.</p>
+</div>
+
+    <h2 id="choosing">Choosing between products</h2>
+    <p>Rather than naming a winner, here is the scorecard to take into a demonstration. Make the
+      salesperson show you, not tell you.</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Fill one of these in per product, during the demo, not afterwards from memory.</caption>
+        <thead><tr><th>Ask</th><th>Why it matters</th><th>A bad answer sounds like</th></tr></thead>
+        <tbody>
+          <tr><td>Can I export all my data, any time, without asking you?</td>
+              <td>It is the difference between a supplier and a captor</td>
+              <td>&quot;Our support team can arrange that for you&quot;</td></tr>
+          <tr><td>What happens when the internet is down?</td>
+              <td>This is South Africa. It will be.</td>
+              <td>&quot;Our uptime is 99.9%&quot; &mdash; that is not an answer to the question</td></tr>
+          <tr><td>What does it cost in year three, with four users?</td>
+              <td>Per-user pricing grows quietly</td>
+              <td>A price for one user, for the first year, excluding VAT</td></tr>
+          <tr><td>Does it connect to the accounting package my bookkeeper uses?</td>
+              <td>Avoids becoming integration number four</td>
+              <td>&quot;It can be integrated&quot; &mdash; by whom, at what cost?</td></tr>
+          <tr><td>Show me a tax invoice it produces, with VAT</td>
+              <td>SARS particulars are not optional</td>
+              <td>A generic template from another country</td></tr>
+          <tr><td>Can I see who changed a price, and when?</td>
+              <td>The audit question, which never comes up at a good moment</td>
+              <td>&quot;Only administrators can change prices&quot; &mdash; again, not the question</td></tr>
+          <tr><td>Where is my data stored, and who else can see it?</td>
+              <td>POPIA s.72 governs sending personal information out of the country</td>
+              <td>Vagueness. <em>Verify the current s.72 position and cite it.</em></td></tr>
+          <tr><td>What happens to my data if I stop paying?</td>
+              <td>Shops do go quiet for a month</td>
+              <td>&quot;Your account would be suspended&quot; &mdash; and the data?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the vendor selection section (250&ndash;350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Frame it as a buying guide for somebody who is not technical and will be sold to confidently.</li><li>Name actual South African options you have verified &mdash; accounting, point of sale, payments &mdash; and say what each is genuinely good at. Check current pricing on the vendors' own sites and cite the date you checked, because it will have changed.</li><li>Cover the total cost of ownership idea: subscription, hardware, training time, the cost of the fortnight where everything is slower, and the cost of getting out again.</li><li>Be explicit that the team is not recommending one product. A consultant who names a product without understanding the client's constraints is selling, not advising.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Vendors' own published pricing pages, with the date you checked. Do not cite a review site as a price.</p>
+</div>
+
+    <h2 id="reality">What integration actually feels like</h2>
+    <div class="callout callout--risk">
+      <div class="callout__title">The thing nobody puts in the brochure</div>
+      <p>The hardest part of connecting two systems is almost never technical. It is discovering that the
+        two halves of the business never agreed on what a word means. The counter thinks a &quot;customer&quot;
+        is the person standing there; the bookkeeper thinks it is the account being billed. Both have been
+        right for years. A system forces the question, and answering it is organisational work, not
+        software work.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the implementation reality section (250&ndash;350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Set honest expectations. An integration project of this size is weeks, not days, and most of the time goes on agreeing definitions and cleaning data rather than on configuration.</li><li>Explain <strong>data migration</strong> and the rule that matters: a migration imports whatever you give it. Migrating the old mess produces a new system full of the old mess, which the shop is now also paying for.</li><li>Describe parallel running &mdash; keeping the book going alongside the system for a few weeks &mdash; and the trade-off: more work for a fortnight, but a way back if it fails.</li><li>Describe what success and failure each look like three months in, concretely.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> Every record migrated from the old spreadsheet in the demonstration is marked <code>unverified</code> in its metadata. Explain why that honesty is deliberate &mdash; see the <a href='../demo/index.html#quality'>Data quality screen</a>.</p>
+</div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap-narrow">
+    <h2 style="margin-top:0">Carry on reading</h2>
+    <div class="grid grid--2">
+      <a class="card card--link" href="adapting-is.html"><h3>Making it fit</h3>
+        <p>Buy, configure or build &mdash; and where to bend the system versus the shop.</p><span class="card__more">Read →</span></a>
+      <a class="card card--link" href="roadmap.html"><h3>Roadmap &amp; costs</h3>
+        <p>The staged plan, with rands against each stage.</p><span class="card__more">Read →</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="../demo/index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

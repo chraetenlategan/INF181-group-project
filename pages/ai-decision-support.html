@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI and decision support — Lerato's Hardware & Home</title>
+<meta name="description" content="Analytics maturity, decision types, and an honest assessment of what AI and decision support can and cannot do for a small South African retailer.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="../demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="../index.html">Home</a> › AI &amp; decision support</p>
+    <p class="eyebrow">Topic 3</p>
+    <h1>AI and decision support</h1>
+    <p class="lede">Which decisions a small shop should hand to a system, which it should keep for itself,
+      and how to tell a useful tool from an expensive subscription with the word &quot;AI&quot; on the box.</p>
+  </div>
+</div>
+
+<div class="wrap-narrow">
+  <nav class="toc" data-toc aria-label="On this page"><h2>On this page</h2></nav>
+</div>
+
+<section class="section">
+  <div class="wrap-narrow">
+
+    <h2 id="ladder">Four questions, in order</h2>
+    <p>Almost everything sold as &quot;business intelligence&quot; or &quot;AI&quot; answers one of four
+      questions. They build on each other, and skipping a step does not work.</p>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 920 330" role="img" aria-labelledby="ml-t ml-d" style="width:100%;height:auto">
+  <title id="ml-t">The four questions analytics can answer, and where a shop should start</title>
+  <desc id="ml-d">Four rising steps: descriptive analytics describes what happened, diagnostic explains why,
+  predictive estimates what is likely next, and prescriptive recommends an action. Each step depends on the
+  one below it being trustworthy first.</desc>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <rect x="10"  y="226" width="210" height="84" rx="8" fill="#0e6b66"/>
+    <text x="28" y="252" font-size="13" font-weight="700" fill="#fff">1 · DESCRIPTIVE</text>
+    <text x="28" y="272" font-size="11.5" fill="#d8efed">&quot;What happened?&quot;</text>
+    <text x="28" y="291" font-size="11.5" fill="#d8efed">Revenue, margin, stock, debtors</text>
+
+    <rect x="238" y="170" width="210" height="140" rx="8" fill="#128079"/>
+    <text x="256" y="196" font-size="13" font-weight="700" fill="#fff">2 · DIAGNOSTIC</text>
+    <text x="256" y="216" font-size="11.5" fill="#d8efed">&quot;Why did it happen?&quot;</text>
+    <text x="256" y="235" font-size="11.5" fill="#d8efed">Margin fell because one</text>
+    <text x="256" y="252" font-size="11.5" fill="#d8efed">contractor negotiated 10% off</text>
+    <text x="256" y="269" font-size="11.5" fill="#d8efed">on the highest-volume lines</text>
+
+    <rect x="466" y="114" width="210" height="196" rx="8" fill="#5a4b9c"/>
+    <text x="484" y="140" font-size="13" font-weight="700" fill="#fff">3 · PREDICTIVE</text>
+    <text x="484" y="160" font-size="11.5" fill="#e9e5f7">&quot;What is likely next?&quot;</text>
+    <text x="484" y="179" font-size="11.5" fill="#e9e5f7">Roof paint demand rises from</text>
+    <text x="484" y="196" font-size="11.5" fill="#e9e5f7">March; order before the rain</text>
+
+    <rect x="694" y="58" width="216" height="252" rx="8" fill="#35495a"/>
+    <text x="712" y="84" font-size="13" font-weight="700" fill="#fff">4 · PRESCRIPTIVE</text>
+    <text x="712" y="104" font-size="11.5" fill="#c3cfda">&quot;What should I do?&quot;</text>
+    <text x="712" y="123" font-size="11.5" fill="#c3cfda">Order 180 bags from Mabopane</text>
+    <text x="712" y="140" font-size="11.5" fill="#c3cfda">on Thursday, not Monday</text>
+    <text x="712" y="170" font-size="10.5" fill="#97a9ba">Most small-business</text>
+    <text x="712" y="186" font-size="10.5" fill="#97a9ba">software sells this.</text>
+    <text x="712" y="202" font-size="10.5" fill="#97a9ba">Almost none deliver it.</text>
+
+    <text x="10" y="32" font-size="12.5" font-weight="700" fill="#16222b">Each step is only as good as the one below it</text>
+    <text x="10" y="52" font-size="11.5" fill="#6b8299">A prediction built on a stock figure nobody counted is not a prediction. It is a guess with a chart around it.</text>
+    <text x="10" y="200" font-size="11" font-weight="700" fill="#0e6b66">Lerato's is here →</text>
+    <text x="10" y="218" font-size="10.5" fill="#6b8299">and step 1 alone pays for itself</text>
+  </g>
+</svg></div></div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the analytics maturity section (300&ndash;400 words &mdash; marked sub-topic)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain each of the four levels in plain language with a Lerato's example for each. Use the examples in the diagram or better ones.</li><li>Make the dependency argument clearly: a prediction is only as trustworthy as the records underneath it. Tie this straight back to the information-quality work on the <a href='data-management.html'>data page</a>.</li><li>State the honest recommendation: this shop should get level 1 right and most of level 2, and that alone will pay for the system. Level 3 can wait until there are two or three years of clean trading data.</li><li>Explain why vendors sell level 4 and rarely deliver it &mdash; and what the owner should ask a salesperson to prove.</li><li>Cite your textbook's treatment of decision support and analytics maturity.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#analytics'>Analytics screen</a> is entirely levels 1 and 2. Nothing on it is predicted; everything is calculated from what actually happened.</p>
+</div>
+
+    <h2 id="decisions">Which decisions should a system make?</h2>
+    <p>Not all decisions are the same shape. The useful split is how repeatable they are.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>What it means</th><th>At Lerato's</th><th>Give it to a system?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Structured</strong></td>
+              <td>The rule is clear, the inputs are known, the answer is the same every time</td>
+              <td>When to reorder cement. How much VAT on an invoice. Whether this customer is over their credit limit.</td>
+              <td><span class="badge badge--ok">Yes &mdash; automate it</span></td></tr>
+          <tr><td><strong>Semi-structured</strong></td>
+              <td>Part of it can be calculated; part needs judgement</td>
+              <td>Which slow line to mark down. Whether to extend a contractor's terms. What to stock for winter.</td>
+              <td><span class="badge badge--warn">System advises, person decides</span></td></tr>
+          <tr><td><strong>Unstructured</strong></td>
+              <td>No rule, no reliable inputs, consequences are strategic</td>
+              <td>Whether to open a second branch. Whether to take on a partner. Whether to sell up.</td>
+              <td><span class="badge badge--bad">Keep it &mdash; but bring better data to it</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the decision types section (250&ndash;350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Define structured, semi-structured and unstructured decisions, citing your textbook.</li><li>Make the practical point: automate the structured ones because they are boring, repetitive and done badly by tired people at 5pm on a Friday &mdash; not because computers are clever.</li><li>Explain &quot;decision support&quot; properly: the system's job on a semi-structured decision is to put the evidence in front of the person, not to make the call.</li><li>Give the counter-example: the reorder calculation in the demonstration suggests a quantity. It does not place the order. Explain why that boundary is deliberate.</li></ul>
+</div>
+
+    <h2 id="useful">What is actually useful to a shop this size</h2>
+    <p>Honest assessment, in order of what returns the most for the least.</p>
+
+    <div class="grid grid--2" style="margin-top:1.5rem">
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--ok">Worth it now</span></h4>
+        <ul style="font-size:.92rem">
+          <li><strong>Reorder suggestions</strong> &mdash; sales rate against supplier lead time. Arithmetic, not AI, and it is the single highest-value calculation in the whole system.</li>
+          <li><strong>Exception lists</strong> &mdash; what is below reorder, who is over 60 days, which records are failing validation.</li>
+          <li><strong>Margin by product and by customer</strong> &mdash; reveals which trade accounts are busy rather than profitable.</li>
+          <li><strong>Dead stock and shrinkage</strong> &mdash; both are the owner's money, and neither is visible on paper.</li>
+        </ul></div>
+
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--warn">Later, with clean data</span></h4>
+        <ul style="font-size:.92rem">
+          <li><strong>Seasonal demand forecasting</strong> &mdash; genuinely useful for roof paint, geyser elements and building materials, but needs two or three years of trustworthy history.</li>
+          <li><strong>Basket analysis</strong> &mdash; what sells with what, which drives layout and add-on selling.</li>
+          <li><strong>Customer segmentation</strong> &mdash; separating contractors from DIY walk-ins properly rather than by impression.</li>
+          <li><strong>Reading supplier invoices automatically</strong> &mdash; the technology works; the question is whether the volume justifies it.</li>
+        </ul></div>
+
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--bad">Be sceptical</span></h4>
+        <ul style="font-size:.92rem">
+          <li><strong>&quot;AI-powered&quot; anything</strong> with no explanation of what it does. Ask what it predicts, from what data, and how often it is wrong.</li>
+          <li><strong>Automated pricing</strong> &mdash; in a market where relationships and a handshake price matter, this breaks things quietly.</li>
+          <li><strong>Automatic ordering</strong> with no human approval. One bad forecast becomes a yard full of stock.</li>
+          <li><strong>Customer chatbots</strong> for a shop with one phone line and loyal regulars who would rather speak to Sipho.</li>
+        </ul></div>
+
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--popia">Check against POPIA first</span></h4>
+        <ul style="font-size:.92rem">
+          <li>Anything that profiles customers by behaviour.</li>
+          <li>Anything that uses purchase history for marketing without specific consent.</li>
+          <li>Anything that sends customer data to a third-party service to be analysed &mdash; including a general-purpose AI assistant.</li>
+          <li>Automated decisions that affect a person, such as refusing credit. <em>Verify what s.71 requires here and cite it.</em></li>
+        </ul></div>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the honest assessment of AI for a small retailer (350&ndash;450 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>This section is where the resource earns credibility with a sceptical client. Do not oversell.</li><li>Start with the deflation: most of what delivers value to a shop this size is arithmetic done consistently, not machine learning. Say so plainly.</li><li>Explain what a forecast actually is &mdash; an estimate with uncertainty &mdash; and that a forecast presented without a sense of how wrong it might be is worse than no forecast, because it invites confident bad decisions.</li><li>Explain the data requirement honestly: machine learning needs volume, history and consistency. A shop with eighteen months of spreadsheet data of uncertain quality does not have the inputs yet.</li><li>Cover <strong>bias</strong> with a retail example, not an abstract one. If the shop never stocked a line, the data shows no demand for it, and a model trained on that data will recommend never stocking it. The data records what the shop did, not what customers wanted.</li><li>Cover <strong>explainability</strong>: the owner must be able to ask &quot;why did it suggest that?&quot; and get an answer. A recommendation nobody can explain will be ignored the first time it looks odd &mdash; correctly.</li><li>Give three questions to ask any vendor selling AI, and make them questions a non-technical owner could actually ask out loud.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Your textbook on decision support systems and business intelligence; any reputable source on forecasting limitations or algorithmic bias.</p>
+</div>
+
+    <h2 id="judgement">What the system must never be allowed to decide</h2>
+    <div class="callout callout--note">
+      <div class="callout__title">The line, stated once</div>
+      <p>A system should decide things that are <em>repeatable</em>. A person should decide things that are
+        <em>consequential and rare</em>. The failure mode of a small business is not having too little
+        automation &mdash; it is automating a judgement call and then not noticing when the circumstances changed.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the human judgement section (200&ndash;300 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Give concrete examples specific to this shop: extending credit to a long-standing customer going through a hard patch, pricing for a neighbour, deciding whether to keep stocking a line that one loyal customer depends on.</li><li>Make the point that these decisions have social and relational content that is not in the data and never will be.</li><li>Connect to the ethics page: a system that quietly refuses credit based on purchase patterns is making a decision about a person's life with no accountability and no right of reply.</li><li>Close by saying what the system <em>should</em> do with these decisions instead: surface the evidence, record what was decided and by whom, and let the owner be answerable for it.</li></ul>
+</div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap-narrow">
+    <h2 style="margin-top:0">Carry on reading</h2>
+    <div class="grid grid--2">
+      <a class="card card--link" href="enterprise-systems.html"><h3>Enterprise systems &amp; integration</h3>
+        <p>Where the data these tools need actually has to come from.</p><span class="card__more">Read →</span></a>
+      <a class="card card--link" href="roadmap.html"><h3>Roadmap &amp; costs</h3>
+        <p>What to do first, and what it costs in rands.</p><span class="card__more">Read →</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="../demo/index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

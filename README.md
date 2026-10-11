@@ -1,37 +1,101 @@
-# INF181 Group Project – Policy Generator
+# Lerato's Hardware & Home — an information systems resource
 
-A university group-project web app for generating accounting policies and
-engagement documents. Runs entirely in the browser — no build step, no server.
+INF1781 Group Project · Belgium Campus iTversity · Scenario 2 (SME Digital
+Transformation — Retail and Small Business)
+
+A digital resource that teaches a non-technical small-business owner how
+information systems would change their operations, with a working demonstration
+rather than screenshots.
 
 **Live site:** https://chraetenlategan.github.io/INF181-group-project/
 
-All firm, client, signatory, letterhead and legal-template content in this
-repository is **fictional dummy data**. Nothing here represents a real firm,
-a real client, or a real legal document.
+All people, businesses, suppliers, customers and transactions in this repository
+are **invented**. No real personal information is used anywhere, and nothing
+here is drawn from a real business's records.
 
 ## Running it
 
-Open the live site above, or clone and open `index.html` directly in a browser.
+Open `index.html`. That is all — no build step, no server, no dependencies.
 
-There is no database server in this project, so choose **offline mode** when
-asked at start-up. The admin password is `admin`.
+For a local server (useful while editing):
 
-## Placeholder data used
+```bash
+python3 -m http.server 4173
+```
 
-| Area | Value |
-|---|---|
-| Firm name | "INF181 Group Project" / "INF181 Audit Group" |
-| Signatories | Alice Anderson, Henry Brooks, Rita Clarke, Rosa Daniels (fake practice numbers) |
-| Preparers | Fiona Evans, plus generic roles (Bookkeeper, Treasurer, etc.) |
-| Letterheads, logo, icon, mascot sprites | Generated placeholder images |
-| Engagement-letter templates | Short generic sample text |
-| Place, contact, network details | Dummyville, PO Box 123, `admin@example.com`, `192.0.2.10` (reserved documentation range) |
-| Client/third-party names | Placeholders such as "Example 33 (Proprietary) Limited" |
-| Registry software | "ClientReg" |
+Then visit <http://localhost:4173>.
 
-## Known limitations
+## What is here
 
-Audit/review/compilation **report** wording, the accounting-policy notes in
-`config.js` and some long hard-coded paragraphs in `DocumentGenerator.js`
-follow public standards (IFRS / ISA / ISRE) and were left as is. Rewrite them
-if the course requires fully original text.
+```
+index.html              Landing page — the problem, the idea, the topics
+login.html              Role switcher, and how access is actually controlled
+pages/
+  data-management.html  DEPTH TOPIC — records, metadata, quality, dashboards
+  ethics-privacy.html   POPIA and data ethics
+  ai-decision-support.html
+  enterprise-systems.html
+  adapting-is.html      Buy / configure / customise / build
+  roadmap.html          Staged plan, costs, risks
+  glossary.html         46 terms in plain language
+  references.html       Sourcing checklist and reference list
+demo/
+  index.html            The live demonstration
+  store.js              Record store — _meta envelopes, audit log, import/export
+  validate.js           Validation rules, two severities
+  capture.js            Schema-driven adaptive form
+  generate.js           Six documents built from stored records
+  analytics.js          Aggregations and hand-drawn SVG charts
+  app.js                Demonstration shell and views
+data/
+  schema.js             The shape of every record — drives form, checks, storage
+  seed.js               Invented data set + seeded 12-month trading generator
+assets/css/main.css     One stylesheet for the whole site
+assets/js/site.js       Navigation, contents lists, placeholder toggle
+docs/
+  design-rationale.md   Skeleton of the BC Connect submission
+  contributions.md      Who did what, and Q&A preparation
+  deployment.md         Cloudflare Pages, GitHub Pages, offline fallback
+_headers                Security headers for Cloudflare Pages
+CLAUDE.md               Project brief and working rules
+```
+
+## Writing the content
+
+> **Two kinds of text are on these pages.** The 36 orange boxes have no draft at
+> all. Everything else — tables, callouts, card summaries, examples, the
+> sentences between sections — is AI-drafted scaffolding and **must be rewritten
+> in your own words before submission**, with every factual claim verified. The
+> brief allows AI for building the site, not for writing what a visitor reads.
+> Keep the structure, the code, the diagrams and the data. Rewrite the prose.
+
+
+Orange dashed boxes marked **"Team writes this"** are drafting placeholders.
+Each one is a brief: what to cover, what evidence in the demonstration to point
+at, and where to look the facts up. Replace them with your own writing.
+
+Press **Ctrl+Shift+D** on any page to hide them, so the site can be previewed as
+the client will see it. The footer shows how many are left.
+
+**All of them must be gone from the HTML before submission.**
+
+## The demonstration
+
+Everything is stored in the visitor's own browser. Nothing is sent anywhere.
+Every person, supplier and transaction is invented.
+
+Worth trying: capture a sale, try to sell stock that does not exist, generate
+the invoice, open the record and read its `_meta` block, then produce a POPIA
+access report for a customer.
+
+**Your data → Restore** puts everything back.
+
+## Earlier work in this repository
+
+This repository previously held the group's first direction — a policy and
+engagement document generator. That work is not lost: it is preserved on the
+tag `archive/policy-generator` and in the commit history.
+
+```bash
+git checkout archive/policy-generator
+```

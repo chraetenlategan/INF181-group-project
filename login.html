@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff sign-in — Lerato's Hardware & Home</title>
+<meta name="description" content="Role switcher for the demonstration, and a note on how access to the resource is actually controlled.">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="index.html">Home</a></li>
+        <li><a class="nav__link" href="pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="index.html">Home</a> › Staff sign-in</p>
+    <h1>Staff sign-in</h1>
+    <p class="lede">Choose a role to see the same system from a different chair. Permissions are not about
+      distrust &mdash; they are about not asking somebody to be careful with a screen they never needed to see.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+
+    <div class="callout callout--warn">
+      <div class="callout__title">This is a role switcher, not a login</div>
+      <p>No password is asked for and none should be entered anywhere on this site. Choosing a role below
+        only changes which screens the demonstration shows and whose name is written into the records you
+        capture. Real access control for this resource is handled in front of the site, not inside it &mdash;
+        see the section below.</p>
+    </div>
+
+    <h2 id="roles" style="margin-top:2.5rem">Who does what</h2>
+    <div class="grid grid--4" style="margin-top:1.5rem">
+      <div class="card">
+        <h3 style="margin-top:0">Lerato Mokoena</h3>
+        <p class="muted" style="font-size:.88rem;margin-top:.2rem">Owner</p>
+        <p style="font-size:.9rem"><strong>Can do:</strong> Everything, including prices, reports and the POPIA register.</p>
+        <p style="font-size:.88rem;color:#6b8299">Sees the whole business. Is also the Information Officer under POPIA, whether or not she has been told so.</p>
+        <button class="btn btn--primary btn--sm" data-signin="u-lerato">Continue as Lerato</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Sipho Dlamini</h3>
+        <p class="muted" style="font-size:.88rem;margin-top:.2rem">Counter staff</p>
+        <p style="font-size:.9rem"><strong>Can do:</strong> Ring up sales, look up products, create a customer.</p>
+        <p style="font-size:.88rem;color:#6b8299">Cannot change prices or see margin. Not because he is not trusted &mdash; because he should not have to be careful with a screen he never needs.</p>
+        <button class="btn btn--primary btn--sm" data-signin="u-sipho">Continue as Sipho</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Anja van Wyk</h3>
+        <p class="muted" style="font-size:.88rem;margin-top:.2rem">Bookkeeper</p>
+        <p style="font-size:.9rem"><strong>Can do:</strong> Sales, customers, statements and reports.</p>
+        <p style="font-size:.88rem;color:#6b8299">Needs the financial picture, does not need to touch stock levels.</p>
+        <button class="btn btn--primary btn--sm" data-signin="u-anja">Continue as Anja</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Thabo Nkosi</h3>
+        <p class="muted" style="font-size:.88rem;margin-top:.2rem">Storeman</p>
+        <p style="font-size:.9rem"><strong>Can do:</strong> Stock movements, deliveries, stock takes, product records.</p>
+        <p style="font-size:.88rem;color:#6b8299">Lives in the yard. Never needs to see what a customer owes.</p>
+        <button class="btn btn--primary btn--sm" data-signin="u-thabo">Continue as Thabo</button>
+      </div>
+    </div>
+
+    <div class="callout callout--note">
+      <div class="callout__title">Why a four-person shop still needs roles</div>
+      <p>Not for secrecy. Three practical reasons: a smaller screen is a faster screen, mistakes get
+        contained to the area the person works in, and the audit trail becomes meaningful &mdash; &quot;Thabo
+        adjusted this stock figure&quot; is only useful if it could not have been anybody.</p>
+    </div>
+
+    <h2 id="access">How this site is actually protected</h2>
+    <p>The resource is a static website. It has no server, no database and no accounts of its own, which
+      means it cannot check a password &mdash; and should not pretend to. Access control belongs in front of
+      it, at the edge.</p>
+
+    <div class="grid grid--2" style="margin-top:1.5rem">
+      <div class="card">
+        <h4 style="margin-top:0">Public pages</h4>
+        <p style="font-size:.92rem">Everything under <code>/</code> and <code>/pages/</code> is the
+          educational resource. It is meant to be read by the client and by anyone they share it with.
+          No protection needed.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0">The demonstration</h4>
+        <p style="font-size:.92rem">If the shop ever wanted <code>/demo/</code> restricted to staff, the
+          way to do it on Cloudflare Pages is an <strong>Access</strong> policy in Cloudflare Zero Trust:
+          a rule on the path that requires an email one-time PIN or a Google sign-in, checked at
+          Cloudflare's edge before the page is ever served.</p>
+      </div>
+    </div>
+
+    <div class="callout callout--note">
+      <div class="callout__title">Set-up notes for the team</div>
+      <p>Deployment and Access configuration are written up in <code>docs/deployment.md</code> in the
+        project folder. Nothing on this page needs to change to switch protection on &mdash; the policy is
+        applied in the Cloudflare dashboard, against the path, not in the site's code.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Decide and write up the access position (150&ndash;250 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Decide whether the demonstration should be public or restricted for the submitted version. <strong>Recommendation: leave it public</strong> &mdash; the lecturer and the marker must be able to open it without being issued credentials, and there is no real data in it to protect.</li><li>Write a short paragraph explaining to the client the general principle: protect the path, not the page; never write your own login for a static site; and never store a password in client-side code where anyone can read it.</li><li>Connect it back to POPIA s.19 (security safeguards) &mdash; access control is one of the technical measures the Act expects, and it is one of the cheapest to implement.</li><li>If the team does switch Access on before the presentation, test it on the lecturer's PC first. A demonstration that asks the marker for a one-time PIN they cannot receive is a presentation that stops.</li></ul>
+</div>
+  </div>
+</section>
+
+<script src="data/schema.js"></script>
+<script>
+/* Role switching only. There is no authentication here and no secret to protect:
+   the demonstration keeps everything in the visitor's own browser. Writing a
+   password check into a static page would be security theatre, and the page says
+   so above rather than pretending otherwise. */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('[data-signin]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var id = b.getAttribute('data-signin');
+      var u = (window.LHH_SCHEMA.users || []).find(function (x) { return x.id === id; });
+      if (u) {
+        try { localStorage.setItem('lhh.user', JSON.stringify(u)); } catch (e) {}
+      }
+      location.href = 'demo/index.html';
+    });
+  });
+});
+</script>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="demo/index.html">Live demonstration</a></li>
+          <li><a href="pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data and information management — Lerato's Hardware & Home</title>
+<meta name="description" content="The depth topic: records versus rows, metadata, information quality, validation at capture, dashboards and what a small retailer should measure.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="../demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="../index.html">Home</a> › Data &amp; information management</p>
+    <p class="eyebrow">Topic 1 · explored in depth</p>
+    <h1>Data and information management</h1>
+    <p class="lede">The longest page here, and the one worth your time. Everything else in this resource
+      assumes the idea on this page: that a fact captured properly once can be used everywhere, and a fact
+      typed into a cell cannot.</p>
+  </div>
+</div>
+
+<div class="wrap-narrow">
+  <nav class="toc" data-toc aria-label="On this page"><h2>On this page</h2></nav>
+</div>
+
+<section class="section">
+  <div class="wrap-narrow">
+
+    <h2 id="data-information">Data, information, and why the difference costs money</h2>
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Explain data vs information vs knowledge, using the shop's own examples (250–350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Define <strong>data</strong>, <strong>information</strong> and <strong>knowledge</strong> in plain language — no textbook phrasing the owner would skip past.</li><li>Use one fact and follow it through all three. Suggested: &quot;12&quot; (data) → &quot;12 metres of 20mm polycop sold to Thandi Mabaso on 11 October&quot; (information) → &quot;plumbing pipe sells in bursts after month-end, so order before the 25th&quot; (knowledge).</li><li>Make the point that the shop already <em>produces</em> all the data it needs. The failure is not collection, it is retention and structure.</li><li>Explain why this is not word games: the owner cannot act on data, only on information. Every step in this resource is about closing that gap.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Your prescribed IS textbook's treatment of the DIKW hierarchy — cite the edition and page.</p>
+</div>
+
+    <h2 id="row-record">A row versus a record</h2>
+    <p>This is the central comparison of the whole resource. On the left is what the shop keeps today.
+      On the right is the same sale, stored as a record.</p>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 960 330" role="img" aria-labelledby="rr-t rr-d" style="width:100%;height:auto">
+  <title id="rr-t">A spreadsheet row compared with a stored record</title>
+  <desc id="rr-d">The spreadsheet row holds five values and nothing else. The record holds the same five
+  values plus a metadata envelope recording who captured it, when, from what source, which version it is,
+  whether it passed validation, and which other records it links to.</desc>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <text x="0" y="18" font-size="13" font-weight="700" fill="#9b2423">THE SPREADSHEET ROW</text>
+    <text x="0" y="36" font-size="11.5" fill="#6b8299">Everything the shop currently keeps about this sale.</text>
+    <rect x="0" y="48" width="430" height="34" rx="5" fill="#eef2f6" stroke="#c3cfda"/>
+    <text x="12" y="69" font-size="12" font-family="monospace" fill="#35495a">Thandi Mabaso | Polycop 20mm | 12 | 29.90 | 358.80</text>
+    <text x="0" y="104" font-size="11.5" fill="#9b2423">Five values. That is the entire contents.</text>
+
+    <g font-size="11.5" fill="#6b8299">
+      <text x="0" y="136">Who typed it?</text>          <text x="150" y="136" fill="#9b2423">not kept</text>
+      <text x="0" y="156">When?</text>                   <text x="150" y="156" fill="#9b2423">not kept</text>
+      <text x="0" y="176">Is &quot;Thandi Mabaso&quot; the same</text>
+      <text x="0" y="192">person as row 4 719?</text>    <text x="150" y="192" fill="#9b2423">unknowable</text>
+      <text x="0" y="212">Was the price checked?</text>  <text x="150" y="212" fill="#9b2423">no rule existed</text>
+      <text x="0" y="232">Has it been changed?</text>    <text x="150" y="232" fill="#9b2423">overwritten, gone</text>
+      <text x="0" y="252">Did stock move?</text>         <text x="150" y="252" fill="#9b2423">only if someone remembered</text>
+      <text x="0" y="272">What else depends on it?</text><text x="150" y="272" fill="#9b2423">nothing links to it</text>
+    </g>
+
+    <line x1="470" y1="10" x2="470" y2="320" stroke="#e0e7ed" stroke-width="2"/>
+
+    <text x="500" y="18" font-size="13" font-weight="700" fill="#0e6b66">THE STORED RECORD</text>
+    <text x="500" y="36" font-size="11.5" fill="#6b8299">The same sale, captured through a form that keeps its context.</text>
+
+    <rect x="500" y="48" width="440" height="60" rx="6" fill="#eef8f7" stroke="#7fc9c4"/>
+    <text x="512" y="68" font-size="10.5" font-weight="700" fill="#0e6b66">THE VALUES</text>
+    <text x="512" y="86" font-size="11" font-family="monospace" fill="#35495a">customerId: CUS-002 → the record, not the name</text>
+    <text x="512" y="101" font-size="11" font-family="monospace" fill="#35495a">productId: PRD-001 · qty: 12 · unitPrice: 29.90</text>
+
+    <rect x="500" y="118" width="440" height="152" rx="6" fill="#fff" stroke="#5a4b9c" stroke-dasharray="4 3"/>
+    <text x="512" y="138" font-size="10.5" font-weight="700" fill="#5a4b9c">THE _META ENVELOPE — what a cell has no room for</text>
+    <g font-size="11" font-family="monospace" fill="#35495a">
+      <text x="512" y="158">createdBy:        Sipho Dlamini</text>
+      <text x="512" y="175">createdAt:        2026-10-11T14:22:08Z</text>
+      <text x="512" y="192">source:           counter-capture</text>
+      <text x="512" y="209">version:          1</text>
+      <text x="512" y="226">validationStatus: valid  (7 rules passed)</text>
+      <text x="512" y="243">links:            customer, product, stock movement</text>
+      <text x="512" y="260">schemaVersion:    1.3.0</text>
+    </g>
+    <text x="500" y="292" font-size="11.5" fill="#1d6b3f">Every question on the left is answerable in one lookup.</text>
+    <text x="500" y="312" font-size="11.5" fill="#6b8299">That is the whole difference. It is not a better spreadsheet — it is a different kind of thing.</text>
+  </g>
+</svg></div></div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the row-versus-record explanation (300–400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Walk the reader through the diagram above in words. Do not assume they studied it.</li><li>Explain <strong>metadata</strong> in one sentence a non-technical person would repeat correctly: data about the data.</li><li>Give the shop's own example of each envelope field mattering. Who captured it: a disputed price. When: a warranty claim. Source: a stock figure typed from memory versus counted off a delivery note. Version: &quot;who changed this?&quot;.</li><li>Explain <strong>linking</strong> versus copying — the invoice points at the customer rather than containing their name. This is the single most important paragraph on the page.</li><li>Be fair to spreadsheets. Say what they are genuinely good at: a quick calculation, a one-off model, something you will throw away. The argument is against using one as a database, not against Excel.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> Open any record in the <a href='../demo/index.html#records'>Records screen</a> and read the _meta block. The pink keys in the JSON view are the envelope.</p>
+</div>
+
+    <div class="table-wrap">
+      <table class="compare">
+        <caption>The same eight questions, asked of both.</caption>
+        <thead><tr><th>Question the owner will eventually ask</th><th>Spreadsheet cell</th><th>Stored record</th></tr></thead>
+        <tbody>
+          <tr><td><strong>What is the value?</strong></td><td>R29.90</td><td>R29.90</td></tr>
+          <tr><td><strong>Who put it there?</strong></td><td class="no">Not kept</td><td class="yes">Sipho Dlamini</td></tr>
+          <tr><td><strong>When?</strong></td><td class="no">Not kept</td><td class="yes">11 Oct 2026, 14:22</td></tr>
+          <tr><td><strong>Where did it come from?</strong></td><td class="no">Not kept</td><td class="yes">counter-capture (not memory, not a guess)</td></tr>
+          <tr><td><strong>Was it checked?</strong></td><td class="no">No rule existed</td><td class="yes">Passed 7 rules at capture</td></tr>
+          <tr><td><strong>Has it been changed before?</strong></td><td class="no">Overwritten; the old value is gone</td><td class="yes">Version 3, with the previous values kept</td></tr>
+          <tr><td><strong>What else depends on it?</strong></td><td class="no">Nothing links to it</td><td class="yes">14 invoices, 31 stock movements</td></tr>
+          <tr><td><strong>Can a program read it reliably?</strong></td><td class="no">Only while the layout never changes</td><td class="yes">Yes — the shape is declared</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="structure">What &quot;structured&quot; actually means</h2>
+    <p>Here is one real customer record from the demonstration, exactly as it is stored. It is worth
+      looking at even if you never read code — the point is how much of it is <em>not</em> the customer's details.</p>
+
+    <div class="json-view">{
+  <span class="k">"id"</span>: <span class="s">"CUS-002"</span>,
+  <span class="k">"name"</span>: <span class="s">"Thandi Mabaso"</span>,
+  <span class="k">"type"</span>: <span class="s">"Account"</span>,
+  <span class="k">"phone"</span>: <span class="s">"0824471092"</span>,
+  <span class="k">"creditTerms"</span>: <span class="s">"30 days"</span>,
+  <span class="k">"creditLimit"</span>: <span class="n">8000</span>,
+  <span class="k">"popiaPurpose"</span>: [<span class="s">"Fulfil the sale"</span>, <span class="s">"Account &amp; credit control"</span>, <span class="s">"Marketing (SMS/email)"</span>],
+  <span class="k">"popiaConsentMarketing"</span>: <span class="b">true</span>,
+  <span class="k">"popiaConsentDate"</span>: <span class="s">"2025-02-14"</span>,
+  <span class="k">"popiaRetentionUntil"</span>: <span class="s">"2031-02-14"</span>,
+
+  <span class="meta-k">"_meta"</span>: {
+    <span class="meta-k">"id"</span>: <span class="s">"CUS-002"</span>,
+    <span class="meta-k">"type"</span>: <span class="s">"customers"</span>,
+    <span class="meta-k">"schemaVersion"</span>: <span class="s">"1.3.0"</span>,
+    <span class="meta-k">"createdAt"</span>: <span class="s">"2024-03-18T09:14:02Z"</span>,
+    <span class="meta-k">"createdBy"</span>: <span class="s">"Lerato Mokoena"</span>,
+    <span class="meta-k">"modifiedAt"</span>: <span class="s">"2026-02-14T16:41:55Z"</span>,
+    <span class="meta-k">"modifiedBy"</span>: <span class="s">"Anja van Wyk"</span>,
+    <span class="meta-k">"version"</span>: <span class="n">3</span>,
+    <span class="meta-k">"source"</span>: <span class="s">"counter-capture"</span>,
+    <span class="meta-k">"validationStatus"</span>: <span class="s">"valid"</span>,
+    <span class="meta-k">"validationNotes"</span>: [],
+    <span class="meta-k">"links"</span>: { <span class="meta-k">"sales"</span>: [<span class="s">"SAL-00412"</span>, <span class="s">"SAL-00873"</span>, <span class="s">"…"</span>] }
+  }
+}</div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Explain the structured record and the schema (250–350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Point out that roughly half the record is the envelope. Explain why that is a feature, not waste.</li><li>Explain what a <strong>schema</strong> is — the shop's agreed definition of what a customer record contains — and why writing it down once means the form, the checks and the storage can never disagree.</li><li>Explain the difference between <strong>master data</strong> (customers, products, suppliers — things that exist) and <strong>transaction data</strong> (sales, stock movements — things that happened). Master data is corrected; transaction data is never edited, only reversed. Explain why that rule matters for trust.</li><li>Address the obvious objection: &quot;this looks complicated.&quot; Nobody types this. It is produced by filling in a form with eight boxes.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The whole schema is in <code>data/schema.js</code> and drives the capture forms in the demonstration.</p>
+</div>
+
+    <h2 id="quality">Information quality: six questions, one score</h2>
+    <p>&quot;Is the data good?&quot; is too vague to act on. These six questions are not. Each one is a check
+      a system can run by itself, and each one is currently failing somewhere in the shop's records.</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Each example is a real failure in the demonstration data set, taken from the migrated spreadsheet.</caption>
+        <thead><tr><th>Dimension</th><th>The question</th><th>What it looks like at Lerato's</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Accuracy</strong></td><td>Does the value match reality?</td>
+              <td>A screwdriver set priced at R109 that costs R112. Every sale loses R3 and nobody noticed, because no rule checked.</td></tr>
+          <tr><td><strong>Completeness</strong></td><td>Is anything missing that you need?</td>
+              <td>Customer <code>CUS-015</code>: no recorded reason for holding their details, an incomplete phone number — and R12 000 of credit.</td></tr>
+          <tr><td><strong>Consistency</strong></td><td>Does the same thing appear the same way everywhere?</td>
+              <td>&quot;Sarah Nel&quot; and &quot;Sara Nel&quot;, one mobile number between them. Two records, one person, two credit limits.</td></tr>
+          <tr><td><strong>Timeliness</strong></td><td>Is it current enough to decide on?</td>
+              <td>A stock figure last counted in June is not a stock figure in October — it is a memory of one.</td></tr>
+          <tr><td><strong>Validity</strong></td><td>Does it fit the rules?</td>
+              <td>A VAT number recorded as <code>47712</code>. A South African VAT number is ten digits. This one cannot be real.</td></tr>
+          <tr><td><strong>Uniqueness</strong></td><td>Is each real thing stored exactly once?</td>
+              <td>The duplicate above means the shop has effectively granted one person two credit limits without deciding to.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the information quality section (350–450 words — this is a marked sub-topic)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Introduce the six dimensions properly. Your textbook will have its own list; use it and cite it, then map it to the table above.</li><li>Make the cost concrete. Pick the duplicate customer and follow the consequence: two records, one person, a credit limit applied twice, a bad debt that was never authorised.</li><li>Explain the &quot;cost of poor quality&quot; idea — it is usually cheapest to prevent at capture, more expensive to correct later, most expensive when a decision has already been made on it.</li><li>Explain why the score on the demonstration is deliberately calculated over master data and not over thousands of routine sales. A score that cannot go down is worse than no score.</li><li>Be honest: no system reaches 100%, and chasing it is a waste. The useful question is which failures cost money.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#quality'>Data quality screen</a> lists every failing record by name, with the rule it broke.</p>
+</div>
+
+    <h2 id="validation">Catching it at the counter, not at month-end</h2>
+    <p>A rule that fires while the customer is still standing there costs thirty seconds. The same error
+      found at month-end costs an afternoon, and found after a decision has been made on it, it costs real money.</p>
+
+    <div class="grid grid--2" style="margin-top:1.5rem">
+      <div class="card">
+        <h4 style="margin-top:0"><span class="badge badge--bad">Error</span> stops the save</h4>
+        <p style="font-size:.92rem">Reserved for things that are definitely wrong and cannot be a deliberate exception.</p>
+        <ul style="font-size:.9rem">
+          <li>A sale pointing at a product that does not exist</li>
+          <li>A selling price below the cost price</li>
+          <li>&quot;On account&quot; for a cash-only customer</li>
+          <li>Marketing consent ticked with no date recorded</li>
+          <li>A sale dated in the future</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0"><span class="badge badge--warn">Warning</span> asks, then records the answer</h4>
+        <p style="font-size:.92rem">The record saves, but the person has to acknowledge it, and the acknowledgement is stored in the envelope.</p>
+        <ul style="font-size:.9rem">
+          <li>Selling more than the recorded stock on hand</li>
+          <li>A margin under 10%</li>
+          <li>A customer going over their credit limit</li>
+          <li>A mobile number already on file for somebody else</li>
+          <li>A stock adjustment over 50 units</li>
+        </ul>
+      </div>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Explain why there are two severities and not one (200–300 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>This is the most quietly important design decision in the whole system, and it is worth a paragraph of its own in the pitch.</li><li>Shops have genuine exceptions: a damaged item sold cheap, a trusted customer let past their limit, stock that is physically there but was never booked in.</li><li>A system that refuses every exception gets worked around — staff stop using it, or start entering fiction to make it accept the save. A system that is worked around holds <em>worse</em> data than no system at all.</li><li>So warnings let the human overrule the machine, and the overrule is recorded. The owner can later ask how often a limit was overridden and by whom.</li><li>Connect this to the broader point about designing systems for the people who will actually use them — it links forward to the <a href='adapting-is.html'>Making it fit</a> page.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> In the <a href='../demo/index.html#till'>Till screen</a>, try selling 500 bags of cement. You can, but you have to tick the acknowledgement, and it is stored on the record.</p>
+</div>
+
+    <h2 id="sources">Where the shop's data actually comes from</h2>
+    <p>Before deciding what to build, it is worth writing down every place a fact currently enters the
+      business. At Lerato's there are seven, and only one of them is a system.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Where it enters</th><th>What it holds</th><th>Survives to next month?</th><th>Searchable?</th></tr></thead>
+        <tbody>
+          <tr><td>Duplicate invoice book</td><td>Most sales, handwritten</td><td><span class="badge badge--warn">If the book is kept</span></td><td><span class="badge badge--bad">No</span></td></tr>
+          <tr><td>Exercise book behind the counter</td><td>Account customers and who owes what</td><td><span class="badge badge--warn">One book, one copy</span></td><td><span class="badge badge--bad">No</span></td></tr>
+          <tr><td>Yoco card machine</td><td>Card takings, by day</td><td><span class="badge badge--ok">Yes, in the app</span></td><td><span class="badge badge--warn">Separately from everything else</span></td></tr>
+          <tr><td>The stock spreadsheet</td><td>Prices, a stock count from June</td><td><span class="badge badge--warn">On one laptop</span></td><td><span class="badge badge--warn">If you know the file</span></td></tr>
+          <tr><td>WhatsApp group</td><td>Stock requests, supplier prices, complaints</td><td><span class="badge badge--bad">Scrolls away</span></td><td><span class="badge badge--bad">Not usefully</span></td></tr>
+          <tr><td>Supplier delivery notes</td><td>What actually arrived, and at what cost</td><td><span class="badge badge--warn">In a box</span></td><td><span class="badge badge--bad">No</span></td></tr>
+          <tr><td>The owner's memory</td><td>Who is good for credit, what sells in winter</td><td><span class="badge badge--bad">Leaves with the owner</span></td><td><span class="badge badge--bad">No</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the data sources section (250–300 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain why mapping sources comes before choosing software. You cannot integrate what you have not listed.</li><li>The last row is the serious one. Knowledge that exists only in the owner's head is a risk to the business — if they are ill, on leave, or want to sell the shop one day, it is not transferable.</li><li>Explain &quot;single source of truth&quot; here: for each fact, decide which place is authoritative. Two places holding a stock figure means they will disagree, and nobody will know which is right.</li><li>Suggest the practical first exercise: the owner writes this table out for their own shop before talking to any vendor.</li></ul>
+</div>
+
+    <h2 id="flow">Reuse: the part that pays for the whole exercise</h2>
+    <p>Capturing well is an investment. This is the return on it.</p>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 980 260" role="img" aria-labelledby="flow-t flow-d" style="width:100%;height:auto">
+  <title id="flow-t">How one captured fact is reused across the business</title>
+  <desc id="flow-d">A fact is captured once at the counter, checked against rules, stored as a structured
+  record with metadata, and then reused to produce documents and analysis without being retyped.</desc>
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#97a9ba"/>
+    </marker>
+    <linearGradient id="gstore" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#128079"/><stop offset="100%" stop-color="#0a5450"/>
+    </linearGradient>
+  </defs>
+
+  <!-- stages -->
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <g>
+      <rect x="8" y="78" width="150" height="86" rx="10" fill="#eef8f7" stroke="#7fc9c4"/>
+      <text x="83" y="108" text-anchor="middle" font-size="15" font-weight="700" fill="#06403d">Capture</text>
+      <text x="83" y="129" text-anchor="middle" font-size="11.5" fill="#35495a">once, at the counter</text>
+      <text x="83" y="146" text-anchor="middle" font-size="11.5" fill="#35495a">on an adaptive form</text>
+    </g>
+    <line x1="162" y1="121" x2="196" y2="121" stroke="#97a9ba" stroke-width="2" marker-end="url(#arw)"/>
+
+    <g>
+      <rect x="200" y="78" width="150" height="86" rx="10" fill="#fdf0d8" stroke="#d98500"/>
+      <text x="275" y="108" text-anchor="middle" font-size="15" font-weight="700" fill="#b06a00">Validate</text>
+      <text x="275" y="129" text-anchor="middle" font-size="11.5" fill="#35495a">rules fire here,</text>
+      <text x="275" y="146" text-anchor="middle" font-size="11.5" fill="#35495a">where fixing is cheap</text>
+    </g>
+    <line x1="354" y1="121" x2="388" y2="121" stroke="#97a9ba" stroke-width="2" marker-end="url(#arw)"/>
+
+    <g>
+      <rect x="392" y="60" width="172" height="122" rx="10" fill="url(#gstore)"/>
+      <text x="478" y="92" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Store</text>
+      <text x="478" y="113" text-anchor="middle" font-size="11.5" fill="#d8efed">the value</text>
+      <text x="478" y="131" text-anchor="middle" font-size="11.5" fill="#d8efed">+ who, when, where from,</text>
+      <text x="478" y="149" text-anchor="middle" font-size="11.5" fill="#d8efed">version, checks passed,</text>
+      <text x="478" y="167" text-anchor="middle" font-size="11.5" fill="#d8efed">and what it links to</text>
+    </g>
+
+    <!-- fan out to reuse -->
+    <path d="M568,100 C600,100 600,42 632,42" fill="none" stroke="#97a9ba" stroke-width="2" marker-end="url(#arw)"/>
+    <path d="M568,121 C600,121 600,121 632,121" fill="none" stroke="#97a9ba" stroke-width="2" marker-end="url(#arw)"/>
+    <path d="M568,142 C600,142 600,200 632,200" fill="none" stroke="#97a9ba" stroke-width="2" marker-end="url(#arw)"/>
+
+    <g>
+      <rect x="636" y="16" width="162" height="52" rx="8" fill="#fff" stroke="#c3cfda"/>
+      <text x="717" y="38" text-anchor="middle" font-size="13" font-weight="650" fill="#16222b">Documents</text>
+      <text x="717" y="55" text-anchor="middle" font-size="11" fill="#6b8299">invoice · quote · order</text>
+    </g>
+    <g>
+      <rect x="636" y="95" width="162" height="52" rx="8" fill="#fff" stroke="#c3cfda"/>
+      <text x="717" y="117" text-anchor="middle" font-size="13" font-weight="650" fill="#16222b">Analysis</text>
+      <text x="717" y="134" text-anchor="middle" font-size="11" fill="#6b8299">margin · stock · debtors</text>
+    </g>
+    <g>
+      <rect x="636" y="174" width="162" height="52" rx="8" fill="#fff" stroke="#c3cfda"/>
+      <text x="717" y="196" text-anchor="middle" font-size="13" font-weight="650" fill="#16222b">Obligations</text>
+      <text x="717" y="213" text-anchor="middle" font-size="11" fill="#6b8299">VAT · POPIA · audit</text>
+    </g>
+
+    <!-- the point -->
+    <rect x="828" y="60" width="144" height="122" rx="10" fill="#f7f9fb" stroke="#e0e7ed"/>
+    <text x="900" y="92" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0e6b66">Nothing here</text>
+    <text x="900" y="111" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0e6b66">is retyped</text>
+    <text x="900" y="136" text-anchor="middle" font-size="11" fill="#6b8299">so nothing here</text>
+    <text x="900" y="152" text-anchor="middle" font-size="11" fill="#6b8299">can quietly</text>
+    <text x="900" y="168" text-anchor="middle" font-size="11" fill="#6b8299">disagree</text>
+
+    <text x="83" y="212" text-anchor="middle" font-size="10.5" fill="#97a9ba">one minute at the till</text>
+    <text x="478" y="212" text-anchor="middle" font-size="10.5" fill="#97a9ba">the record, not a row</text>
+    <text x="717" y="248" text-anchor="middle" font-size="10.5" fill="#97a9ba">produced on demand, from the same records</text>
+  </g>
+</svg></div></div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Every document below is produced in the demonstration from the same stored records. Nothing is retyped for any of them.</caption>
+        <thead><tr><th>Document</th><th>Built from</th><th>What it would take on paper</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tax invoice</strong></td><td>The sale, its customer, its products</td><td>Write it out, copy the details, work out the VAT by hand</td></tr>
+          <tr><td><strong>Quotation</strong></td><td>A customer, plus the lines on the counter</td><td>The same again, and it may not match the invoice that follows</td></tr>
+          <tr><td><strong>Purchase order</strong></td><td>Sales rate × supplier lead time, against stock on hand</td><td>Walk the aisles with a clipboard and guess</td></tr>
+          <tr><td><strong>Customer statement</strong></td><td>Every sale linked to one customer, aged</td><td>Page through the exercise book</td></tr>
+          <tr><td><strong>Stock take sheet</strong></td><td>The product list, in shelf order</td><td>Hand-write the list every single time</td></tr>
+          <tr><td><strong>POPIA access report</strong></td><td>One person's record and everything linked to it</td><td>Genuinely cannot be done completely</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the reuse section (250–350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>This is where the owner is persuaded, so spend the words. Anchor it in an afternoon they recognise.</li><li>Make the agreement point: the quote and the invoice cannot disagree, because they are two views of the same records rather than two separately typed documents.</li><li>Explain &quot;provenance&quot; — each generated document in the demonstration lists the record IDs it was built from, so an argument about an invoice is settled by looking rather than remembering.</li><li>Mention the compliance by-product: a tax invoice has required particulars under the VAT Act. Getting them onto every invoice automatically is worth money the first time SARS or a VAT-registered customer asks.</li><li>Verify the current required particulars for a tax invoice against SARS guidance and cite it — do not state the list from memory.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> <a href='../demo/index.html#documents'>Documents screen</a>. Generate an invoice and read the grey provenance line at the bottom.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> SARS guidance on tax invoices and the VAT Act requirements; the Information Regulator for the POPIA report.</p>
+</div>
+
+    <h2 id="dashboards">Dashboards: what to put on one, and what to leave off</h2>
+    <p>Most small-business dashboards fail the same way — they show everything that can be counted, so
+      nobody looks at them twice. A dashboard is not a report. It is a short list of things worth
+      interrupting the day for.</p>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 900 300" role="img" aria-labelledby="da-t da-d" style="width:100%;height:auto">
+  <title id="da-t">What belongs on a small shop's dashboard</title>
+  <desc id="da-d">Three bands: a small number of figures that trigger action, a few trends that show
+  direction, and a list of exceptions that name what to do today. Everything else belongs in a report
+  nobody has to look at daily.</desc>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <rect x="0" y="0" width="900" height="86" rx="8" fill="#eef8f7" stroke="#7fc9c4"/>
+    <text x="16" y="26" font-size="12" font-weight="700" fill="#06403d">BAND 1 · FIGURES THAT TRIGGER A DECISION</text>
+    <text x="16" y="48" font-size="11.5" fill="#35495a">Four to six, no more. Each one must have an answer to: &quot;if this number moved, what would I do differently today?&quot;</text>
+    <text x="16" y="68" font-size="11.5" fill="#6b8299">Cash in the bank · revenue month to date vs the same days last month · gross margin · money owed to you</text>
+
+    <rect x="0" y="100" width="900" height="86" rx="8" fill="#f7f9fb" stroke="#c3cfda"/>
+    <text x="16" y="126" font-size="12" font-weight="700" fill="#35495a">BAND 2 · TRENDS THAT SHOW DIRECTION</text>
+    <text x="16" y="148" font-size="11.5" fill="#35495a">Two or three charts. A single month means almost nothing; the shape over a year means a great deal.</text>
+    <text x="16" y="168" font-size="11.5" fill="#6b8299">Revenue with margin over it · category mix · day-of-week pattern</text>
+
+    <rect x="0" y="200" width="900" height="86" rx="8" fill="#fdf0d8" stroke="#d98500"/>
+    <text x="16" y="226" font-size="12" font-weight="700" fill="#b06a00">BAND 3 · EXCEPTIONS — THE PART STAFF ACTUALLY USE</text>
+    <text x="16" y="248" font-size="11.5" fill="#35495a">Not a number. A named list of things to deal with, short enough to finish.</text>
+    <text x="16" y="268" font-size="11.5" fill="#6b8299">8 lines below reorder level · 1 out of stock · 3 accounts over 60 days · 6 records failing validation</text>
+  </g>
+</svg></div></div>
+
+    <div class="callout callout--note">
+      <div class="callout__title">The test for every tile on a dashboard</div>
+      <p><strong>&quot;If this number moved, what would I do differently today?&quot;</strong> If there is no
+        answer, the number belongs in a monthly report, not on the daily screen. Most dashboards fail this
+        test on most of their tiles.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the dashboards and data visualisation section (350–450 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain the difference between a dashboard (daily, short, action-oriented) and a report (periodic, detailed, for review).</li><li>Cover the visualisation basics properly, because &quot;data visualisation&quot; is named in the brief: pick the chart for the question, not for decoration. Columns for change over time, horizontal bars when the labels are words, a donut only for share-of-whole with few slices. Say plainly that 3-D and pie charts with fifteen slices communicate nothing.</li><li>Explain why the demonstration's main chart puts revenue columns and a margin line together: selling more and earning more are different things, and a shop can do the first while losing the second.</li><li>Cover one honest pitfall each: truncated axes that exaggerate, comparing a part-month against a full month, and averages hiding the thing that matters. The demonstration deliberately fixes the second one — explain how and why.</li><li>Explain why exceptions (band 3) are the part staff actually use, and that it is a <em>list of names</em>, not a number.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html'>Today screen</a> is built to this structure. Note the revenue tile compares the first 11 days of this month against the first 11 days of last month, not against a full month.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> A recognised data-visualisation source — Few, Tufte, or your textbook's chapter — cited properly.</p>
+</div>
+
+    <h2 id="measure">What a shop this size should actually measure</h2>
+    <p>Six figures. The demonstration calculates all of them from records captured during ordinary trading,
+      which is the point: nobody has to compile anything.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Measure</th><th>What it answers</th><th>At Lerato's</th><th>The decision it drives</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Gross margin %</strong></td><td>Of every rand taken, how much is left after the stock it cost?</td><td>38.3%</td><td>Pricing, and which lines to push</td></tr>
+          <tr><td><strong>Stock turn</strong></td><td>How many times a year the shelf sells through</td><td>6.1×</td><td>How much money to tie up in stock</td></tr>
+          <tr><td><strong>Average sale</strong></td><td>What a customer spends per visit</td><td>R438</td><td>Layout, add-on selling, which lines sit near the till</td></tr>
+          <tr><td><strong>Dead stock</strong></td><td>Money on the shelf that has not moved in a year</td><td>R23 798 across 4 lines</td><td>Mark it down, return it, or stop reordering it</td></tr>
+          <tr><td><strong>Debtor days</strong></td><td>How long the shop waits to be paid</td><td>R99 962 owed across 10 accounts</td><td>Credit terms, and who to stop supplying</td></tr>
+          <tr><td><strong>Customer concentration</strong></td><td>How much depends on one buyer</td><td>20.9% from one customer</td><td>Whether the shop is one phone call from trouble</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the measurement section (250–350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Define each measure in one plain sentence — assume the reader has never seen &quot;stock turn&quot; written down.</li><li>Explain why gross margin matters more than turnover to a shop of this size, with a worked example in rands.</li><li>Take the customer concentration figure seriously. 20.9% from one contractor is a risk, not an achievement. Say what the owner should do about it.</li><li>Make the point that none of these required any new data collection. They are all by-products of ringing up sales properly.</li><li>Caution against vanity metrics — numbers that feel good and change nothing.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> All six are on the <a href='../demo/index.html#analytics'>Analytics screen</a>, each with the underlying records behind it.</p>
+</div>
+
+    <h2 id="protect">Keeping it: backups, retention and the stolen laptop</h2>
+    <div class="callout callout--risk">
+      <div class="callout__title">The question that decides everything else</div>
+      <p>If the shop laptop were stolen tonight, what would the business lose? For most small businesses
+        running on spreadsheets, the honest answer is: everything except what is in the invoice book, and
+        nobody would find out until they needed it.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the data protection and retention section (300–400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Cover backups properly: more than one copy, at least one of them not in the shop, and — the part everyone skips — a restore that has actually been tested. An untested backup is a hope, not a backup.</li><li>Explain the trade-off between cloud and on-premise honestly for a South African small business: load shedding, data costs, patchy connectivity, versus the risk of the one laptop.</li><li>Cover retention from both sides: SARS requires business records to be kept for a set period, while POPIA requires personal information <em>not</em> to be kept longer than needed. These pull in opposite directions and the shop needs a written answer. Verify both periods against SARS and the Information Regulator and cite them — do not state them from memory.</li><li>Cover access: who can see what, and why that is about not asking staff to be careful with screens they never needed, rather than about distrust.</li><li>Mention the audit trail as the thing that answers &quot;who changed this?&quot; — unanswerable in a shared spreadsheet.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#audit'>Audit trail</a> records every change with the old and new value. The <a href='../demo/index.html#data'>Your data screen</a> exports everything to a file the owner can keep.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> SARS record-retention requirements; POPIA sections 14 and 19; the Information Regulator's guidance notes.</p>
+</div>
+
+    <h2 id="monday">What to do on Monday</h2>
+    <p>Nothing on this page needs software to start.</p>
+    <ol class="steps" style="margin-top:1.5rem">
+      <li><h4>Write down where every fact enters the business</h4>
+        <p>The seven-row table above, for this shop. One page, half an hour. Everything else depends on it.</p></li>
+      <li><h4>Decide the single source of truth for each fact</h4>
+        <p>For stock, for price, for what a customer owes. One place each. Write down which.</p></li>
+      <li><h4>Agree the minimum you will capture for every sale</h4>
+        <p>Even in the invoice book. Date, who served, what was sold, what it cost, how it was paid.</p></li>
+      <li><h4>Count the stock properly once</h4>
+        <p>Any system you buy will inherit whatever figure you give it. Starting a new system on a June
+          guess means paying for a system that is wrong on day one.</p></li>
+      <li><h4>Then, and only then, look at software</h4>
+        <p>The <a href="roadmap.html">roadmap</a> sets out the stages and what each costs.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap-narrow">
+    <h2 style="margin-top:0">Carry on reading</h2>
+    <div class="grid grid--2">
+      <a class="card card--link" href="ethics-privacy.html"><h3>POPIA &amp; data ethics</h3>
+        <p>Everything on this page creates a second obligation: the records are about people.</p>
+        <span class="card__more">Read →</span></a>
+      <a class="card card--link" href="enterprise-systems.html"><h3>Enterprise systems &amp; integration</h3>
+        <p>Where these records live once the shop has more than one system.</p>
+        <span class="card__more">Read →</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="../demo/index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

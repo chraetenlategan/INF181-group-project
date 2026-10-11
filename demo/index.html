@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live demonstration — Lerato's Hardware &amp; Home</title>
+<meta name="description" content="A working demonstration of capture, validation, structured storage, document generation and analytics for a small South African retail business.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body class="demo-body">
+<a class="skip" href="#demo-main">Skip to the demonstration</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:1.5rem">
+  <p class="crumbs"><a href="../index.html">Home</a> › Live demonstration</p>
+  <div class="callout callout--note" style="margin-top:0">
+    <div class="callout__title">What you are looking at</div>
+    <p>This is a working demonstration, not a video and not screenshots. Everything you capture is stored in
+      <strong>this browser only</strong> — nothing is sent anywhere, and every person and transaction in it is invented.
+      Break it, fill it with nonsense, then use <strong>Your data → Restore</strong> to put it back.</p>
+  </div>
+</div>
+
+<div class="demo-shell">
+  <nav class="demo-nav" id="demo-nav" aria-label="Demonstration sections"></nav>
+  <main id="demo-main" tabindex="-1"></main>
+</div>
+
+<div class="toast-area" aria-live="polite"></div>
+
+<footer class="site-footer no-print">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African retail
+          business. Built for INF1781 at Belgium Campus iTversity.</p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../data/schema.js"></script>
+<script src="../data/seed.js"></script>
+<script src="store.js"></script>
+<script src="validate.js"></script>
+<script src="analytics.js"></script>
+<script src="generate.js"></script>
+<script src="capture.js"></script>
+<script src="app.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

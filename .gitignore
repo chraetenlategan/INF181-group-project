@@ -1,10 +1,7 @@
-# OS / editor
+# Local editor / OS noise
 .DS_Store
 Thumbs.db
 *.swp
-.vscode/
-.idea/
+*~
 
-# Logs & temp
-*.log
-*.tmp
+# Nothing here is built — the site is served exactly as committed.

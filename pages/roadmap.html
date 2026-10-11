@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap and costs — Lerato's Hardware & Home</title>
+<meta name="description" content="A staged implementation plan for a small South African retailer, with costs, risks, payback and decision points at each stage.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="../demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="../index.html">Home</a> › Roadmap</p>
+    <p class="eyebrow">What to actually do</p>
+    <h1>A staged plan, and what it costs</h1>
+    <p class="lede">Nothing here requires doing everything at once, and the first stage requires no software
+      at all. The order matters more than the speed: each stage makes the next one cheaper and safer.</p>
+  </div>
+</div>
+
+<div class="wrap-narrow">
+  <nav class="toc" data-toc aria-label="On this page"><h2>On this page</h2></nav>
+</div>
+
+<section class="section">
+  <div class="wrap-narrow">
+
+    <div class="callout callout--warn">
+      <div class="callout__title">About the rand figures on this page</div>
+      <p>Every price below is a placeholder until the team verifies it. Check each one against the vendor's
+        own published pricing, record the date you checked, and cite it on the
+        <a href="references.html">sources page</a>. Software pricing changes constantly and a client will
+        check. A figure you cannot source is worse than no figure.</p>
+    </div>
+
+    <h2 id="stage0">Stage 0 &mdash; Before spending anything</h2>
+    <p class="muted" style="font-size:.95rem">Two weeks. Cost: the owner's time.</p>
+    <ol class="steps" style="margin-top:1.25rem">
+      <li><h4>Map where every fact enters the business</h4>
+        <p>The seven-row table on the <a href="data-management.html#sources">data page</a>, filled in for
+          this shop. You cannot integrate what you have not listed.</p></li>
+      <li><h4>Decide the single source of truth for each fact</h4>
+        <p>Stock, price, what a customer owes. One authoritative place each, written down.</p></li>
+      <li><h4>Count the stock properly, once</h4>
+        <p>Any system will inherit whatever figure it is given. Starting on a June guess means paying for
+          a system that is wrong on day one.</p></li>
+      <li><h4>Clean the customer list</h4>
+        <p>Merge the duplicates, fill in the missing purposes, delete what there is no reason to keep.
+          This is also the first real POPIA step.</p></li>
+      <li><h4>Write the two lists</h4>
+        <p>What the shop will change to suit software, and what software must accommodate. See
+          <a href="adapting-is.html#bend">Making it fit</a>. Do this before any demonstration.</p></li>
+    </ol>
+    <div class="callout callout--win">
+      <div class="callout__title">Why this stage is not optional</div>
+      <p>A business that skips it buys software to manage a mess it has not described, migrates the mess
+        into it, and then pays a monthly subscription for the privilege.</p>
+    </div>
+
+    <h2 id="stage1">Stage 1 &mdash; Point of sale and stock</h2>
+    <p class="muted" style="font-size:.95rem">Months 1&ndash;2. The stage that returns the most.</p>
+
+    <div class="grid grid--2" style="margin-top:1.25rem">
+      <div class="card"><h4 style="margin-top:0">What changes</h4>
+        <ul style="font-size:.92rem">
+          <li>Every sale is captured once, at the counter, linked to a customer and a product</li>
+          <li>Stock moves automatically when a sale is rung up</li>
+          <li>Prices live in one place</li>
+          <li>Tax invoices print with the required particulars every time</li>
+        </ul></div>
+      <div class="card"><h4 style="margin-top:0">What it is worth</h4>
+        <ul style="font-size:.92rem">
+          <li>The stock figure becomes real, so reordering stops being a guess</li>
+          <li>Dead stock becomes visible &mdash; <strong>R23 798</strong> of it in the demonstration data</li>
+          <li>Shrinkage becomes visible &mdash; <strong>R3 616</strong> over twelve months</li>
+          <li>Month-end stops being a weekend</li>
+        </ul></div>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the Stage 1 justification (200&ndash;300 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain why point of sale comes first and not accounting. Everything downstream depends on the sale being captured properly; accounting built on a bad sales record is tidy nonsense.</li><li>Set the expectation honestly: the first two weeks are slower, not faster, and staff will say so. Say what the owner should do about that rather than pretending it will not happen.</li><li>Explain what parallel running means here and whether you recommend it for this shop.</li><li>Price this stage from real vendor pages and cite them.</li></ul>
+</div>
+
+    <h2 id="stage2">Stage 2 &mdash; Customers, credit and POPIA</h2>
+    <p class="muted" style="font-size:.95rem">Months 2&ndash;4.</p>
+    <div class="grid grid--2" style="margin-top:1.25rem">
+      <div class="card"><h4 style="margin-top:0">What changes</h4>
+        <ul style="font-size:.92rem">
+          <li>One record per customer, with the duplicates merged</li>
+          <li>Credit limits enforced at the counter, not remembered</li>
+          <li>Statements produced instead of written out</li>
+          <li>Consent, purpose and retention recorded on every record</li>
+          <li>The Information Officer registered and a counter notice up</li>
+        </ul></div>
+      <div class="card"><h4 style="margin-top:0">What it is worth</h4>
+        <ul style="font-size:.92rem">
+          <li><strong>R99 962</strong> currently owed across ten accounts becomes visible and chaseable</li>
+          <li>Overdue accounts stop being discovered by accident</li>
+          <li>A POPIA access request becomes answerable in one click</li>
+          <li>The R12 000 extended to an unverifiable record stops being possible</li>
+        </ul></div>
+    </div>
+
+    <h2 id="stage3">Stage 3 &mdash; Accounting, properly joined</h2>
+    <p class="muted" style="font-size:.95rem">Months 4&ndash;6.</p>
+    <p>Connect the point of sale to whatever the bookkeeper uses, so sales, VAT and debtors flow across
+      without being retyped. Prefer two products that already integrate over two &quot;better&quot; products
+      joined by a developer &mdash; see <a href="enterprise-systems.html#joins">the four ways to integrate</a>.</p>
+
+    <h2 id="stage4">Stage 4 &mdash; Analysis, and only then</h2>
+    <p class="muted" style="font-size:.95rem">Month 6 onwards, once there is trustworthy history.</p>
+    <p>Margin by product and by customer, seasonal patterns, reorder suggestions from actual sales rate.
+      Everything on the <a href="../demo/index.html#analytics">Analytics screen</a>. Attempting this before
+      Stages 1 and 2 produces confident charts drawn from numbers nobody checked &mdash; which is worse than
+      no charts, because somebody will act on them.</p>
+
+    <h2 id="costs">What it costs</h2>
+    <div class="table-wrap">
+      <table>
+        <caption><strong>Placeholder figures.</strong> Replace every one with a verified, dated,
+          cited price before submission.</caption>
+        <thead><tr><th>Item</th><th class="num">Once-off</th><th class="num">Monthly</th><th>Notes for the team</th></tr></thead>
+        <tbody>
+          <tr><td>Point-of-sale software (per till)</td><td class="num">R&nbsp;____</td><td class="num">R&nbsp;____</td><td>Check per-user pricing at four users, not one</td></tr>
+          <tr><td>Till hardware, scanner, printer</td><td class="num">R&nbsp;____</td><td class="num">&mdash;</td><td>Price a scanner &mdash; it is what makes capture fast enough to stick</td></tr>
+          <tr><td>Card machine</td><td class="num">R&nbsp;____</td><td class="num">% per transaction</td><td>The transaction fee is the real cost; model it on actual card turnover</td></tr>
+          <tr><td>Accounting package</td><td class="num">&mdash;</td><td class="num">R&nbsp;____</td><td>Ask the bookkeeper what they already use before choosing</td></tr>
+          <tr><td>Data migration and setup</td><td class="num">R&nbsp;____</td><td class="num">&mdash;</td><td>Often underestimated. Most of it is cleaning, not loading</td></tr>
+          <tr><td>Staff training</td><td class="num">R&nbsp;____</td><td class="num">&mdash;</td><td>Count the hours the shop is short-staffed, not just the trainer's fee</td></tr>
+          <tr><td>Backup and connectivity</td><td class="num">R&nbsp;____</td><td class="num">R&nbsp;____</td><td>Include a UPS or battery for the till. Load shedding is not optional</td></tr>
+          <tr><td>POPIA registration</td><td class="num">R&nbsp;____</td><td class="num">&mdash;</td><td>Verify whether a fee applies; cite the Information Regulator</td></tr>
+          <tr class="grand"><td><strong>Indicative total, year one</strong></td><td class="num"><strong>R&nbsp;____</strong></td><td class="num"><strong>R&nbsp;____</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the cost and payback section (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Fill in the table with verified prices and cite every one with the date checked.</li><li>Explain <strong>total cost of ownership</strong>: subscription, hardware, migration, training, the lost productivity of the first fortnight, and the cost of leaving again.</li><li>Build an honest payback argument using the demonstration's own figures: R23 798 of dead stock, R3 616 of annual shrinkage, R99 962 of debtors. Be careful and fair &mdash; recovering dead stock is a one-off, not an annual saving, and say so. A dishonest payback calculation is the fastest way to lose a client's trust.</li><li>State plainly what this does <em>not</em> fix: a system does not make an unprofitable shop profitable. It makes the numbers visible so the owner can act on them.</li></ul>
+</div>
+
+    <h2 id="risks">What could go wrong</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Risk</th><th>How likely</th><th>What it costs</th><th>What reduces it</th></tr></thead>
+        <tbody>
+          <tr><td>Staff go back to the book on busy days</td><td><span class="badge badge--bad">High</span></td>
+              <td>The whole investment. Half-captured data is worse than none.</td>
+              <td>Involve staff in choosing it; start with what makes their day easier; watch for it openly in month one</td></tr>
+          <tr><td>The old mess is migrated into the new system</td><td><span class="badge badge--bad">High</span></td>
+              <td>Paying a subscription for the same problem</td>
+              <td>Stage 0. Clean first, migrate second, and mark migrated records as unverified</td></tr>
+          <tr><td>Vendor lock-in discovered late</td><td><span class="badge badge--warn">Medium</span></td>
+              <td>Trapped, or an expensive extraction</td>
+              <td>The export test before signing. Export once a quarter and keep the file</td></tr>
+          <tr><td>Load shedding stops trade</td><td><span class="badge badge--bad">High</span></td>
+              <td>Lost sales at the worst moment, and a reason to abandon the system</td>
+              <td>Offline capture, battery-backed till, a written manual fallback everybody has practised</td></tr>
+          <tr><td>Only one person knows how it works</td><td><span class="badge badge--warn">Medium</span></td>
+              <td>The shop stops when they are on leave</td>
+              <td>Two people trained on every task; short written procedures</td></tr>
+          <tr><td>Scope creep &mdash; trying to do all four stages at once</td><td><span class="badge badge--warn">Medium</span></td>
+              <td>Nothing finishes; confidence is lost</td>
+              <td>One stage at a time, with a decision point before the next</td></tr>
+          <tr><td>A POPIA complaint before the basics are done</td><td><span class="badge badge--neutral">Low</span></td>
+              <td>Regulatory exposure and reputational damage locally</td>
+              <td>Stage 2's compliance steps are cheap; do them early</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the risk section and the closing recommendation (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Expand the two or three risks you judge most serious for this shop and say what you would actually do about each.</li><li>Then write the consultant's closing recommendation &mdash; this is the paragraph the lecturer, playing the client, will push on hardest in Q&amp;A.</li><li>Be decisive. Say what you would do first, what you would deliberately leave alone this year, and why. A recommendation that hedges everything is not a recommendation.</li><li>Include at least one thing you are advising the client <em>not</em> to spend money on, and defend it. This is what separates advice from selling.</li><li>Make sure every member of the team can defend this paragraph on their own.</li></ul>
+</div>
+  </div>
+</section>
+
+<section class="section section--dark">
+  <div class="wrap-narrow">
+    <h2 style="margin-top:0">Decision points</h2>
+    <p class="lede" style="color:#c3cfda">Each stage ends with a question, not an invoice. If the answer is
+      no, stopping there is a legitimate outcome &mdash; and a cheaper one than continuing out of momentum.</p>
+    <ul style="margin-top:1.5rem">
+      <li><strong>After Stage 0:</strong> is the data clean enough to migrate? If not, stay here. It costs nothing but time.</li>
+      <li><strong>After Stage 1:</strong> are staff actually using it, three months in, on a Saturday? If not, fix that before buying anything else.</li>
+      <li><strong>After Stage 2:</strong> can you answer a POPIA request and produce an accurate debtors list? If not, Stage 3 will not help.</li>
+      <li><strong>After Stage 3:</strong> does the bookkeeper's work take meaningfully less time? If not, the integration is not doing what it was bought for.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="../demo/index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

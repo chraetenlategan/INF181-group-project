@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adapting a system to fit the shop — Lerato's Hardware & Home</title>
+<meta name="description" content="Buy, configure, customise or build; where to bend the business versus the software; adaptive interfaces; user adoption; and designing for South African trading conditions.">
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e6b66'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'>L</text></svg>">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true">LH</span>
+      <span class="brand__name">Lerato's Hardware &amp; Home
+        <span class="brand__sub">Information systems resource</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="primary-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="../index.html">Home</a></li>
+        <li><a class="nav__link" href="../pages/data-management.html">Data &amp; information</a></li>
+        <li><a class="nav__link" href="../pages/ai-decision-support.html">AI &amp; decisions</a></li>
+        <li><a class="nav__link" href="../pages/enterprise-systems.html">Systems &amp; integration</a></li>
+        <li><a class="nav__link" href="../pages/ethics-privacy.html">POPIA &amp; ethics</a></li>
+        <li><a class="nav__link" href="../pages/adapting-is.html">Making it fit</a></li>
+        <li><a class="nav__link" href="../pages/roadmap.html">Roadmap</a></li>
+        <li><a class="nav__link nav__cta" href="../demo/index.html">Live demo</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<div class="page-head">
+  <div class="wrap-narrow">
+    <p class="crumbs"><a href="../index.html">Home</a> › Making it fit</p>
+    <p class="eyebrow">Topic 5</p>
+    <h1>Adapting a system to fit the shop</h1>
+    <p class="lede">Every business believes it is unusual. Most are unusual in two or three ways that matter
+      and ordinary in forty that do not. Telling those apart is most of the work &mdash; and getting it wrong
+      is why systems get bought and then quietly abandoned.</p>
+  </div>
+</div>
+
+<div class="wrap-narrow">
+  <nav class="toc" data-toc aria-label="On this page"><h2>On this page</h2></nav>
+</div>
+
+<section class="section">
+  <div class="wrap-narrow">
+
+    <h2 id="spectrum">Buy, configure, customise or build</h2>
+    <div class="card diagram"><p class="diagram__hint">Scroll sideways to see the whole diagram.</p><div class="diagram__scroll"><svg viewBox="0 0 920 250" role="img" aria-labelledby="sp-t sp-d" style="width:100%;height:auto">
+  <title id="sp-t">The spectrum from buying off the shelf to building from scratch</title>
+  <desc id="sp-d">Four options rising in cost and control: use it as it comes, configure the settings,
+  customise with code, or build from scratch. Cost and the burden of maintenance rise together; the
+  recommendation for a shop this size sits at the configure end.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#128079"/><stop offset="55%" stop-color="#d98500"/><stop offset="100%" stop-color="#c0342f"/>
+    </linearGradient>
+  </defs>
+  <g font-family="Segoe UI, system-ui, sans-serif">
+    <rect x="0" y="92" width="920" height="8" rx="4" fill="url(#grad)"/>
+
+    <g font-size="11.5">
+      <circle cx="90" cy="96" r="9" fill="#128079" stroke="#fff" stroke-width="3"/>
+      <text x="90" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#0e6b66">Use as it comes</text>
+      <text x="90" y="128" text-anchor="middle" fill="#35495a">Change the shop</text>
+      <text x="90" y="146" text-anchor="middle" fill="#35495a">to fit the software</text>
+      <text x="90" y="170" text-anchor="middle" font-size="10.5" fill="#6b8299">Cheapest. Upgrades are free.</text>
+      <text x="90" y="186" text-anchor="middle" font-size="10.5" fill="#6b8299">Some things will be awkward.</text>
+
+      <circle cx="320" cy="96" r="9" fill="#199a92" stroke="#fff" stroke-width="3"/>
+      <text x="320" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#0e6b66">Configure</text>
+      <text x="320" y="128" text-anchor="middle" fill="#35495a">Settings, fields, templates,</text>
+      <text x="320" y="146" text-anchor="middle" fill="#35495a">permissions, price rules</text>
+      <text x="320" y="170" text-anchor="middle" font-size="10.5" fill="#6b8299">Still upgrades cleanly.</text>
+      <text x="320" y="186" text-anchor="middle" font-size="10.5" fill="#6b8299">No developer needed.</text>
+
+      <circle cx="580" cy="96" r="9" fill="#d98500" stroke="#fff" stroke-width="3"/>
+      <text x="580" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#b06a00">Customise</text>
+      <text x="580" y="128" text-anchor="middle" fill="#35495a">Code written against</text>
+      <text x="580" y="146" text-anchor="middle" fill="#35495a">the product</text>
+      <text x="580" y="170" text-anchor="middle" font-size="10.5" fill="#6b8299">Every upgrade must be retested.</text>
+      <text x="580" y="186" text-anchor="middle" font-size="10.5" fill="#6b8299">You now own a small software project.</text>
+
+      <circle cx="840" cy="96" r="9" fill="#c0342f" stroke="#fff" stroke-width="3"/>
+      <text x="840" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#9b2423">Build</text>
+      <text x="840" y="128" text-anchor="middle" fill="#35495a">Exactly what you want,</text>
+      <text x="840" y="146" text-anchor="middle" fill="#35495a">forever</text>
+      <text x="840" y="170" text-anchor="middle" font-size="10.5" fill="#6b8299">Total control, total responsibility.</text>
+      <text x="840" y="186" text-anchor="middle" font-size="10.5" fill="#6b8299">Rarely right for four people.</text>
+    </g>
+
+    <text x="0" y="28" font-size="12.5" font-weight="700" fill="#16222b">Control rises left to right. So do cost, delay, and the number of people you depend on.</text>
+    <rect x="196" y="212" width="248" height="30" rx="6" fill="#d8efed" stroke="#128079"/>
+    <text x="320" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#06403d">Recommended for Lerato's</text>
+  </g>
+</svg></div></div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the buy-configure-customise-build section (350&ndash;450 words &mdash; marked sub-topic)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Define each of the four clearly. The <strong>configure versus customise</strong> distinction is the important one and is routinely blurred by salespeople &mdash; configuration is changing settings the product offers; customisation is code written against the product.</li><li>Explain why customisation is where small businesses get hurt: every upgrade has to be retested, the person who wrote it moves on, and the shop now owns a software project it did not plan to own.</li><li>Make the recommendation and defend it. For a four-person shop: configure heavily, customise almost never, build only the one thing that is genuinely unique to the business.</li><li>Explain <strong>fit-gap analysis</strong> in plain terms: list what the shop needs, see what the product does, and for every gap decide to change the process, accept the gap, or pay to close it. Most gaps should be the first two.</li><li>Give the test for when building is justified: the thing is central to how this business competes, no product does it, and the shop can maintain it afterwards. Very few things pass all three.</li></ul>
+</div>
+
+    <h2 id="bend">Where to bend the shop, and where to bend the system</h2>
+    <p>Before shopping, split what the shop does into two lists. Most of the argument during an
+      implementation is really a disagreement about which list something belongs on.</p>
+
+    <div class="grid grid--2" style="margin-top:1.5rem">
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--ok">Bend the shop</span></h4>
+        <p style="font-size:.9rem">Done this way out of habit, not advantage. Changing it costs a week of
+          grumbling and nothing else.</p>
+        <ul style="font-size:.9rem">
+          <li>Invoice numbering and layout</li>
+          <li>How the product list is categorised</li>
+          <li>When the day is cashed up</li>
+          <li>Which report the bookkeeper gets, and in what format</li>
+          <li>Where a customer's details are captured in the conversation</li>
+        </ul></div>
+      <div class="card"><h4 style="margin-top:0"><span class="badge badge--bad">Bend the system</span></h4>
+        <p style="font-size:.9rem">How this shop actually competes. Force these to change and the shop
+          loses something real.</p>
+        <ul style="font-size:.9rem">
+          <li>Negotiated contractor prices agreed by handshake</li>
+          <li>Selling in part units &mdash; three metres of pipe, half a bag of sand</li>
+          <li>Letting a known customer take goods now and settle Friday</li>
+          <li>Trading through a power cut without turning customers away</li>
+          <li>Serving customers in Setswana, Sepedi, isiZulu, English and Afrikaans across one counter</li>
+        </ul></div>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the bend-the-shop versus bend-the-system section (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain how to tell the two lists apart. The test: does the customer notice, and would they go elsewhere if it changed?</li><li>Take the handshake pricing example seriously. It looks like untidy data and it is actually a competitive advantage in a market built on relationships. A system that forbids it will be bypassed within a week.</li><li>Take the offline requirement seriously. Load shedding is not an edge case in South Africa; it is Tuesday. A cloud-only point of sale that cannot take a sale during an outage fails at the exact moment the shop needs it. Say what the shop should require instead.</li><li>Cover the language point. Staff and customers move between languages mid-sentence. Software in English only is usable by staff but adds friction, and a customer-facing screen in English only sends a message.</li><li>Make the organisational point: this list is a business decision, not an IT one, and the owner must make it before the demonstrations start, not during them.</li></ul>
+</div>
+
+    <h2 id="worked">A worked example: the capture form</h2>
+    <p>The demonstration's customer form is the argument of this page made concrete. It is generated from
+      one file &mdash; <code>data/schema.js</code> &mdash; which describes what a customer record contains.
+      Change that file and the form, the validation rules and the stored records all follow.</p>
+
+    <div class="grid grid--3" style="margin-top:1.5rem">
+      <div class="card"><h4 style="margin-top:0">It adapts while you type</h4>
+        <p style="font-size:.9rem">Choose &quot;Business&quot; and a VAT number field appears. Tick
+          marketing consent and a date field appears, because POPIA now requires it. Choose cash-only and
+          the credit limit disappears.</p>
+        <p style="font-size:.88rem;color:#4d6479">Asking a cash customer for a credit limit is inviting a
+          wrong answer. The smallest correct form is the one that gets filled in properly.</p></div>
+      <div class="card"><h4 style="margin-top:0">It teaches at the right moment</h4>
+        <p style="font-size:.9rem">Guidance appears next to the field it applies to, when it becomes
+          relevant &mdash; not in a manual, and not in a training session three weeks before go-live.</p>
+        <p style="font-size:.88rem;color:#4d6479">Tick marketing consent and the POPIA note appears
+          beside it, in one sentence.</p></div>
+      <div class="card"><h4 style="margin-top:0">It changes in one place</h4>
+        <p style="font-size:.9rem">When the shop decides it needs to record something new &mdash; a
+          delivery address, a trade category &mdash; that is one entry in the schema file.</p>
+        <p style="font-size:.88rem;color:#4d6479">Not a form change, plus a validation change, plus a
+          database change, plus three places that were missed.</p></div>
+    </div>
+    <p style="margin-top:1.25rem"><a class="btn btn--ghost btn--sm" href="../demo/index.html#customers">Try the adaptive form →</a></p>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the adaptive interface section (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain <strong>progressive disclosure</strong> in plain language: show what is relevant now, reveal the rest when it becomes relevant. Then explain why it matters at a counter with a customer waiting.</li><li>Connect it to data quality. A shorter, more relevant form gets filled in properly; a long form with irrelevant fields gets filled with anything that lets the person move on. The interface design <em>is</em> a data quality control.</li><li>Explain schema-driven design without jargon: describe the thing once, and let the screen, the checks and the storage all read from that description. Say why that makes the system cheap to change &mdash; which is the whole topic of this page.</li><li>Cover accessibility and real conditions honestly: the screen is used standing up, on a counter, sometimes with dusty hands, by staff with varying levels of computer confidence. Big targets, clear errors, no jargon in messages.</li><li>Give the counter-example from the demonstration: the stock take sheet deliberately omits the system's own figure, because a counter who can see the expected number will tend to agree with it. Design decisions like that are what fitting a system to a business actually means.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> <a href='../demo/index.html#customers'>The customer form</a>, and the stock take sheet under <a href='../demo/index.html#documents'>Documents</a>.</p>
+</div>
+
+    <h2 id="adoption">The part that decides whether any of this works</h2>
+    <div class="callout callout--risk">
+      <div class="callout__title">Systems are not abandoned because they are bad</div>
+      <p>They are abandoned because on a busy Saturday the book is faster, and nobody ever explained what
+        the extra thirty seconds buys. Staff adoption is not a training problem. It is a design problem
+        and a management problem, and it is where most small-business IT spending is actually lost.</p>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the user adoption section (300&ndash;400 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>Explain resistance fairly rather than dismissively. Staff resist for rational reasons: it is slower at first, it makes their mistakes visible, and nobody asked them.</li><li>Describe what the shop should actually do: involve Sipho and Thabo in choosing it, start with one thing that makes <em>their</em> day easier rather than the owner's, and let the person who learns it fastest teach the others.</li><li>Make the point about visibility honestly. A system does make individual performance visible, and that is genuinely uncomfortable. The owner should say out loud what that information will and will not be used for.</li><li>Explain why &quot;make the right thing the easy thing&quot; beats enforcement every time, with an example from the till screen.</li><li>Describe the failure signal to watch for: staff entering fiction to make the system accept a save. When that starts, the system is now producing worse data than the book it replaced, and the rule that caused it must change.</li></ul>
+</div>
+
+    <h2 id="conditions">Designing for South African conditions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Condition</th><th>What it breaks</th><th>What to require instead</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Load shedding</strong></td>
+              <td>Cloud-only systems; anything that cannot take a sale offline</td>
+              <td>Offline capture that syncs when power returns, on a device with its own battery</td></tr>
+          <tr><td><strong>Patchy or expensive data</strong></td>
+              <td>Systems that re-download everything on every screen</td>
+              <td>Works on a slow connection; does not need video; tolerates dropouts mid-sale</td></tr>
+          <tr><td><strong>Cash-heavy trade</strong></td>
+              <td>Systems that assume every sale is carded and reconciled automatically</td>
+              <td>Proper cash handling, a cash-up that matches the drawer, and a record of who counted</td></tr>
+          <tr><td><strong>Part-unit selling</strong></td>
+              <td>Rigid product catalogues that only sell whole items</td>
+              <td>Units of measure that include metres, kilograms and bags &mdash; and decimals in quantities</td></tr>
+          <tr><td><strong>Multilingual counter</strong></td>
+              <td>Staff-facing screens and customer documents in English only</td>
+              <td>At minimum, plain English on documents. Ask what the vendor supports; do not assume.</td></tr>
+          <tr><td><strong>Staff turnover</strong></td>
+              <td>Systems only one person knows how to use</td>
+              <td>Short written procedures, and more than one person who can do every task</td></tr>
+          <tr><td><strong>SARS and POPIA</strong></td>
+              <td>Products built for another country's tax and privacy rules</td>
+              <td>Correct VAT handling, compliant tax invoices, and a way to answer a POPIA request</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<div class="todo">
+  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
+  <h4>Write the South African conditions section (250&ndash;350 words)</h4>
+  <p>Cover, in your own words:</p>
+  <ul><li>This section is where the Scenario Application marks are won. Keep every example specific to this country and this kind of business.</li><li>Lead with load shedding and treat it as a design requirement rather than a complaint. What does the shop do during stage 4 at 5pm on a Friday?</li><li>Cover the cost of data honestly, and what that means for choosing software.</li><li>Cover the cash point properly: a system that assumes card payments will not reconcile for a shop where a third of takings are cash.</li><li>Find and cite at least one credible South African source on small-business digital adoption or load shedding's impact on SMEs.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Statistics South Africa, a reputable SME survey, or a South African banking or business-association report. Cite it properly.</p>
+</div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap-narrow">
+    <h2 style="margin-top:0">Carry on reading</h2>
+    <div class="grid grid--2">
+      <a class="card card--link" href="roadmap.html"><h3>Roadmap &amp; costs</h3>
+        <p>The staged plan, what each stage costs, and what to leave alone for now.</p><span class="card__more">Read →</span></a>
+      <a class="card card--link" href="../demo/index.html"><h3>The live demonstration</h3>
+        <p>Everything on this page, working.</p><span class="card__more">Open it →</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About this resource</h4>
+        <p style="max-width:34ch">Prepared as an information systems consulting deliverable for a small South African
+          retail business. Built for INF1781 at Belgium Campus iTversity.</p>
+        <p style="margin-top:1rem"><span id="todo-count" class="badge badge--neutral"></span></p>
+      </div>
+      <div>
+        <h4>The topics</h4>
+        <ul>
+          <li><a href="../pages/data-management.html">Data &amp; information management</a></li>
+          <li><a href="../pages/ethics-privacy.html">Ethics, privacy &amp; POPIA</a></li>
+          <li><a href="../pages/ai-decision-support.html">AI &amp; decision support</a></li>
+          <li><a href="../pages/enterprise-systems.html">Enterprise systems &amp; integration</a></li>
+          <li><a href="../pages/adapting-is.html">Adapting systems to fit</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Practical</h4>
+        <ul>
+          <li><a href="../demo/index.html">Live demonstration</a></li>
+          <li><a href="../pages/roadmap.html">Roadmap &amp; costs</a></li>
+          <li><a href="../pages/glossary.html">Plain-language glossary</a></li>
+          <li><a href="../pages/references.html">Sources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Important</h4>
+        <p style="max-width:36ch;font-size:.86rem">All people, businesses and transactions in this resource are invented.
+          No real personal information is used anywhere. Nothing here is legal, tax or financial advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span data-year></span> · INF1781 Group Project · Belgium Campus iTversity</p>
+      <p><a href="../login.html">Staff sign-in</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
