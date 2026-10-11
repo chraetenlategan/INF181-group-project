@@ -1,27 +1,36 @@
-# INF181 Group Project – Policy Generator (anonymised copy)
+# INF181 Group Project – Policy Generator
 
-A university-project copy of the `web/` front end. Everything firm-specific has been replaced with dummy data.
-**Nothing in this folder is a real firm, client, signatory, letterhead or legal template.**
+A university group-project web app for generating accounting policies and
+engagement documents. Runs entirely in the browser — no build step, no server.
 
-Open `index.html` in a browser (no build step). The LAN database server is not part of this copy, so use
-offline mode when asked at start-up.
+**Live site:** https://chraetenlategan.github.io/INF181-group-project/
 
-## What was changed relative to `web/`
+All firm, client, signatory, letterhead and legal-template content in this
+repository is **fictional dummy data**. Nothing here represents a real firm,
+a real client, or a real legal document.
 
-| Area | Change |
+## Running it
+
+Open the live site above, or clone and open `index.html` directly in a browser.
+
+There is no database server in this project, so choose **offline mode** when
+asked at start-up. The admin password is `admin`.
+
+## Placeholder data used
+
+| Area | Value |
 |---|---|
-| Firm name | VDM → "INF181 Group Project" / "INF181 Audit Group" (UI, footers, sign-offs, storage keys, CSS classes, file names) |
-| Signatories | Fictional: Alice Anderson, Henry Brooks, Rita Clarke, Rosa Daniels. Fake practice numbers |
-| Letterheads, logo, icon, mascot sprites | Replaced with generated placeholder images; letterhead `.docx` files and the PDF-organiser letterhead PDFs removed/regenerated |
-| Engagement-letter templates | Rewritten as short generic text (`AdminPanel.js`, `Assurance Engagements/js/templates.js`, and the accounting letter in `DocumentGenerator.js`) |
-| Place, contact, network details | Dummyville, PO Box 123, `admin@example.com`, `192.0.2.10` (documentation range) |
-| Client/third-party names in examples | Placeholders such as "Example 33 (Proprietary) Limited" |
-| Third-party product names | Registry software renamed to "ClientReg" (files renamed too) |
-| Admin password / user gates | Admin password is `admin`; user-name gates use dummy names |
-| Removed | Real-data scripts, internal CLAUDE.md for the assurance app, saved-business data (never copied) |
+| Firm name | "INF181 Group Project" / "INF181 Audit Group" |
+| Signatories | Alice Anderson, Henry Brooks, Rita Clarke, Rosa Daniels (fake practice numbers) |
+| Letterheads, logo, icon, mascot sprites | Generated placeholder images |
+| Engagement-letter templates | Short generic sample text |
+| Place, contact, network details | Dummyville, PO Box 123, `admin@example.com`, `192.0.2.10` (reserved documentation range) |
+| Client/third-party names | Placeholders such as "Example 33 (Proprietary) Limited" |
+| Registry software | "ClientReg" |
 
 ## Known limitations
 
-Audit/review/compilation **report** wording, the accounting-policy notes in `config.js` and some long hard-coded
-paragraphs in `DocumentGenerator.js` follow public standards (IFRS / ISA / ISRE) and were left as is. Rewrite them
-if your course needs fully original text.
+Audit/review/compilation **report** wording, the accounting-policy notes in
+`config.js` and some long hard-coded paragraphs in `DocumentGenerator.js`
+follow public standards (IFRS / ISA / ISRE) and were left as is. Rewrite them
+if the course requires fully original text.
