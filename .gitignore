@@ -4,4 +4,7 @@ Thumbs.db
 *.swp
 *~
 
+# The lecturer's brief — kept locally, not published to a public repo.
+INF1781 Group Project-1.pdf
+
 # Nothing here is built — the site is served exactly as committed.
