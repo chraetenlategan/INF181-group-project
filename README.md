@@ -22,6 +22,7 @@ asked at start-up. The admin password is `admin`.
 |---|---|
 | Firm name | "INF181 Group Project" / "INF181 Audit Group" |
 | Signatories | Alice Anderson, Henry Brooks, Rita Clarke, Rosa Daniels (fake practice numbers) |
+| Preparers | Fiona Evans, plus generic roles (Bookkeeper, Treasurer, etc.) |
 | Letterheads, logo, icon, mascot sprites | Generated placeholder images |
 | Engagement-letter templates | Short generic sample text |
 | Place, contact, network details | Dummyville, PO Box 123, `admin@example.com`, `192.0.2.10` (reserved documentation range) |

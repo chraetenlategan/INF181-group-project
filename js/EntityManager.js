@@ -2141,7 +2141,7 @@ class EntityManager {
 
 
   static PREPARER_MAP = {
-    hester:   'The financial statements were prepared under the supervision of Hester du Toit B Compt. Professional Accountant (SA) in her capacity as an independent accounting professional.',
+    fiona:    'The financial statements were prepared under the supervision of Fiona Evans B Compt. Professional Accountant (SA) in her capacity as an independent accounting professional.',
     alice:     'The financial statements were prepared under the supervision of Alice Anderson BCom CA (SA) in his capacity as an independent professional accountant.',
     hl:       'The financial statements were prepared under the supervision of Henry Brooks BAcc CA (SA) in his capacity as an independent professional accountant.',
     rita: 'The financial statements were prepared under the supervision of Rita Clarke BCompt CA (SA) in her capacity as an independent professional accountant.',
