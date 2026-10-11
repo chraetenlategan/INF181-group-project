@@ -1,0 +1,4308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ILoveINF181 — PDF Page Organiser</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="letterhead/letterhead.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f2f5;
+      --surface: #ffffff;
+      --surface-hover: #f5f6f8;
+      --border: #d5d9e0;
+      --border-active: #1b2a4a;
+      --accent: #1b2a4a;
+      --accent-glow: rgba(27, 42, 74, 0.2);
+      --gold: #b8960c;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --danger: #d63031;
+      --success: #27ae60;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Logo image ── */
+    .logo-img {
+      height: 38px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--gold); }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .page-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-right: 8px;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--surface-hover); border-color: var(--gold); }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #142038; }
+    .btn-danger { color: var(--danger); }
+    .btn-danger:hover { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); }
+    .btn:disabled { opacity: 0.4; pointer-events: none; }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ── Upload area ── */
+    .upload-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 65px);
+      padding: 40px;
+    }
+    .upload-box {
+      width: 100%;
+      max-width: 560px;
+      border: 2px dashed var(--border);
+      border-radius: 20px;
+      padding: 60px 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface);
+    }
+    .upload-box:hover, .upload-box.drag-over {
+      border-color: var(--gold);
+      background: rgba(184, 150, 12, 0.05);
+      box-shadow: 0 0 40px rgba(184, 150, 12, 0.15);
+    }
+    .upload-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      color: var(--gold);
+    }
+    .upload-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .upload-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ── Workspace ── */
+    .workspace {
+      display: none;
+      flex-direction: column;
+      min-height: calc(100vh - 65px);
+    }
+    .workspace.active { display: flex; }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-wrap: wrap;
+      /* Frozen under the (also sticky) header while the pages scroll.
+         --header-h is kept in step with the header's real height by script. */
+      position: sticky;
+      top: var(--header-h, 71px);
+      z-index: 99;
+    }
+    .btn-close-embed {
+      font-size: 22px;
+      line-height: 1;
+      padding: 5px 12px;
+    }
+    .toolbar .separator {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .zoom-controls .btn { padding: 7px 10px; }
+    .zoom-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      min-width: 40px;
+      text-align: center;
+    }
+    /* Drag this to stretch the pages larger or smaller. */
+    .zoom-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 110px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+      cursor: ew-resize;
+    }
+    .zoom-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--surface);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: ew-resize;
+    }
+    .zoom-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 2px solid var(--surface);
+      cursor: ew-resize;
+    }
+    /* Keep pinch-zoom gestures on the grid from scrolling the page instead. */
+    .page-grid { touch-action: pan-y; }
+
+    /* ── Page grid ── */
+    .page-grid {
+      display: grid;
+      gap: 24px;
+      padding: 32px;
+      flex: 1;
+      align-content: start;
+    }
+
+    /* ── Page card ── */
+    .page-card {
+      position: relative;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: grab;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s;
+      user-select: none;
+    }
+    .page-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .page-card.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184, 150, 12, 0.25);
+    }
+    .page-card.dragging {
+      opacity: 0.4;
+      transform: scale(0.95);
+    }
+    .page-card.drag-over-left {
+      border-left: 4px solid var(--gold);
+    }
+    .page-card.drag-over-right {
+      border-right: 4px solid var(--gold);
+    }
+
+    .page-canvas-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background: #fff;
+      min-height: 120px;
+    }
+    .page-canvas-wrap canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    }
+
+    .page-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .page-number {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .page-actions { display: flex; gap: 4px; }
+    .page-action {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .page-action:hover { background: var(--surface-hover); color: var(--text); }
+    .page-action.delete:hover { color: var(--danger); background: rgba(231,76,60,0.1); }
+    .page-action svg { width: 14px; height: 14px; }
+
+    /* ── Selection checkbox ── */
+    .page-select {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      transition: all 0.15s;
+      backdrop-filter: blur(4px);
+    }
+    .page-select:hover { border-color: var(--gold); background: rgba(0,0,0,0.5); }
+    .page-card.selected .page-select {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .page-select svg { width: 14px; height: 14px; color: #fff; opacity: 0; }
+    .page-card.selected .page-select svg { opacity: 1; }
+
+    /* ── Rotation badge ── */
+    .rotation-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      z-index: 5;
+      backdrop-filter: blur(4px);
+      display: none;
+    }
+    .page-card[data-rotation]:not([data-rotation="0"]) .rotation-badge {
+      display: block;
+    }
+
+    /* ── Drop indicator ── */
+    .drop-indicator {
+      width: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      align-self: stretch;
+      min-height: 100px;
+      display: none;
+      box-shadow: 0 0 12px rgba(184, 150, 12, 0.3);
+    }
+    .drop-indicator.visible { display: block; }
+
+    /* ── Modal / lightbox ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(27, 42, 74, 0.85);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      backdrop-filter: blur(8px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      position: relative;
+    }
+    .modal-content canvas {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.15s;
+    }
+    .modal-close:hover { opacity: 1; }
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: background 0.15s;
+      backdrop-filter: blur(4px);
+    }
+    .modal-nav:hover { background: rgba(255,255,255,0.2); }
+    .modal-nav.prev { left: -60px; }
+    .modal-nav.next { right: -60px; }
+    .modal-page-label {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ── Loading spinner ── */
+    .loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 65px);
+      gap: 16px;
+    }
+    .loading.active { display: flex; }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; color: var(--text-muted); }
+
+    /* ── Toast notification ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      font-size: 13px;
+      z-index: 2000;
+      transition: transform 0.3s ease;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Split divider in grid ── */
+    .split-divider {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 0;
+    }
+    .split-divider-line {
+      flex: 1;
+      height: 2px;
+      background: var(--danger);
+      border-radius: 1px;
+      opacity: 0.5;
+    }
+    .split-divider-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--danger);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .split-divider-remove {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--danger);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: all 0.15s;
+      padding: 0;
+    }
+    .split-divider-remove:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    /* ── Scissors button on page card ── */
+    .page-action.split-action { color: var(--text-muted); }
+    .page-action.split-action:hover { color: var(--danger); background: rgba(214,48,49,0.1); }
+    .page-action.split-active { color: var(--danger); background: rgba(214,48,49,0.1); }
+
+    /* ── Duplicate button on page card ── */
+    .page-action.duplicate-action { color: var(--text-muted); }
+    .page-action.duplicate-action:hover { color: var(--gold); background: rgba(184,150,12,0.12); }
+
+    /* ── Split modal ── */
+    .split-modal-inner {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .split-modal-inner h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .split-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .split-segments {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-y: auto;
+      max-height: 40vh;
+      padding-right: 4px;
+    }
+    .split-segment {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .split-segment-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 20px;
+    }
+    .split-segment-pages {
+      font-size: 11px;
+      color: var(--text-muted);
+      min-width: 80px;
+      white-space: nowrap;
+    }
+    .split-segment-name {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .split-segment-name input {
+      flex: 1;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+      min-width: 0;
+    }
+    .split-segment-name input:focus {
+      border-color: var(--gold);
+    }
+    .split-segment-ext {
+      padding: 7px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    /* ── Swap-names control between two segment rows ── */
+    .split-swap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: -5px 0;
+    }
+    .split-swap-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .split-swap-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .split-swap-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+    .split-swap-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(184, 150, 12, 0.08);
+    }
+    .split-segment.name-swapped {
+      border-color: var(--gold);
+      background: rgba(184, 150, 12, 0.08);
+    }
+
+    .split-field {
+      margin-bottom: 18px;
+    }
+    .split-field > label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .split-save-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .split-radio {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .split-radio input[type="radio"] {
+      accent-color: var(--gold);
+    }
+    .split-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    /* ── Whiteout (white block) modal ── */
+    .wo-modal-inner { max-width: 880px; }
+    .wo-body {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      overflow: auto;
+    }
+    .wo-controls { flex: 1 1 240px; min-width: 230px; }
+    .wo-hint { font-size: 12px; color: var(--text-muted); line-height: 1.55; margin-top: 8px; }
+    .wo-stage-col {
+      flex: 0 0 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .wo-stage {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      line-height: 0;
+      cursor: crosshair;
+      touch-action: none;
+      user-select: none;
+      max-width: 100%;
+    }
+    .wo-stage canvas { display: block; max-width: 100%; height: auto; }
+    .wo-stage-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .wo-rect {
+      position: absolute;
+      background: rgba(255,255,255,0.55);
+      border: 1px dashed var(--gold);
+      pointer-events: auto;
+      cursor: default;
+    }
+    .wo-rect.drawing { pointer-events: none; background: rgba(255,255,255,0.35); }
+    .wo-rect-del {
+      position: absolute;
+      top: -9px;
+      right: -9px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 0;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+    }
+    .wo-busy {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.45);
+      opacity: 0;
+      transition: opacity .15s;
+      pointer-events: none;
+    }
+    .wo-busy.active { opacity: 1; }
+    .wo-nav { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+    .wo-nav .btn { padding: 4px 9px; }
+    .wo-count { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+    @media (max-width: 900px) {
+      .wo-body { flex-direction: column; }
+      .wo-stage-col { flex: 1 1 auto; width: 100%; }
+    }
+
+    /* ── Add-PDF destination modal ── */
+    .add-dest-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .add-dest-option:hover {
+      border-color: var(--gold);
+      background: rgba(184, 150, 12, 0.06);
+    }
+    .add-dest-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 20px;
+    }
+    .add-dest-pages {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ── Export splits toolbar button ── */
+    .btn-split-export {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+    .btn-split-export:hover {
+      background: rgba(214,48,49,0.08);
+    }
+
+    /* ── Skeletons ──
+       Placeholder cards shown while a PDF is being parsed and while each
+       thumbnail renders, so the workspace never flashes an empty grid. */
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+      background: #e4e7ec;
+      border-radius: 6px;
+    }
+    .skeleton::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+    @media (prefers-reduced-motion: reduce) {
+      .skeleton::after { animation: none; }
+    }
+
+    .skeleton-card { cursor: default; pointer-events: none; }
+    .skeleton-card:hover { border-color: var(--border); box-shadow: none; }
+    .skeleton-thumb { width: 100%; aspect-ratio: 1 / 1.414; }
+    .skeleton-line { height: 12px; display: inline-block; }
+    .skeleton-chip { width: 28px; height: 28px; border-radius: 6px; display: inline-block; }
+
+    /* Per-card: the canvas stays hidden until pdf.js has painted it. */
+    .page-canvas-wrap.thumb-pending canvas { display: none; }
+    .page-canvas-wrap:not(.thumb-pending) .skeleton-thumb { display: none; }
+
+    /* App shell skeleton — the very first thing painted, before pdf.js and
+       pdf-lib have finished loading from the CDN. */
+    .app-skeleton {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 65px);
+      padding: 40px;
+      gap: 28px;
+    }
+    body.booting .app-skeleton { display: flex; }
+    body.booting .upload-area { display: none !important; }
+    .app-skeleton-box {
+      width: 100%;
+      max-width: 560px;
+      border: 2px dashed var(--border);
+      border-radius: 20px;
+      padding: 60px 40px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .app-skeleton-icon { width: 64px; height: 64px; border-radius: 14px; }
+    .app-skeleton-title { width: 220px; max-width: 100%; height: 20px; }
+    .app-skeleton-sub { width: 320px; max-width: 100%; height: 14px; }
+    .app-skeleton-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .app-skeleton-btn { width: 104px; height: 36px; border-radius: 8px; }
+
+    .loading.active { justify-content: flex-start; }
+    .loading-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 40px 0 8px;
+    }
+    .skeleton-grid {
+      width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    /* ── Letterhead preview busy overlay ── */
+    .lh-preview-busy {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.55);
+      z-index: 3;
+    }
+    .lh-preview-busy.active { display: flex; }
+    .lh-preview-busy::after {
+      content: '';
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* ── Page numbers modal ── */
+    .pnum-positions { display: flex; gap: 12px; }
+    .pnum-position {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pnum-position:hover { border-color: var(--gold); }
+    .pnum-position.selected {
+      border-color: var(--gold);
+      background: rgba(184, 150, 12, 0.08);
+      box-shadow: 0 0 0 2px rgba(184, 150, 12, 0.2);
+    }
+    .pnum-position input { position: absolute; opacity: 0; pointer-events: none; }
+    .pnum-sheet {
+      position: relative;
+      width: 56px;
+      height: 79px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+    }
+    .pnum-sheet::before {
+      content: '';
+      position: absolute;
+      left: 8px; right: 8px; top: 10px;
+      height: 1px;
+      background: var(--border);
+      box-shadow: 0 6px 0 var(--border), 0 12px 0 var(--border), 0 18px 0 var(--border);
+    }
+    .pnum-dot {
+      position: absolute;
+      bottom: 7px;
+      height: 5px;
+      width: 13px;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+    .pnum-dot.center { left: 50%; transform: translateX(-50%); }
+    .pnum-dot.right { right: 7px; }
+    .pnum-caption { font-size: 12px; font-weight: 600; }
+
+    .pnum-select,
+    .split-field.pnum-inline input[type="number"] {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+    }
+    .split-field.pnum-inline {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .split-field.pnum-inline > label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .split-field.pnum-inline input[type="number"] { width: 72px; }
+    .split-field.pnum-inline input[type="checkbox"] { accent-color: var(--gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .header { padding: 12px 16px; }
+      .toolbar { padding: 10px 16px; }
+      .page-grid { padding: 16px; gap: 16px; }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  </style>
+</head>
+<body class="booting">
+
+  <!-- Header -->
+  <div class="header">
+    <!-- The logo is the way back to the INF181 menu, in every app in the pack. -->
+    <div class="logo"><a href="#" title="Back to the INF181 menu" style="display:inline-flex;line-height:0"><img src="assets/logo.jpg" alt="INF181 Logo" class="logo-img"></a>ILove<span>INF181</span></div>
+    <div class="header-actions">
+      <span class="page-count" id="pageCount"></span>
+      <button class="btn" id="btnAddPdf" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add PDF
+      </button>
+      <button class="btn btn-primary" id="btnSave" style="display:none" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Save PDF
+      </button>
+      <!-- Policy Generator only: closes the overlay this editor runs in. Shown
+           when embedded (see the hand-off block at the bottom). -->
+      <button class="btn btn-close-embed" id="btnCloseEmbed" style="display:none"
+              title="Close I Love INF181 and go back to the generator (your work is kept)" aria-label="Close">&times;</button>
+    </div>
+  </div>
+
+  <!-- App shell skeleton, replaced by the upload screen once the PDF
+       engines have loaded. -->
+  <div class="app-skeleton" id="appSkeleton">
+    <div class="app-skeleton-box">
+      <div class="skeleton app-skeleton-icon"></div>
+      <div class="skeleton app-skeleton-title"></div>
+      <div class="skeleton app-skeleton-sub"></div>
+    </div>
+    <div class="app-skeleton-toolbar">
+      <div class="skeleton app-skeleton-btn"></div>
+      <div class="skeleton app-skeleton-btn"></div>
+      <div class="skeleton app-skeleton-btn"></div>
+    </div>
+  </div>
+
+  <!-- Upload screen -->
+  <div class="upload-area" id="uploadArea">
+    <div class="upload-box" id="uploadBox">
+      <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <polyline points="9 15 12 12 15 15"/>
+      </svg>
+      <div class="upload-title">Drop your PDFs here</div>
+      <div class="upload-subtitle">or click to browse — you can select multiple files</div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf" hidden multiple>
+    <input type="file" id="fileInputAdd" accept=".pdf" hidden multiple>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="loading-head">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loadingText">Loading PDF...</div>
+    </div>
+    <div class="page-grid skeleton-grid" id="skeletonGrid"></div>
+  </div>
+
+  <!-- Workspace -->
+  <div class="workspace" id="workspace">
+    <div class="toolbar">
+      <button class="btn" id="btnSelectAll">Select All</button>
+      <button class="btn btn-danger" id="btnDeleteSelected" disabled>Delete Selected</button>
+      <button class="btn" id="btnDuplicateSelected" disabled title="Duplicate selected pages and insert copies after them">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Duplicate Selected
+      </button>
+      <div class="separator"></div>
+      <button class="btn" id="btnRotateCW" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Rotate 90°
+      </button>
+      <div class="separator"></div>
+      <div class="zoom-controls">
+        <button class="btn" id="btnZoomOut">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <input type="range" class="zoom-slider" id="zoomSlider" min="25" max="300" step="1" value="100"
+               title="Drag to stretch the pages bigger or smaller (Ctrl + scroll or pinch works too)"
+               aria-label="Page size">
+        <span class="zoom-label" id="zoomLabel">100%</span>
+        <button class="btn" id="btnZoomIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="separator"></div>
+      <button class="btn" id="btnUndo" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        Undo
+      </button>
+      <button class="btn" id="btnReset">Reset</button>
+      <div class="separator"></div>
+      <button class="btn" id="btnLetterhead" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+        Letterhead
+      </button>
+      <button class="btn" id="btnDraftWatermark" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Draft Watermark
+      </button>
+      <button class="btn" id="btnWhiteout" disabled title="Draw white blocks over text you want hidden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="6" y="9" width="9" height="6" fill="currentColor" stroke="none"/></svg>
+        White Block
+      </button>
+      <button class="btn" id="btnPageNumbers" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v18H4z"/><path d="M9 17h6"/></svg>
+        Page Numbers
+      </button>
+      <div class="separator" id="splitSeparator" style="display:none"></div>
+      <button class="btn btn-split-export" id="btnExportSplits" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.6" y2="15.4"/><line x1="14.5" y1="10.2" x2="20" y2="16.7" /><line x1="8.6" y1="8.6" x2="12" y2="12"/></svg>
+        Export Splits
+      </button>
+    </div>
+
+    <div class="page-grid" id="pageGrid"></div>
+  </div>
+
+  <!-- Lightbox modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <button class="modal-nav prev" id="modalPrev">&#8249;</button>
+      <button class="modal-nav next" id="modalNext">&#8250;</button>
+      <canvas id="modalCanvas"></canvas>
+      <div class="modal-page-label" id="modalLabel"></div>
+    </div>
+  </div>
+
+  <!-- Letterhead picker modal -->
+  <div class="modal-overlay" id="lhModal">
+    <div class="lh-modal-inner">
+      <button class="modal-close" id="lhModalClose" style="top:8px;right:12px;">&times;</button>
+      <div class="lh-layout">
+        <div class="lh-controls-col">
+          <div class="lh-title-row">
+            <div class="lh-quick-actions">
+              <button type="button" class="lh-quick-btn lh-quick-cancel" id="lhQuickCancel" title="Cancel">&#10005;</button>
+              <button type="button" class="lh-quick-btn lh-quick-apply" id="lhQuickApply" title="Apply Letterhead" disabled>&#10003;</button>
+            </div>
+            <h3>Letterhead &amp; Content Size</h3>
+          </div>
+          <div id="lhChoices">
+            <label class="lh-choice" data-lh="audit">
+              <img id="lhPreviewAudit" alt="Audit Inc.">
+              <div class="lh-label">INF181 Audit Group</div>
+            </label>
+            <label class="lh-choice" data-lh="ca">
+              <img id="lhPreviewCA" alt="INF181 CA">
+              <div class="lh-label">INF181 Group Project</div>
+            </label>
+          </div>
+          <div id="lhControls">
+            <label>
+              <span>Apply to:</span>
+              <select id="lhApplyMode">
+                <option value="selected">Selected pages only</option>
+                <option value="all">All pages</option>
+                <option value="first">First page only</option>
+                <option value="allExceptFirst">All except first</option>
+              </select>
+            </label>
+          </div>
+          <div class="lh-offset-row">
+            <label style="font-size:13px;white-space:nowrap;">Content vertical:</label>
+            <input type="range" id="lhOffsetSlider" min="-120" max="160" value="-10" step="0.5">
+            <span class="lh-offset-val" id="lhOffsetVal">-10 mm</span>
+          </div>
+          <div class="lh-offset-row">
+            <label style="font-size:13px;white-space:nowrap;">Content horizontal:</label>
+            <input type="range" id="lhHorizSlider" min="-120" max="120" value="-20" step="0.5">
+            <span class="lh-offset-val" id="lhHorizVal">-20 mm</span>
+          </div>
+          <!-- Content size (was the separate Scale Content tool): shrinks or
+               grows what is printed on the page, about its centre, before the
+               offsets above move it. Usable without a letterhead too. -->
+          <div class="lh-offset-row">
+            <label style="font-size:13px;white-space:nowrap;">Content size:</label>
+            <input type="range" id="lhScaleSlider" min="30" max="200" value="100" step="1">
+            <span class="lh-offset-val" id="lhScaleVal">100%</span>
+          </div>
+          <div class="lh-scale-presets">
+            <button class="btn" type="button" data-lh-scale="85">85%</button>
+            <button class="btn" type="button" data-lh-scale="90">90%</button>
+            <button class="btn" type="button" data-lh-scale="95">95%</button>
+            <button class="btn" type="button" data-lh-scale="100">100%</button>
+          </div>
+          <div class="lh-crop-row">
+            <span id="lhCropVal">No crop</span>
+            <button class="btn" type="button" id="lhFrameReset" title="Put size, position and crop back to the defaults">Reset frame</button>
+          </div>
+          <div class="lh-replace-section">
+            <div class="lh-toggle-row">
+              <label class="lh-toggle">
+                <input type="checkbox" id="lhReplaceToggle">
+                <span class="lh-toggle-track"></span>
+              </label>
+              <span class="lh-toggle-label">Replace existing letterhead</span>
+            </div>
+            <div class="lh-replace-controls disabled" id="lhReplaceControls">
+              <div class="lh-replace-group-label">Header cover</div>
+              <div class="lh-replace-slider-row">
+                <label>Height:</label>
+                <input type="range" id="lhCoverHeight" min="0" max="120" value="30" step="1">
+                <span class="lh-slider-val" id="lhCoverHeightVal">30 mm</span>
+              </div>
+              <div class="lh-replace-slider-row">
+                <label>Position:</label>
+                <input type="range" id="lhCoverY" min="0" max="120" value="0" step="1">
+                <span class="lh-slider-val" id="lhCoverYVal">0 mm</span>
+              </div>
+              <div class="lh-replace-group-label" style="margin-top:8px;">Footer cover</div>
+              <div class="lh-replace-slider-row">
+                <label>Height:</label>
+                <input type="range" id="lhFooterCoverHeight" min="0" max="120" value="0" step="1">
+                <span class="lh-slider-val" id="lhFooterCoverHeightVal">0 mm</span>
+              </div>
+              <div class="lh-replace-slider-row">
+                <label>Position:</label>
+                <input type="range" id="lhFooterCoverY" min="0" max="120" value="0" step="1">
+                <span class="lh-slider-val" id="lhFooterCoverYVal">0 mm</span>
+              </div>
+            </div>
+          </div>
+          <div id="lhActions">
+            <button class="btn" id="lhCancel">Cancel</button>
+            <button class="btn btn-primary" id="lhApply" disabled>Apply Letterhead</button>
+          </div>
+        </div>
+        <div class="lh-preview-col">
+          <div class="lh-preview-header">
+            <span style="font-size:13px;font-weight:600;">Preview</span>
+            <span class="lh-frame-hint" id="lhFrameHint">Drag the gold frame to move &middot; corners to resize &middot; edges to crop</span>
+            <span class="lh-preview-status" id="lhPageStatus"></span>
+          </div>
+          <div class="lh-preview-canvas-wrap" id="lhCanvasWrap">
+            <canvas id="lhPdfCanvas"></canvas>
+            <canvas id="lhOverlayCanvas"></canvas>
+            <!-- Gold frame: the page content's visible box. Drag inside to move,
+                 corners to resize, edges to crop. Drives the same sliders. -->
+            <div class="lh-frame" id="lhFrame" hidden>
+              <div class="lh-fh lh-fh-c" data-h="nw"></div><div class="lh-fh lh-fh-c" data-h="ne"></div>
+              <div class="lh-fh lh-fh-c" data-h="sw"></div><div class="lh-fh lh-fh-c" data-h="se"></div>
+              <div class="lh-fh lh-fh-e" data-h="n"></div><div class="lh-fh lh-fh-e" data-h="s"></div>
+              <div class="lh-fh lh-fh-e" data-h="w"></div><div class="lh-fh lh-fh-e" data-h="e"></div>
+            </div>
+            <div class="lh-preview-busy" id="lhBusy"></div>
+            <div class="lh-preview-placeholder" id="lhPlaceholder">Select a letterhead to see preview</div>
+          </div>
+          <div class="lh-preview-nav">
+            <button class="btn" id="lhPrevPage" disabled>&larr;</button>
+            <span id="lhPageLabel" style="font-size:13px;color:var(--text-muted);">Page 1 / 1</span>
+            <button class="btn" id="lhNextPage" disabled>&rarr;</button>
+            <!-- Preview zoom: 100% = whole page fits; above that the preview
+                 scrolls. Ctrl + scroll on the preview zooms too. -->
+            <div class="lh-zoom">
+              <button class="btn" type="button" id="lhZoomOut" title="Zoom out">&minus;</button>
+              <input type="range" id="lhZoomSlider" min="100" max="300" step="10" value="100" aria-label="Preview zoom">
+              <button class="btn" type="button" id="lhZoomIn" title="Zoom in">+</button>
+              <span class="lh-zoom-val" id="lhZoomVal">100%</span>
+              <button class="btn" type="button" id="lhZoomFit" title="Show the whole page">Fit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split PDF export modal -->
+  <div class="modal-overlay" id="splitModal">
+    <div class="split-modal-inner">
+      <button class="modal-close" id="splitModalClose" style="top:8px;right:12px;">&times;</button>
+      <h3>Export Split PDFs</h3>
+      <p class="split-desc">Names are filled in automatically. Use <strong>Swap</strong> between two segments if the names belong the other way round.</p>
+      <div class="split-segments" id="splitSegments"></div>
+      <div class="split-field">
+        <label>Save method</label>
+        <div class="split-save-options">
+          <label class="split-radio">
+            <input type="radio" name="splitSaveMethod" value="picker" id="splitMethodPicker">
+            <span>Choose folder (Save As for each file)</span>
+          </label>
+          <label class="split-radio">
+            <input type="radio" name="splitSaveMethod" value="download" id="splitMethodDownload" checked>
+            <span>Download to default folder</span>
+          </label>
+        </div>
+      </div>
+      <div class="split-actions">
+        <button class="btn" id="splitCancel">Cancel</button>
+        <button class="btn btn-primary" id="splitConfirm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- White block (whiteout) modal -->
+  <div class="modal-overlay" id="whiteoutModal">
+    <div class="split-modal-inner wo-modal-inner">
+      <button class="modal-close" id="whiteoutClose" style="top:8px;right:12px;">&times;</button>
+      <h3>White Block</h3>
+      <p class="split-desc">Drag on the page to cover text with a white block. Blocks sit on the page content only — any letterhead, draft watermark or page number stays on top of them, whether you added it before or after.</p>
+
+      <div class="wo-body">
+        <div class="wo-controls">
+          <div class="split-field">
+            <label>Apply to</label>
+            <div class="split-save-options">
+              <label class="split-radio"><input type="radio" name="woScope" value="page" checked> This page only</label>
+              <label class="split-radio"><input type="radio" name="woScope" value="all"> Every page (same position)</label>
+              <label class="split-radio"><input type="radio" name="woScope" value="selected" id="woScopeSelected"> Selected pages (<span id="woSelCount">0</span>)</label>
+            </div>
+          </div>
+          <p class="wo-hint">Drag out a rectangle over the text you want gone. Click the &times; on a block to remove it. Blocks are drawn where you see them, so the preview is exactly what you get.</p>
+          <p class="wo-count" id="woCount">No blocks on this page</p>
+          <div class="split-field" style="margin-top:14px;">
+            <button class="btn" id="woClearPage">Clear blocks on this page</button>
+          </div>
+        </div>
+
+        <div class="wo-stage-col">
+          <div class="wo-stage" id="woStage">
+            <canvas id="woCanvas"></canvas>
+            <div class="wo-stage-overlay" id="woOverlay"></div>
+            <div class="wo-busy" id="woBusy"></div>
+          </div>
+          <div class="wo-nav">
+            <button class="btn" id="woPrevPage">&#8249;</button>
+            <span id="woPageLabel">Page 1 / 1</span>
+            <button class="btn" id="woNextPage">&#8250;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-actions">
+        <button class="btn" id="woCancel">Cancel</button>
+        <button class="btn btn-primary" id="woApply">Apply White Blocks</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplicate destination modal -->
+  <div class="modal-overlay" id="dupDestModal">
+    <div class="split-modal-inner">
+      <button class="modal-close" id="dupDestClose" style="top:8px;right:12px;">&times;</button>
+      <h3 id="dupDestTitle">Where should the copy go?</h3>
+      <p class="split-desc">Your document has split points. Choose which file the duplicate should be added to.</p>
+      <div class="split-segments" id="dupDestList"></div>
+      <div class="split-actions">
+        <button class="btn" id="dupDestCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page numbers modal -->
+  <div class="modal-overlay" id="pageNumModal">
+    <div class="split-modal-inner">
+      <button class="modal-close" id="pageNumClose" style="top:8px;right:12px;">&times;</button>
+      <h3>Add Page Numbers</h3>
+      <p class="split-desc">Numbers are stamped onto the pages themselves. Undo removes them again.</p>
+
+      <div class="split-field">
+        <label>Position</label>
+        <div class="pnum-positions">
+          <label class="pnum-position selected" data-pos="center">
+            <input type="radio" name="pnumPos" value="center" checked>
+            <span class="pnum-sheet"><span class="pnum-dot center"></span></span>
+            <span class="pnum-caption">Bottom centre</span>
+          </label>
+          <label class="pnum-position" data-pos="right">
+            <input type="radio" name="pnumPos" value="right">
+            <span class="pnum-sheet"><span class="pnum-dot right"></span></span>
+            <span class="pnum-caption">Bottom right</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="split-field">
+        <label>Format</label>
+        <select id="pnumFormat" class="pnum-select">
+          <option value="plain">1</option>
+          <option value="page">Page 1</option>
+          <option value="pageOf">Page 1 of 10</option>
+        </select>
+      </div>
+
+      <div class="split-field pnum-inline">
+        <label>Start at <input type="number" id="pnumStart" value="1" min="0" step="1"></label>
+        <label>Size <input type="number" id="pnumSize" value="10" min="6" max="24" step="1"></label>
+        <label><input type="checkbox" id="pnumSkipFirst"> Skip first page</label>
+      </div>
+
+      <div class="split-actions">
+        <button class="btn" id="pnumCancel">Cancel</button>
+        <button class="btn btn-primary" id="pnumApply">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v18H4z"/><path d="M9 17h6"/></svg>
+          Add Numbers
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add PDF destination modal -->
+  <div class="modal-overlay" id="addDestModal">
+    <div class="split-modal-inner">
+      <button class="modal-close" id="addDestClose" style="top:8px;right:12px;">&times;</button>
+      <h3>Where should the new pages go?</h3>
+      <p class="split-desc">Your document has split points. Choose which segment the uploaded PDF should be added to.</p>
+      <div class="split-segments" id="addDestList"></div>
+      <div class="split-actions">
+        <button class="btn" id="addDestCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Debug panel (toggle with Ctrl+Shift+D or ?debug in URL) -->
+  <div id="debugPanel" style="display:none;position:fixed;bottom:0;right:0;width:min(560px,100vw);height:45vh;background:#0b0f19;color:#cbd5e1;font:11px/1.45 ui-monospace,Menlo,Consolas,monospace;z-index:9999;border-top-left-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.4);display:none;flex-direction:column;">
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#111827;border-top-left-radius:10px;">
+      <strong style="color:#e2e8f0;">🐞 Debug log</strong>
+      <span id="debugCount" style="color:#64748b;"></span>
+      <span style="flex:1;"></span>
+      <button id="debugFlatten" style="cursor:pointer;background:#164e2f;color:#d1fae5;border:1px solid #14532d;border-radius:6px;padding:2px 8px;font:inherit;" title="Rasterise every page exactly as previewed — guarantees the saved PDF matches what you see">Force-flatten all</button>
+      <button id="debugCopy" style="cursor:pointer;background:#1f2937;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:2px 8px;font:inherit;">Copy</button>
+      <button id="debugClear" style="cursor:pointer;background:#1f2937;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:2px 8px;font:inherit;">Clear</button>
+      <button id="debugClose" style="cursor:pointer;background:#1f2937;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:2px 8px;font:inherit;">Close</button>
+    </div>
+    <div id="debugLog" style="flex:1;overflow:auto;padding:8px 10px;white-space:pre-wrap;word-break:break-word;"></div>
+  </div>
+
+  <script>
+    // If pdf.js or pdf-lib never arrive, drop the shell skeleton anyway so the
+    // page isn't stuck shimmering.
+    setTimeout(function () { document.body.classList.remove('booting'); }, 10000);
+  </script>
+
+  <!-- Letterhead assets (base64 encoded PDFs + preview PNGs) -->
+  <script src="letterhead/assets.js"></script>
+
+  <!-- FORK PATCH — NOT upstream ILoveINF181. Re-apply whenever this file is
+       refreshed from the standalone repo.
+       pdf.js and pdf-lib come from the generator's vendored copies rather than a
+       CDN: the app is used offline, and a CDN fetch there leaves the
+       editor stuck on "Loading PDF..." with no error. The UMD builds publish
+       window.pdfjsLib / window.PDFLib, so the module below binds those instead
+       of importing. -->
+  <script src="../vendor/pdf.min.js"></script>
+  <script src="../vendor/pdf-lib.min.js"></script>
+  <script type="module">
+    const pdfjsLib = window.pdfjsLib;
+    const { PDFDocument, degrees, rgb, PDFName,
+            pushGraphicsState, popGraphicsState, moveTo, lineTo, closePath, clip, endPath
+          } = window.PDFLib;
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../vendor/pdf.worker.min.js';
+
+    // ─── Debug logger ───
+    // A tiny on-screen console so we can diagnose problem PDFs without needing
+    // devtools. Toggle with Ctrl+Shift+D, or open the app with ?debug in the URL.
+    const DBG = {
+      lines: [],
+      on: false,
+      panel: null, logEl: null, countEl: null,
+      init() {
+        this.panel = document.getElementById('debugPanel');
+        this.logEl = document.getElementById('debugLog');
+        this.countEl = document.getElementById('debugCount');
+        document.getElementById('debugClose').onclick = () => this.show(false);
+        document.getElementById('debugClear').onclick = () => { this.lines = []; this.render(); };
+        document.getElementById('debugCopy').onclick = () => {
+          navigator.clipboard.writeText(this.lines.join('\n')).then(() => this.log('[copied to clipboard]'));
+        };
+        document.addEventListener('keydown', e => {
+          if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) { e.preventDefault(); this.show(!this.on); }
+        });
+        if (/[?&]debug\b/.test(location.search)) this.show(true);
+        window.addEventListener('error', e => this.log('❌ window.error: ' + (e.message || e.error)));
+        window.addEventListener('unhandledrejection', e => this.log('❌ promise: ' + (e.reason?.message || e.reason)));
+      },
+      show(v) {
+        this.on = v;
+        if (this.panel) this.panel.style.display = v ? 'flex' : 'none';
+        if (v) this.render();
+      },
+      log(...args) {
+        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+        const line = new Date().toLocaleTimeString() + '  ' + msg;
+        this.lines.push(line);
+        if (this.lines.length > 2000) this.lines.shift();
+        console.log('[DBG]', msg);
+        if (this.on) this.render();
+      },
+      render() {
+        if (!this.logEl) return;
+        this.logEl.textContent = this.lines.join('\n');
+        this.countEl.textContent = `(${this.lines.length} lines)`;
+        this.logEl.scrollTop = this.logEl.scrollHeight;
+      },
+    };
+    window.DBG = DBG;
+    DBG.init();
+
+    // ─── State ───
+    let pages = [];           // { id, pdfBytes, pageIndex, rotation, canvas? }
+    let selectedIds = new Set();
+    let splitPoints = new Set(); // page indices after which to split
+    let history = [];
+    let nextId = 1;
+    let zoomLevel = 1.0;
+    let modalPageIdx = -1;
+    let sourceFileName = '';  // name of the first uploaded PDF, for default split names
+
+    // Zoom is continuous: the grid stretches to any value in [MIN_ZOOM, MAX_ZOOM].
+    // The +/- buttons still move in convenient increments.
+    const MIN_ZOOM = 0.25;
+    const MAX_ZOOM = 3.0;
+    const ZOOM_STEP = 0.25;
+    const BASE_CARD_PX = 300;   // card width at 100%
+    const clampZoom = (z) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
+    const GRID_COLS = () => {
+      const w = Math.round(BASE_CARD_PX * zoomLevel);
+      return `repeat(auto-fill, minmax(min(100%, ${w}px), 1fr))`;
+    };
+
+    // ─── Elements ───
+    const $ = (s) => document.querySelector(s);
+    const uploadArea = $('#uploadArea');
+    const uploadBox = $('#uploadBox');
+    const fileInput = $('#fileInput');
+    const fileInputAdd = $('#fileInputAdd');
+    const loadingEl = $('#loading');
+    const loadingText = $('#loadingText');
+    const skeletonGrid = $('#skeletonGrid');
+    const workspace = $('#workspace');
+    const pageGrid = $('#pageGrid');
+    const pageCount = $('#pageCount');
+    const btnSave = $('#btnSave');
+    const btnAddPdf = $('#btnAddPdf');
+    const btnSelectAll = $('#btnSelectAll');
+    const btnDeleteSelected = $('#btnDeleteSelected');
+    const btnRotateCW = $('#btnRotateCW');
+    const btnZoomIn = $('#btnZoomIn');
+    const btnZoomOut = $('#btnZoomOut');
+    const zoomSlider = $('#zoomSlider');
+    const zoomLabel = $('#zoomLabel');
+    const btnUndo = $('#btnUndo');
+    const btnReset = $('#btnReset');
+    const modal = $('#modal');
+    const modalCanvas = $('#modalCanvas');
+    const modalClose = $('#modalClose');
+    const modalPrev = $('#modalPrev');
+    const modalNext = $('#modalNext');
+    const modalLabel = $('#modalLabel');
+    const toast = $('#toast');
+
+    // ─── Skeletons ───
+    // Shown while a PDF is parsed (grid of placeholders) and per card while
+    // pdf.js paints the thumbnail, so nothing pops in from an empty box.
+    function skeletonCardHTML() {
+      return `
+        <div class="page-card skeleton-card">
+          <div class="page-canvas-wrap thumb-pending"><div class="skeleton skeleton-thumb"></div></div>
+          <div class="page-info">
+            <span class="skeleton skeleton-line" style="width:64px"></span>
+            <div class="page-actions">
+              <span class="skeleton skeleton-chip"></span>
+              <span class="skeleton skeleton-chip"></span>
+              <span class="skeleton skeleton-chip"></span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // Cap the placeholders at a screenful — a 300-page PDF doesn't need 300
+    // shimmering cards, and building them all is slower than the load itself.
+    const MAX_SKELETON_CARDS = 24;
+    function fillSkeletonGrid(n) {
+      if (!skeletonGrid) return;
+      const count = Math.max(1, Math.min(MAX_SKELETON_CARDS, n || 1));
+      skeletonGrid.innerHTML = Array.from({ length: count }, () => skeletonCardHTML()).join('');
+    }
+
+    function clearSkeletonGrid() {
+      if (skeletonGrid) skeletonGrid.innerHTML = '';
+    }
+
+    // ─── File input ───
+    uploadBox.addEventListener('click', () => fileInput.click());
+    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.classList.add('drag-over'); });
+    uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('drag-over'));
+    uploadBox.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadBox.classList.remove('drag-over');
+      const files = [...e.dataTransfer.files].filter(f => f.type === 'application/pdf');
+      if (files.length > 0) loadPdf(files);
+    });
+    fileInput.addEventListener('change', () => {
+      const files = [...fileInput.files].filter(f => f.type === 'application/pdf');
+      if (files.length > 0) loadPdf(files);
+      fileInput.value = '';
+    });
+
+    // Add PDF
+    btnAddPdf.addEventListener('click', () => fileInputAdd.click());
+    fileInputAdd.addEventListener('change', () => {
+      handleAddFiles([...fileInputAdd.files]);
+      fileInputAdd.value = '';
+    });
+
+    // ─── Load PDF ───
+    async function getCleanPdfBytes(pdfBytes, pdfJsDoc) {
+      try {
+        await PDFDocument.load(pdfBytes);
+        return pdfBytes;
+      } catch(e) {
+        // PDF is encrypted — re-save through pdf.js to get decrypted bytes
+        const saved = await pdfJsDoc.saveDocument();
+        return new Uint8Array(saved);
+      }
+    }
+
+    // ─── Blank / annotation-only page recovery ───
+    // Some PDFs (notably Pastel exports & scanned bank statements) keep their
+    // visible content inside form-field / widget annotation appearance streams
+    // rather than the page content stream. pdf.js skips those by default (blank
+    // preview) and pdf-lib's copyPages/embedPage drop the AcroForm (blank save).
+    // We detect such pages and flatten them to a full-page image rendered *with*
+    // annotations, so what the user sees is exactly what gets saved.
+    const DETECT_SCALE = 0.35;   // low-res render just for blank detection
+    const RASTER_SCALE = 2.0;    // ~144 DPI flatten — crisp enough for statements
+
+    async function renderPageToCanvas(pdfPage, scale, annotationMode) {
+      const viewport = pdfPage.getViewport({ scale, rotation: 0 });
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.ceil(viewport.width));
+      canvas.height = Math.max(1, Math.ceil(viewport.height));
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      await pdfPage.render({ canvasContext: ctx, viewport, annotationMode }).promise;
+      return canvas;
+    }
+
+    // Fraction of pixels that carry visible (non-white, non-transparent) marks.
+    function nonWhiteRatio(canvas) {
+      const { width, height } = canvas;
+      if (!width || !height) return 0;
+      const data = canvas.getContext('2d', { willReadFrequently: true })
+        .getImageData(0, 0, width, height).data;
+      let n = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        const a = data[i + 3];
+        if (a > 10 && (data[i] < 245 || data[i + 1] < 245 || data[i + 2] < 245)) n++;
+      }
+      return n / (width * height);
+    }
+
+    // Flatten a single pdf.js page (annotations included) into a fresh
+    // one-page PDF whose only content is the rasterised image, sized in points.
+    async function rasterizePageToPdfBytes(pdfPage) {
+      const canvas = await renderPageToCanvas(pdfPage, RASTER_SCALE, pdfjsLib.AnnotationMode.ENABLE);
+      const vp1 = pdfPage.getViewport({ scale: 1, rotation: 0 });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      const pngBytes = new Uint8Array(await blob.arrayBuffer());
+      const doc = await PDFDocument.create();
+      const img = await doc.embedPng(pngBytes);
+      const pg = doc.addPage([vp1.width, vp1.height]);
+      pg.drawImage(img, { x: 0, y: 0, width: vp1.width, height: vp1.height });
+      return new Uint8Array(await doc.save());
+    }
+
+    // Returns flattened PDF bytes if the page's visible content lives in
+    // annotations (so a plain copy would be blank), otherwise null. Pages with
+    // no annotations take a fast path and are never touched.
+    // Decide whether a page must be flattened. Rather than guess from structure,
+    // we empirically test the one operation that actually breaks: we run the page
+    // through pdf-lib copyPages exactly like the exporter does, re-render the
+    // result with pdf.js, and compare it to the source. If the copy loses the
+    // content (the Pastel/pdf-lib failure), we flatten the page to an image that
+    // pdf.js renders correctly — so save/split/letterhead all come out right.
+    async function maybeRasterizePage(pdf, pageIndex, srcLibDoc) {
+      try {
+        const pdfPage = await pdf.getPage(pageIndex + 1);
+        const srcRatio = nonWhiteRatio(
+          await renderPageToCanvas(pdfPage, DETECT_SCALE, pdfjsLib.AnnotationMode.ENABLE));
+
+        if (srcRatio < 0.002) {
+          DBG.log(`p${pageIndex + 1}: source is genuinely blank in pdf.js — nothing to recover.`);
+          return null;
+        }
+        if (!srcLibDoc) {
+          DBG.log(`p${pageIndex + 1}: pdf-lib could not parse source → flattening to be safe.`);
+          return await rasterizePageToPdfBytes(pdfPage);
+        }
+
+        // Round-trip the page through the exact copyPages path the exporter uses.
+        let copyRatio = -1, threw = '';
+        try {
+          const probe = await PDFDocument.create();
+          const [cp] = await probe.copyPages(srcLibDoc, [pageIndex]);
+          probe.addPage(cp);
+          const probeBytes = await probe.save();
+          const pdoc = await pdfjsLib.getDocument({ data: probeBytes.slice() }).promise;
+          copyRatio = nonWhiteRatio(
+            await renderPageToCanvas(await pdoc.getPage(1), DETECT_SCALE, pdfjsLib.AnnotationMode.ENABLE));
+        } catch (e) {
+          threw = e.message;
+        }
+
+        const copyBroken = threw || copyRatio < 0.002 || copyRatio < srcRatio * 0.4;
+        DBG.log(`p${pageIndex + 1}: srcRatio=${srcRatio.toFixed(4)} ` +
+                `copyRatio=${copyRatio < 0 ? 'threw(' + threw + ')' : copyRatio.toFixed(4)} ` +
+                `${copyBroken ? '→ FLATTEN' : 'ok (keep vector)'}`);
+
+        if (copyBroken) {
+          const bytes = await rasterizePageToPdfBytes(pdfPage);
+          DBG.log(`  → flattened p${pageIndex + 1} to image (${bytes.length} bytes).`);
+          return bytes;
+        }
+        return null;
+      } catch (e) {
+        DBG.log(`  ❌ detection failed on p${pageIndex + 1}: ${e.message}`);
+        console.warn('Blank-page detection failed:', e);
+        return null;
+      }
+    }
+
+    // Inspect a pdf-lib doc/page and describe what a plain copy would carry.
+    function probePage(srcPdf, page) {
+      try {
+        const leaf = srcPdf.getPage(page.pageIndex).node;
+        let contentLen = 0;
+        try {
+          const c = leaf.Contents();
+          if (c) contentLen = c.sizeInBytes ? c.sizeInBytes() : (c.size ? c.size() : 1);
+        } catch {}
+        const annots = leaf.Annots && leaf.Annots();
+        const annotCount = annots && annots.size ? annots.size() : 0;
+        const hasForm = srcPdf.catalog.has(PDFName.of('AcroForm'));
+        return `rasterized=${!!page.rasterized} contentBytes=${contentLen} annots=${annotCount} acroForm=${hasForm}`;
+      } catch (e) {
+        return `probe failed: ${e.message}`;
+      }
+    }
+
+    // Re-render a freshly-built PDF with pdf.js and report any blank pages, so we
+    // can tell whether the blank happens at build time vs. render time.
+    async function verifyOutput(pdfData, label) {
+      try {
+        const doc = await pdfjsLib.getDocument({ data: pdfData.slice() }).promise;
+        const blanks = [];
+        for (let i = 1; i <= doc.numPages; i++) {
+          const pg = await doc.getPage(i);
+          const r = nonWhiteRatio(await renderPageToCanvas(pg, 0.4, pdfjsLib.AnnotationMode.ENABLE));
+          if (r < 0.002) blanks.push(i);
+        }
+        DBG.log(`VERIFY (${label}): ${doc.numPages} page(s), ` +
+                (blanks.length ? `BLANK pages: ${blanks.join(', ')}` : 'all pages have content ✓'));
+      } catch (e) {
+        DBG.log(`VERIFY (${label}) failed: ${e.message}`);
+      }
+    }
+
+    // Escape hatch: rasterise every current page to an image so the saved PDF
+    // is guaranteed to match the preview, whatever the source quirk. Bound to the
+    // debug panel's "Force-flatten all" button.
+    async function forceFlattenAll() {
+      if (!pages.length) { DBG.log('Force-flatten: no pages loaded'); return; }
+      DBG.log(`Force-flatten: rasterising ${pages.length} page(s)…`);
+      saveHistory();
+      let done = 0;
+      for (const page of pages) {
+        try {
+          const pdf = await pdfjsLib.getDocument({ data: page.pdfBytes.slice() }).promise;
+          const pdfPage = await pdf.getPage(page.pageIndex + 1);
+          page.pdfBytes = await rasterizePageToPdfBytes(pdfPage);
+          page.pageIndex = 0;
+          page.rasterized = true;
+          // The raster already contains every layer — start a fresh stack.
+          page.ops = [];
+          page.contentBytes = page.pdfBytes;
+          page.contentIndex = 0;
+          done++;
+        } catch (e) {
+          DBG.log(`  ❌ flatten failed on a page: ${e.message}`);
+        }
+      }
+      renderGrid();
+      DBG.log(`Force-flatten: done (${done}/${pages.length}).`);
+      showToast(`Flattened ${done} page(s) to images`);
+    }
+    document.getElementById('debugFlatten').onclick = forceFlattenAll;
+
+    async function extractPdfPages(file, onPageCount) {
+      const bytes = await file.arrayBuffer();
+      const pdfBytes = new Uint8Array(bytes);
+      const pdf = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
+      // Report the real page count as soon as it is known, so the skeleton
+      // grid can show exactly as many placeholders as there will be pages.
+      if (onPageCount) onPageCount(pdf.numPages);
+      const cleanBytes = await getCleanPdfBytes(pdfBytes, pdf);
+
+      // Load the source once with pdf-lib so each page can be copy-tested without
+      // re-parsing the whole file.
+      let srcLibDoc = null;
+      try { srcLibDoc = await PDFDocument.load(cleanBytes, { ignoreEncryption: true }); }
+      catch (e) { DBG.log(`pdf-lib could not load source: ${e.message}`); }
+
+      const newPages = [];
+      for (let i = 0; i < pdf.numPages; i++) {
+        const raster = await maybeRasterizePage(pdf, i, srcLibDoc);
+        newPages.push({
+          id: nextId++,
+          pdfBytes: raster || cleanBytes,
+          pageIndex: raster ? 0 : i,
+          rotation: 0,
+          rasterized: !!raster,
+          // Layer stack: the content layer plus the ops replayed over it.
+          contentBytes: raster || cleanBytes,
+          contentIndex: raster ? 0 : i,
+          ops: [],
+        });
+      }
+      return newPages;
+    }
+
+    async function loadPdf(files) {
+      const fileList = Array.isArray(files) ? files : [files];
+      uploadArea.style.display = 'none';
+      // One placeholder to start with; it grows to the true page count the
+      // moment each file has been opened.
+      let skeletonPages = 0;
+      fillSkeletonGrid(1);
+      loadingEl.classList.add('active');
+
+      sourceFileName = fileList[0] && fileList[0].name ? fileList[0].name : '';
+
+      pages = [];
+      for (let f = 0; f < fileList.length; f++) {
+        loadingText.textContent = fileList.length > 1
+          ? `Loading PDF ${f + 1} of ${fileList.length}...`
+          : 'Loading PDF...';
+        const newPages = await extractPdfPages(fileList[f], n => {
+          skeletonPages += n;
+          fillSkeletonGrid(skeletonPages);
+        });
+        pages.push(...newPages);
+      }
+
+      history = [];
+      splitPoints.clear();
+      loadingEl.classList.remove('active');
+      clearSkeletonGrid();
+      workspace.classList.add('active');
+      btnSave.style.display = '';
+      btnAddPdf.style.display = '';
+      btnSave.disabled = false;
+      renderGrid();
+      const recovered = pages.filter(p => p.rasterized).length;
+      if (recovered > 0) showToast(`Recovered ${recovered} blank/scanned page${recovered !== 1 ? 's' : ''}`);
+      else if (fileList.length > 1) showToast(`Loaded ${fileList.length} PDFs`);
+    }
+
+    // Add files to the document; if segIdx is given, insert at the end of that
+    // split segment and shift later split points so the pages stay inside it.
+    async function addFilesAt(files, segIdx = null) {
+      saveHistory();
+
+      let insertPos, anchorSplit;
+      if (segIdx === null) {
+        insertPos = pages.length;
+        anchorSplit = Infinity;
+      } else {
+        const sortedSplits = [...splitPoints].sort((a, b) => a - b);
+        const seg = getSplitSegments()[segIdx];
+        insertPos = seg.endIdx + 1;
+        // A middle segment is closed by its own split point — shift that split
+        // (and everything after) so the new pages stay inside the segment. The
+        // final segment has no closing split, so we append after the last split
+        // and leave every existing split in place (used by "split at end").
+        anchorSplit = segIdx < sortedSplits.length ? sortedSplits[segIdx] : Infinity;
+      }
+
+      let total = 0;
+      for (const file of files) {
+        const newPages = await extractPdfPages(file);
+        pages.splice(insertPos + total, 0, ...newPages);
+        total += newPages.length;
+      }
+
+      if (total > 0 && anchorSplit !== Infinity) {
+        const shifted = new Set();
+        for (const sp of splitPoints) shifted.add(sp >= anchorSplit ? sp + total : sp);
+        splitPoints = shifted;
+      }
+
+      renderGrid();
+      const dest = segIdx !== null ? ` to segment ${segIdx + 1}` : '';
+      showToast(`Added ${total} page${total !== 1 ? 's' : ''}${dest}`);
+    }
+
+    // Entry point for adding PDFs to an open workspace. If the document has
+    // split points, ask which segment the new pages belong to first.
+    function handleAddFiles(files) {
+      const pdfs = files.filter(f => f.type === 'application/pdf');
+      if (pdfs.length === 0) return;
+      if (splitPoints.size > 0) {
+        pendingAddFiles = pdfs;
+        openAddDestModal();
+      } else {
+        addFilesAt(pdfs);
+      }
+    }
+
+    // ─── Render grid ───
+    async function renderGrid() {
+      pageGrid.innerHTML = '';
+      pageGrid.style.gridTemplateColumns = GRID_COLS();
+      updatePageCount();
+
+      for (let i = 0; i < pages.length; i++) {
+        const p = pages[i];
+        const card = document.createElement('div');
+        card.className = 'page-card' + (selectedIds.has(p.id) ? ' selected' : '');
+        card.dataset.id = p.id;
+        card.dataset.rotation = p.rotation;
+        card.draggable = true;
+
+        card.innerHTML = `
+          <div class="page-select" data-action="select">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="rotation-badge">${p.rotation}°</div>
+          <div class="page-canvas-wrap thumb-pending"><div class="skeleton skeleton-thumb"></div><canvas></canvas></div>
+          <div class="page-info">
+            <span class="page-number">Page ${i + 1}</span>
+            <div class="page-actions">
+              <button class="page-action" data-action="preview" title="Preview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+              <button class="page-action split-action${splitPoints.has(i) ? ' split-active' : ''}" data-action="split" title="${splitPoints.has(i) ? 'Remove split here' : (i === pages.length - 1 ? 'Split at end (add a new PDF as a separate file)' : 'Split after this page')}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.6" y2="15.4"/><line x1="14.5" y1="10.2" x2="20" y2="16.7" /><line x1="8.6" y1="8.6" x2="12" y2="12"/></svg>
+              </button>
+              <button class="page-action duplicate-action" data-action="duplicate" title="Duplicate this page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button class="page-action" data-action="rotateCW" title="Rotate 90°">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              </button>
+              <button class="page-action delete" data-action="delete" title="Delete">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        const canvas = card.querySelector('canvas');
+        renderPageThumbnail(p, canvas);
+
+        // Card events
+        card.addEventListener('click', (e) => {
+          const action = e.target.closest('[data-action]')?.dataset.action;
+          if (action === 'select') toggleSelect(p.id);
+          else if (action === 'preview') openModal(i);
+          else if (action === 'split') toggleSplitPoint(i);
+          else if (action === 'duplicate') duplicatePage(i);
+          else if (action === 'rotateCW') rotatePage(p.id, 90);
+          else if (action === 'delete') deletePage(p.id);
+        });
+
+        // Drag events
+        card.addEventListener('dragstart', (e) => onDragStart(e, i));
+        card.addEventListener('dragend', onDragEnd);
+        card.addEventListener('dragover', (e) => onDragOver(e, card));
+        card.addEventListener('dragleave', () => { card.classList.remove('drag-over-left', 'drag-over-right'); });
+        card.addEventListener('drop', (e) => onDrop(e, i));
+
+        pageGrid.appendChild(card);
+
+        if (splitPoints.has(i)) {
+          const isEnd = i === pages.length - 1;
+          const divider = document.createElement('div');
+          divider.className = 'split-divider';
+          divider.innerHTML = `
+            <div class="split-divider-line"></div>
+            <span class="split-divider-label">${isEnd ? 'Split at end — add a new PDF below' : 'Split here'}</span>
+            <button class="split-divider-remove" data-split-idx="${i}" title="Remove split">&times;</button>
+            <div class="split-divider-line"></div>
+          `;
+          divider.querySelector('.split-divider-remove').addEventListener('click', () => toggleSplitPoint(i));
+          pageGrid.appendChild(divider);
+        }
+      }
+
+      updateSplitToolbar();
+    }
+
+    async function renderPageThumbnail(page, canvas) {
+      const wrap = canvas.closest('.page-canvas-wrap');
+      try {
+        const pdf = await pdfjsLib.getDocument({ data: page.pdfBytes.slice() }).promise;
+        const pdfPage = await pdf.getPage(page.pageIndex + 1);
+        // Cap the raster scale so a fully stretched grid stays cheap to paint;
+        // CSS scales the canvas the rest of the way.
+        const scale = Math.min(zoomLevel * 1.5, 3);
+        const viewport = pdfPage.getViewport({ scale, rotation: page.rotation });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        await pdfPage.render({ canvasContext: ctx, viewport, annotationMode: pdfjsLib.AnnotationMode.ENABLE }).promise;
+      } catch (err) {
+        console.error('Render error:', err);
+      } finally {
+        // Swap the placeholder out either way — a card that failed to render
+        // should show its (empty) canvas rather than shimmer forever.
+        if (wrap) wrap.classList.remove('thumb-pending');
+      }
+    }
+
+    // ─── Selection ───
+    function toggleSelect(id) {
+      if (selectedIds.has(id)) selectedIds.delete(id);
+      else selectedIds.add(id);
+      updateSelectionUI();
+    }
+
+    const btnDuplicateSelected = $('#btnDuplicateSelected');
+
+    function updateSelectionUI() {
+      document.querySelectorAll('.page-card').forEach(card => {
+        const id = parseInt(card.dataset.id);
+        card.classList.toggle('selected', selectedIds.has(id));
+      });
+      const hasSelection = selectedIds.size > 0;
+      btnDeleteSelected.disabled = !hasSelection;
+      btnRotateCW.disabled = !hasSelection;
+      btnDuplicateSelected.disabled = !hasSelection;
+      btnSelectAll.textContent = selectedIds.size === pages.length ? 'Deselect All' : 'Select All';
+    }
+
+    btnDuplicateSelected.addEventListener('click', duplicateSelected);
+
+    btnSelectAll.addEventListener('click', () => {
+      if (selectedIds.size === pages.length) {
+        selectedIds.clear();
+      } else {
+        pages.forEach(p => selectedIds.add(p.id));
+      }
+      updateSelectionUI();
+    });
+
+    btnDeleteSelected.addEventListener('click', () => {
+      if (selectedIds.size === 0) return;
+      saveHistory();
+      const deletedIndices = new Set();
+      pages.forEach((p, i) => { if (selectedIds.has(p.id)) deletedIndices.add(i); });
+      pages = pages.filter(p => !selectedIds.has(p.id));
+      selectedIds.clear();
+      // Rebuild split points: map old indices to new
+      const newSplits = new Set();
+      for (const sp of splitPoints) {
+        if (deletedIndices.has(sp)) continue;
+        let newIdx = sp;
+        for (const di of deletedIndices) { if (di < sp) newIdx--; }
+        if (newIdx >= 0 && newIdx < pages.length) newSplits.add(newIdx);
+      }
+      splitPoints = newSplits;
+      renderGrid();
+      showToast('Deleted selected pages');
+    });
+
+    btnRotateCW.addEventListener('click', () => {
+      if (selectedIds.size === 0) return;
+      saveHistory();
+      pages.forEach(p => {
+        if (selectedIds.has(p.id)) {
+          p.rotation = (p.rotation + 90) % 360;
+        }
+      });
+      renderGrid();
+    });
+
+    // ─── Duplicate ───
+    // A copy normally lands right after its original. Once the document is
+    // split into several output files, though, "duplicate" is nearly always a
+    // page that has to appear in *another* file (a signature sheet that belongs
+    // in both the compliance pack and the financials), so the destination is
+    // asked for instead of assumed. One segment = nothing to ask.
+    function duplicateAt(indices, segIdx = null) {
+      if (indices.length === 0) return;
+      saveHistory();
+
+      if (segIdx === null) {
+        // Insert from the back so earlier insertions don't shift later indices.
+        for (let k = indices.length - 1; k >= 0; k--) {
+          const idx = indices[k];
+          pages.splice(idx + 1, 0, { ...clonePage(pages[idx]), id: nextId++ });
+          const shifted = new Set();
+          for (const sp of splitPoints) shifted.add(sp >= idx + 1 ? sp + 1 : sp);
+          splitPoints = shifted;
+        }
+      } else {
+        // Same placement rule as addFilesAt: append at the end of the chosen
+        // segment, and shift that segment's closing split (and every later one)
+        // so the copies stay inside it. The final segment has no closing split.
+        const sortedSplits = [...splitPoints].sort((a, b) => a - b);
+        const seg = getSplitSegments()[segIdx];
+        if (!seg) return;
+        const anchorSplit = segIdx < sortedSplits.length ? sortedSplits[segIdx] : Infinity;
+        const clones = indices.map(i => ({ ...clonePage(pages[i]), id: nextId++ }));
+        pages.splice(seg.endIdx + 1, 0, ...clones);
+        if (anchorSplit !== Infinity) {
+          const shifted = new Set();
+          for (const sp of splitPoints) shifted.add(sp >= anchorSplit ? sp + clones.length : sp);
+          splitPoints = shifted;
+        }
+      }
+
+      renderGrid();
+      const n = indices.length;
+      const dest = segIdx === null ? '' : ` into segment ${segIdx + 1}`;
+      showToast(`Duplicated ${n} page${n !== 1 ? 's' : ''}${dest}`);
+    }
+
+    function requestDuplicate(indices) {
+      if (indices.length === 0) return;
+      if (splitPoints.size === 0) { duplicateAt(indices); return; }
+      pendingDuplicate = indices;
+      openDupDestModal(indices.length);
+    }
+
+    function duplicatePage(idx) {
+      requestDuplicate([idx]);
+    }
+
+    function duplicateSelected() {
+      if (selectedIds.size === 0) return;
+      const indices = [];
+      pages.forEach((p, i) => { if (selectedIds.has(p.id)) indices.push(i); });
+      requestDuplicate(indices);
+    }
+
+    // ─── Single page actions ───
+    function rotatePage(id, deg) {
+      saveHistory();
+      const p = pages.find(p => p.id === id);
+      if (p) {
+        p.rotation = (p.rotation + deg) % 360;
+        renderGrid();
+      }
+    }
+
+    function deletePage(id) {
+      saveHistory();
+      const delIdx = pages.findIndex(p => p.id === id);
+      pages = pages.filter(p => p.id !== id);
+      selectedIds.delete(id);
+      rebuildSplitPoints(delIdx);
+      renderGrid();
+      showToast('Page deleted');
+    }
+
+    function rebuildSplitPoints(removedIdx) {
+      const updated = new Set();
+      for (const sp of splitPoints) {
+        if (sp < removedIdx) updated.add(sp);
+        else if (sp > removedIdx) updated.add(sp - 1);
+      }
+      // Remove any that are now past the last page (a split at the last page
+      // is valid — it marks a "split at end" trailing segment).
+      for (const sp of updated) {
+        if (sp >= pages.length) updated.delete(sp);
+      }
+      splitPoints = updated;
+    }
+
+    // ─── Drag & Drop ───
+    let dragIdx = -1;
+
+    function onDragStart(e, idx) {
+      dragIdx = idx;
+      e.dataTransfer.effectAllowed = 'move';
+      e.target.closest('.page-card').classList.add('dragging');
+    }
+
+    function onDragEnd(e) {
+      dragIdx = -1;
+      document.querySelectorAll('.page-card').forEach(c => {
+        c.classList.remove('dragging', 'drag-over-left', 'drag-over-right');
+      });
+    }
+
+    function onDragOver(e, card) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = card.getBoundingClientRect();
+      const mid = rect.left + rect.width / 2;
+      card.classList.toggle('drag-over-left', e.clientX < mid);
+      card.classList.toggle('drag-over-right', e.clientX >= mid);
+    }
+
+    function onDrop(e, targetIdx) {
+      e.preventDefault();
+      if (dragIdx === -1 || dragIdx === targetIdx) return;
+
+      const card = e.target.closest('.page-card');
+      const rect = card.getBoundingClientRect();
+      const insertAfter = e.clientX >= rect.left + rect.width / 2;
+
+      saveHistory();
+
+      const [moved] = pages.splice(dragIdx, 1);
+      let newIdx = targetIdx;
+      if (dragIdx < targetIdx) newIdx--;
+      if (insertAfter) newIdx++;
+      pages.splice(newIdx, 0, moved);
+
+      renderGrid();
+      showToast('Page moved');
+    }
+
+    // ─── Zoom ───
+    // The card width follows zoomLevel instantly (canvases are CSS-scaled to fit),
+    // so dragging feels live; re-rasterising at the new scale is debounced so we
+    // are not re-rendering every page on every pixel of the drag.
+    let reRasterTimer = null;
+
+    function applyZoom(z, { immediateRaster = false } = {}) {
+      const next = clampZoom(z);
+      if (Math.abs(next - zoomLevel) < 0.001) return;
+      zoomLevel = next;
+      const pct = Math.round(zoomLevel * 100);
+      zoomLabel.textContent = pct + '%';
+      if (zoomSlider && Number(zoomSlider.value) !== pct) zoomSlider.value = String(pct);
+      pageGrid.style.gridTemplateColumns = GRID_COLS();
+
+      clearTimeout(reRasterTimer);
+      reRasterTimer = setTimeout(reRasterThumbnails, immediateRaster ? 0 : 220);
+    }
+
+    // Repaint the existing canvases at the current zoom — no DOM rebuild, so
+    // selection, split dividers and scroll position all survive a zoom change.
+    function reRasterThumbnails() {
+      document.querySelectorAll('.page-card').forEach(card => {
+        const page = pages.find(p => String(p.id) === card.dataset.id);
+        const canvas = card.querySelector('canvas');
+        if (page && canvas) renderPageThumbnail(page, canvas);
+      });
+    }
+
+    btnZoomIn.addEventListener('click', () => applyZoom(zoomLevel + ZOOM_STEP));
+    btnZoomOut.addEventListener('click', () => applyZoom(zoomLevel - ZOOM_STEP));
+
+    // Drag the slider to stretch the pages.
+    zoomSlider.addEventListener('input', () => applyZoom(Number(zoomSlider.value) / 100));
+    zoomSlider.addEventListener('change', () => applyZoom(Number(zoomSlider.value) / 100, { immediateRaster: true }));
+
+    // Ctrl/⌘ + wheel over the grid zooms instead of scrolling.
+    pageGrid.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      applyZoom(zoomLevel * (e.deltaY > 0 ? 0.92 : 1.08));
+    }, { passive: false });
+
+    // Pinch to zoom on touch devices.
+    let pinchStartDist = 0;
+    let pinchStartZoom = 1;
+    const touchDist = (t) => Math.hypot(
+      t[0].clientX - t[1].clientX,
+      t[0].clientY - t[1].clientY
+    );
+    pageGrid.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 2) return;
+      pinchStartDist = touchDist(e.touches);
+      pinchStartZoom = zoomLevel;
+    }, { passive: true });
+    pageGrid.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 2 || !pinchStartDist) return;
+      e.preventDefault();
+      applyZoom(pinchStartZoom * (touchDist(e.touches) / pinchStartDist));
+    }, { passive: false });
+    pageGrid.addEventListener('touchend', () => {
+      if (!pinchStartDist) return;
+      pinchStartDist = 0;
+      applyZoom(zoomLevel, { immediateRaster: true });
+      reRasterThumbnails();
+    });
+
+    // Keyboard: Ctrl/⌘ +, -, 0
+    document.addEventListener('keydown', (e) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.key === '+' || e.key === '=') { e.preventDefault(); applyZoom(zoomLevel + ZOOM_STEP); }
+      else if (e.key === '-' || e.key === '_') { e.preventDefault(); applyZoom(zoomLevel - ZOOM_STEP); }
+      else if (e.key === '0') { e.preventDefault(); applyZoom(1.0, { immediateRaster: true }); }
+    });
+
+    // ─── Undo / Reset ───
+    function saveHistory() {
+      history.push(pages.map(clonePage));
+      if (history.length > 30) history.shift();
+      btnUndo.disabled = false;
+    }
+
+    // We need to store pdfBytes references separately for undo
+    let pdfBytesMap = new Map();
+    function saveHistoryFull() {
+      // store a snapshot with byte references
+      history.push(pages.map(clonePage));
+      if (history.length > 30) history.shift();
+      btnUndo.disabled = false;
+    }
+
+    // Override saveHistory to use full version
+    // Actually let's simplify — keep pdfBytes in pages and serialize carefully
+    {
+      const _origSave = saveHistory;
+      saveHistory = function() {
+        history.push(pages.map(clonePage));
+        if (history.length > 30) history.shift();
+        btnUndo.disabled = false;
+      };
+    }
+
+    btnUndo.addEventListener('click', () => {
+      if (history.length === 0) return;
+      pages = history.pop();
+      selectedIds.clear();
+      splitPoints = new Set([...splitPoints].filter(i => i < pages.length));
+      renderGrid();
+      btnUndo.disabled = history.length === 0;
+      showToast('Undone');
+    });
+
+    let originalPages = null;
+    btnReset.addEventListener('click', () => {
+      if (!originalPages) return;
+      saveHistory();
+      pages = originalPages.map(clonePage);
+      selectedIds.clear();
+      splitPoints.clear();
+      renderGrid();
+      showToast('Reset to original');
+    });
+
+    // Save original state after load
+    const origLoadPdf = loadPdf;
+    loadPdf = async function(file) {
+      await origLoadPdf(file);
+      originalPages = pages.map(clonePage);
+    };
+
+    // ─── Save PDF ───
+    btnSave.addEventListener('click', async () => {
+      // With split points set, saving means exporting each segment as its own
+      // file — open the split export dialog so each one can be named.
+      if (splitPoints.size > 0) {
+        openSplitExportModal();
+        return;
+      }
+
+      btnSave.disabled = true;
+      btnSave.textContent = 'Saving...';
+
+      try {
+        DBG.log(`SAVE: building output from ${pages.length} page(s)…`);
+        const outputPdf = await PDFDocument.create();
+
+        for (let pi = 0; pi < pages.length; pi++) {
+          const page = pages[pi];
+          const srcPdf = await PDFDocument.load(page.pdfBytes, { ignoreEncryption: true });
+          DBG.log(`SAVE p${pi + 1}: ` + probePage(srcPdf, page));
+          const [copied] = await outputPdf.copyPages(srcPdf, [page.pageIndex]);
+          if (page.rotation !== 0) {
+            copied.setRotation(degrees((copied.getRotation().angle + page.rotation) % 360));
+          }
+          outputPdf.addPage(copied);
+        }
+
+        const pdfData = await outputPdf.save();
+        await verifyOutput(pdfData, 'main save');
+        const blob = new Blob([pdfData], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = sourceFileName || 'ILoveINF181-organised.pdf';
+        // The anchor has to be in the document and the object URL has to stay
+        // alive past the click — revoking straight away cancels the download
+        // before it starts, which is why a single-PDF save sometimes produced
+        // no file at all while the split export (which already does this) did.
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+        showToast('PDF saved!');
+      } catch (err) {
+        DBG.log('❌ SAVE error: ' + (err.stack || err.message));
+        console.error('Save error:', err);
+        showToast('Error saving PDF');
+      }
+
+      btnSave.disabled = false;
+      btnSave.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Save PDF
+      `;
+    });
+
+    // ─── Lightbox Modal ───
+    function openModal(idx) {
+      modalPageIdx = idx;
+      renderModal();
+      modal.classList.add('active');
+    }
+
+    async function renderModal() {
+      const page = pages[modalPageIdx];
+      if (!page) return;
+      const pdf = await pdfjsLib.getDocument({ data: page.pdfBytes.slice() }).promise;
+      const pdfPage = await pdf.getPage(page.pageIndex + 1);
+      const scale = 3;
+      const viewport = pdfPage.getViewport({ scale, rotation: page.rotation });
+      modalCanvas.width = viewport.width;
+      modalCanvas.height = viewport.height;
+      const ctx = modalCanvas.getContext('2d');
+      await pdfPage.render({ canvasContext: ctx, viewport, annotationMode: pdfjsLib.AnnotationMode.ENABLE }).promise;
+      modalLabel.textContent = `Page ${modalPageIdx + 1} of ${pages.length}`;
+    }
+
+    modalClose.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+    modalPrev.addEventListener('click', () => {
+      if (modalPageIdx > 0) { modalPageIdx--; renderModal(); }
+    });
+    modalNext.addEventListener('click', () => {
+      if (modalPageIdx < pages.length - 1) { modalPageIdx++; renderModal(); }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('active')) return;
+      if (e.key === 'Escape') modal.classList.remove('active');
+      if (e.key === 'ArrowLeft') modalPrev.click();
+      if (e.key === 'ArrowRight') modalNext.click();
+    });
+
+    // ─── Helpers ───
+    function updatePageCount() {
+      pageCount.textContent = `${pages.length} page${pages.length !== 1 ? 's' : ''}`;
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // Global drag-drop on workspace for adding PDFs
+    document.body.addEventListener('dragover', e => {
+      if (workspace.classList.contains('active')) e.preventDefault();
+    });
+    document.body.addEventListener('drop', e => {
+      if (!workspace.classList.contains('active')) return;
+      e.preventDefault();
+      handleAddFiles([...e.dataTransfer.files]);
+    });
+
+    // ─── Page layer stack ───────────────────────────────────────────────
+    // A page is a *content layer* (the bytes that came out of the source PDF)
+    // plus an ordered list of ops that get replayed on top of it. Keeping the
+    // ops instead of only their baked result is what lets a white block slide
+    // *underneath* a letterhead, draft watermark or page number that was
+    // already applied: on replay the block is drawn on the content first and
+    // the letterhead goes back over it.
+    //
+    // `page.pdfBytes` / `page.pageIndex` stay the composed result, so every
+    // other part of the app (thumbnails, save, split export) is unchanged.
+    const OVERLAY_KINDS = new Set(['letterhead', 'draft', 'pnum']);
+
+    function ensureLayers(page) {
+      if (!page.ops) {
+        page.ops = [];
+        page.contentBytes = page.pdfBytes;
+        page.contentIndex = page.pageIndex;
+      }
+      return page;
+    }
+
+    function cloneOp(op) {
+      return op.kind === 'whiteout'
+        ? { ...op, rects: op.rects.map(r => ({ ...r })) }
+        : { ...op };
+    }
+
+    // Shallow copy is not enough once pages carry an ops array — undo, reset
+    // and duplicate would all share (and mutate) the same list.
+    function clonePage(p) {
+      return p.ops ? { ...p, ops: p.ops.map(cloneOp) } : { ...p };
+    }
+
+    // Whiteouts sink back past any overlay op that precedes them, so they end
+    // up under every letterhead / watermark / page number no matter what order
+    // the user applied things in. They stop at a `scale` op, because a block
+    // drawn after a scale was positioned against the already-scaled content.
+    function orderedOps(ops) {
+      const out = ops.slice();
+      for (let i = 0; i < out.length; i++) {
+        if (out[i].kind !== 'whiteout') continue;
+        for (let j = i; j > 0 && OVERLAY_KINDS.has(out[j - 1].kind); j--) {
+          [out[j - 1], out[j]] = [out[j], out[j - 1]];
+        }
+      }
+      return out;
+    }
+
+    // Draw the white blocks of one op onto a copy of the page.
+    async function applyWhiteoutOp(bytes, pageIndex, rects) {
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      const [copied] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+      outputDoc.addPage(copied);
+      const outPage = outputDoc.getPage(0);
+      const mb = outPage.getMediaBox();
+
+      for (const r of rects) {
+        if (!(r.w > 0) || !(r.h > 0)) continue;
+        outPage.drawRectangle({
+          x: mb.x + r.x * mb.width,
+          // Rects are stored with y measured down from the top of the page.
+          y: mb.y + (1 - r.y - r.h) * mb.height,
+          width: r.w * mb.width,
+          height: r.h * mb.height,
+          color: rgb(1, 1, 1),
+        });
+      }
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    async function applyDraftOp(bytes, pageIndex) {
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      const [copied] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+      const contentEmbed = await outputDoc.embedPage(copied);
+      const { width, height } = contentEmbed.size();
+
+      outputDoc.addPage(copied);
+      const outPage = outputDoc.getPage(0);
+
+      const font = await outputDoc.embedFont('Helvetica');
+      const text = 'DRAFT';
+      const fontSize = 120;
+      const textHeight = fontSize * 0.75;
+
+      outPage.drawText(text, {
+        x: width / 2 - (font.widthOfTextAtSize(text, fontSize) / 2) * Math.cos(45 * Math.PI / 180) - (textHeight / 2) * Math.sin(45 * Math.PI / 180),
+        y: height / 2 - (font.widthOfTextAtSize(text, fontSize) / 2) * Math.sin(45 * Math.PI / 180) + (textHeight / 2) * Math.cos(45 * Math.PI / 180),
+        size: fontSize,
+        font: font,
+        color: rgb(0.75, 0.75, 0.75),
+        rotate: degrees(45),
+        opacity: 0.3,
+      });
+
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    async function applyPnumOp(bytes, pageIndex, op, rotation) {
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      const [copied] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+      outputDoc.addPage(copied);
+      const outPage = outputDoc.getPage(0);
+
+      const font = await outputDoc.embedFont('Helvetica');
+      const textWidth = font.widthOfTextAtSize(op.text, op.size);
+      const rot = outPage.getRotation().angle + rotation;
+      const mb = outPage.getMediaBox();
+      const { x, y, angle } = pnumPlacement(rot, mb.width, mb.height, textWidth, op.position);
+
+      outPage.drawText(op.text, {
+        x: mb.x + x,
+        y: mb.y + y,
+        size: op.size,
+        font,
+        color: rgb(0, 0, 0),
+        rotate: degrees(angle),
+      });
+
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    async function applyOp(bytes, pageIndex, op, page) {
+      switch (op.kind) {
+        case 'whiteout':
+          return { bytes: await applyWhiteoutOp(bytes, pageIndex, op.rects), index: 0 };
+        case 'letterhead':
+          return {
+            bytes: await composeLetterheadBytes(bytes, pageIndex, await getLhDoc(op.key), op.opts),
+            index: 0,
+          };
+        case 'draft':
+          return { bytes: await applyDraftOp(bytes, pageIndex), index: 0 };
+        case 'pnum':
+          return { bytes: await applyPnumOp(bytes, pageIndex, op, page.rotation), index: 0 };
+        case 'scale':
+          return { bytes: await composeScaledBytes(bytes, pageIndex, op.factor), index: 0 };
+        default:
+          return { bytes, index: pageIndex };
+      }
+    }
+
+    // A letterhead applied in its normal (non-replace) mode sits *behind* the
+    // page content, so a white block painted on the content hides it. Rather
+    // than change how that letterhead is drawn, stamp it a second time on top —
+    // clipped to the blocks — which puts back exactly what the blocks erased
+    // and leaves the rest of the page untouched.
+    async function restampLetterheadInRects(bytes, pageIndex, lhDoc, rects) {
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      const [copied] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+      outputDoc.addPage(copied);
+      const outPage = outputDoc.getPage(0);
+      const mb = outPage.getMediaBox();
+
+      const [lhPage] = await outputDoc.copyPages(lhDoc, [0]);
+      const lhEmbed = await outputDoc.embedPage(lhPage);
+
+      outPage.pushOperators(pushGraphicsState());
+      for (const r of rects) {
+        const x0 = mb.x + r.x * mb.width;
+        const x1 = mb.x + (r.x + r.w) * mb.width;
+        const y0 = mb.y + (1 - r.y - r.h) * mb.height;
+        const y1 = mb.y + (1 - r.y) * mb.height;
+        outPage.pushOperators(moveTo(x0, y0), lineTo(x1, y0), lineTo(x1, y1), lineTo(x0, y1), closePath());
+      }
+      outPage.pushOperators(clip(), endPath());
+      outPage.drawPage(lhEmbed);
+      outPage.pushOperators(popGraphicsState());
+
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    // Rebuild page.pdfBytes from the content layer + ops. `extraOps` are
+    // replayed as if they had been pushed, without committing them — that is
+    // how the live previews stay honest about layer order.
+    async function composePage(page, extraOps = []) {
+      ensureLayers(page);
+      const ops = page.ops.concat(extraOps);
+      let bytes = page.contentBytes;
+      let index = page.contentIndex;
+      for (const op of orderedOps(ops)) {
+        ({ bytes, index } = await applyOp(bytes, index, op, page));
+      }
+
+      const rects = ops.filter(o => o.kind === 'whiteout').flatMap(o => o.rects);
+      if (rects.length) {
+        for (const op of ops) {
+          if (op.kind !== 'letterhead' || op.opts.replace) continue;
+          bytes = await restampLetterheadInRects(bytes, index, await getLhDoc(op.key), rects);
+          index = 0;
+        }
+      }
+      return { bytes, index };
+    }
+
+    async function recomposePage(page) {
+      const { bytes, index } = await composePage(page);
+      page.pdfBytes = bytes;
+      page.pageIndex = index;
+    }
+
+    async function pushOp(page, op) {
+      ensureLayers(page);
+      page.ops.push(op);
+      await recomposePage(page);
+    }
+
+    // ─── Letterhead Feature ───
+    const lhAssets = window.__LH_ASSETS__ || {};
+    const LH_DEFAULT_OFFSET = -10;
+    const LH_DEFAULT_HORIZ = -20;
+    let selectedLh = null;
+    let lhPreviewPage = 0;
+    let lhOverlayImg = null;
+
+    if (lhAssets.audit) document.getElementById('lhPreviewAudit').src = lhAssets.audit.previewPng;
+    if (lhAssets.ca) document.getElementById('lhPreviewCA').src = lhAssets.ca.previewPng;
+
+    const lhModal = document.getElementById('lhModal');
+    const btnLetterhead = document.getElementById('btnLetterhead');
+    const lhApplyBtn = document.getElementById('lhApply');
+    const lhApplyMode = document.getElementById('lhApplyMode');
+    const lhOffsetSlider = document.getElementById('lhOffsetSlider');
+    const lhOffsetVal = document.getElementById('lhOffsetVal');
+    const lhPdfCanvas = document.getElementById('lhPdfCanvas');
+    const lhOverlayCanvas = document.getElementById('lhOverlayCanvas');
+    const lhPlaceholder = document.getElementById('lhPlaceholder');
+    const lhBusy = document.getElementById('lhBusy');
+    const lhPageLabel = document.getElementById('lhPageLabel');
+    const lhPrevPage = document.getElementById('lhPrevPage');
+    const lhNextPage = document.getElementById('lhNextPage');
+    const lhPageStatus = document.getElementById('lhPageStatus');
+    const lhReplaceToggle = document.getElementById('lhReplaceToggle');
+    const lhReplaceControls = document.getElementById('lhReplaceControls');
+    const lhCoverHeight = document.getElementById('lhCoverHeight');
+    const lhCoverY = document.getElementById('lhCoverY');
+    const lhCoverHeightVal = document.getElementById('lhCoverHeightVal');
+    const lhCoverYVal = document.getElementById('lhCoverYVal');
+    const lhFooterCoverHeight = document.getElementById('lhFooterCoverHeight');
+    const lhFooterCoverY = document.getElementById('lhFooterCoverY');
+    const lhFooterCoverHeightVal = document.getElementById('lhFooterCoverHeightVal');
+    const lhFooterCoverYVal = document.getElementById('lhFooterCoverYVal');
+    const lhHorizSlider = document.getElementById('lhHorizSlider');
+    const lhHorizVal = document.getElementById('lhHorizVal');
+    const lhScaleSlider = document.getElementById('lhScaleSlider');
+    const lhScaleVal = document.getElementById('lhScaleVal');
+    const lhCanvasWrap = document.getElementById('lhCanvasWrap');
+    const lhFrame = document.getElementById('lhFrame');
+    const lhFrameHint = document.getElementById('lhFrameHint');
+    const lhCropVal = document.getElementById('lhCropVal');
+
+    lhReplaceToggle.addEventListener('change', () => {
+      lhReplaceControls.classList.toggle('disabled', !lhReplaceToggle.checked);
+      lhUpdatePreview();
+    });
+    lhCoverHeight.addEventListener('input', () => {
+      lhCoverHeightVal.textContent = lhCoverHeight.value + ' mm';
+      lhUpdatePreview();
+    });
+    lhCoverY.addEventListener('input', () => {
+      lhCoverYVal.textContent = lhCoverY.value + ' mm';
+      lhUpdatePreview();
+    });
+    lhFooterCoverHeight.addEventListener('input', () => {
+      lhFooterCoverHeightVal.textContent = lhFooterCoverHeight.value + ' mm';
+      lhUpdatePreview();
+    });
+    lhFooterCoverY.addEventListener('input', () => {
+      lhFooterCoverYVal.textContent = lhFooterCoverY.value + ' mm';
+      lhUpdatePreview();
+    });
+    lhHorizSlider.addEventListener('input', () => {
+      lhHorizVal.textContent = lhHorizSlider.value + ' mm';
+      lhUpdatePreview();
+    });
+
+    // The old preview approximated the result: it painted the letterhead's
+    // preview PNG as a top-of-page band over the raw page, so anything that
+    // depended on real page geometry (footer, page size, cover rectangles)
+    // looked different from the saved file. Preview and export now run through
+    // exactly the same composition, and the preview simply renders the real
+    // merged PDF — what you see here is what gets saved.
+    const lhDocCache = new Map();
+    async function getLhDoc(key) {
+      if (lhDocCache.has(key)) return lhDocCache.get(key);
+      const bytes = Uint8Array.from(atob(lhAssets[key].pdfBase64), c => c.charCodeAt(0));
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      lhDocCache.set(key, doc);
+      return doc;
+    }
+
+    function lhReadOptions() {
+      return {
+        offsetMm: parseFloat(lhOffsetSlider.value) || 0,
+        horizMm: parseFloat(lhHorizSlider.value) || 0,
+        replace: lhReplaceToggle.checked,
+        coverHMm: parseInt(lhCoverHeight.value) || 0,
+        coverYMm: parseInt(lhCoverY.value) || 0,
+        fCoverHMm: parseInt(lhFooterCoverHeight.value) || 0,
+        fCoverYMm: parseInt(lhFooterCoverY.value) || 0,
+        scale: lhScaleFactor(),
+        // Only present when something is cropped, so uncropped ops are
+        // byte-for-byte what they were before cropping existed.
+        ...(lhHasCrop() ? { crop: { ...lhCrop } } : {}),
+      };
+    }
+
+    // Crop, as fractions of the content page trimmed from each side.
+    let lhCrop = { l: 0, t: 0, r: 0, b: 0 };
+    function lhHasCrop() { return lhCrop.l > 0 || lhCrop.t > 0 || lhCrop.r > 0 || lhCrop.b > 0; }
+
+    // Content size, as a factor (1 = untouched).
+    function lhScaleFactor() {
+      return (parseInt(lhScaleSlider.value) || 100) / 100;
+    }
+
+    // Where the content of a w x h page lands on the output page (PDF points,
+    // y up): drawn at `f` about its own centre, then shifted by the offsets;
+    // `visible` is that box less the crop. The single source of this geometry
+    // for both the composed PDF and the gold frame drawn over the preview.
+    function lhContentBox(o, w, h) {
+      const mmToPts = 72 / 25.4;
+      const f = o.scale > 0 ? o.scale : 1;
+      const x = o.horizMm * mmToPts + (w - w * f) / 2;
+      const y = -o.offsetMm * mmToPts + (h - h * f) / 2;
+      const c = o.crop || { l: 0, t: 0, r: 0, b: 0 };
+      const bw = w * f, bh = h * f;
+      return {
+        f, x, y, w: bw, h: bh,
+        visible: { x: x + c.l * bw, y: y + c.b * bh, w: bw * (1 - c.l - c.r), h: bh * (1 - c.t - c.b) },
+      };
+    }
+
+    // Build the merged single-page PDF for one page. Used by both the live
+    // preview and "Apply Letterhead".
+    async function composeLetterheadBytes(bytes, pageIndex, lhDoc, o) {
+      const mmToPts = 72 / 25.4;
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      // Content size: the page content is drawn at `f` about its own centre,
+      // then shifted by the offsets. Ops saved before this existed have no
+      // `scale`, and f = 1 reproduces their old placement exactly.
+      // Crop clips the drawn content to its visible box (lhContentBox).
+      const drawContent = (outPage, embed) => {
+        const { width: w, height: h } = embed.size();
+        const box = lhContentBox(o, w, h);
+        const placement = { xScale: box.f, yScale: box.f, x: box.x, y: box.y };
+        if (!o.crop) { outPage.drawPage(embed, placement); return; }
+        const v = box.visible;
+        outPage.pushOperators(pushGraphicsState(),
+          moveTo(v.x, v.y), lineTo(v.x + v.w, v.y), lineTo(v.x + v.w, v.y + v.h), lineTo(v.x, v.y + v.h),
+          closePath(), clip(), endPath());
+        outPage.drawPage(embed, placement);
+        outPage.pushOperators(popGraphicsState());
+      };
+
+      if (o.replace) {
+        const [contentPage] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+        const contentEmbed = await outputDoc.embedPage(contentPage);
+        const { width: cw, height: ch } = contentEmbed.size();
+
+        const outPage = outputDoc.addPage([cw, ch]);
+        drawContent(outPage, contentEmbed);
+
+        const coverHPts = o.coverHMm * mmToPts;
+        const coverYPts = o.coverYMm * mmToPts;
+        if (coverHPts > 0) {
+          outPage.drawRectangle({
+            x: 0,
+            y: ch - coverYPts - coverHPts,
+            width: cw,
+            height: coverHPts,
+            color: rgb(1, 1, 1),
+          });
+        }
+
+        const fCoverHPts = o.fCoverHMm * mmToPts;
+        const fCoverYPts = o.fCoverYMm * mmToPts;
+        if (fCoverHPts > 0) {
+          outPage.drawRectangle({
+            x: 0,
+            y: fCoverYPts,
+            width: cw,
+            height: fCoverHPts,
+            color: rgb(1, 1, 1),
+          });
+        }
+
+        const [lhPage] = await outputDoc.copyPages(lhDoc, [0]);
+        const lhEmbed = await outputDoc.embedPage(lhPage);
+        outPage.drawPage(lhEmbed);
+      } else {
+        const [lhPage] = await outputDoc.copyPages(lhDoc, [0]);
+        const [contentPage] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+
+        const lhRef = outputDoc.addPage(lhPage);
+        const embedded = await outputDoc.embedPage(contentPage);
+
+        drawContent(lhRef, embedded);
+      }
+
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    let lhPreviewToken = 0;
+    let lhRenderTask = null;
+
+    async function renderLhPreview() {
+      if (pages.length === 0) return;
+      const page = pages[lhPreviewPage];
+      if (!page) return;
+
+      const token = ++lhPreviewToken;
+      const pendingOp = lhPendingOp();
+      const applies = !!pendingOp && lhShouldApply(lhPreviewPage);
+
+      lhPageStatus.textContent = !applies ? (selectedLh ? 'Not applied to this page' : 'No letterhead')
+        : (selectedLh ? 'Letterhead applied' : 'Content size applied');
+      lhPageStatus.className = 'lh-preview-status ' + (applies ? 'applied' : 'no-lh');
+      lhPageLabel.textContent = `Page ${lhPreviewPage + 1} / ${pages.length}`;
+      lhPrevPage.disabled = lhPreviewPage <= 0;
+      lhNextPage.disabled = lhPreviewPage >= pages.length - 1;
+
+      let bytes = page.pdfBytes;
+      let pageIndex = page.pageIndex;
+
+      if (applies) {
+        lhBusy.classList.add('active');
+        try {
+          // The very op "Apply" pushes, replayed uncommitted through the same
+          // composePage the saved file comes from, so preview == export.
+          const preview = await composePage(page, [pendingOp]);
+          bytes = preview.bytes;
+          pageIndex = preview.index;
+        } catch (err) {
+          DBG.log('❌ letterhead preview compose failed: ' + err.message);
+        }
+      }
+
+      if (token !== lhPreviewToken) return;
+
+      try {
+        if (lhRenderTask) { try { lhRenderTask.cancel(); } catch {} }
+
+        const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+        const pdfPage = await pdf.getPage(pageIndex + 1);
+        const viewport = pdfPage.getViewport({ scale: 1.0, rotation: page.rotation });
+        // Fill the (full-screen) preview area: fit the whole page to it, times
+        // the preview zoom, and render at device-pixel resolution so small
+        // print stays sharp. offsetWidth/Height include the scrollbars, so
+        // the fit does not jump when zooming in makes them appear.
+        const availW = Math.max(lhCanvasWrap.offsetWidth - 24, 200);
+        const availH = Math.max(lhCanvasWrap.offsetHeight - 24, 200);
+        const fit = Math.min(availW / viewport.width, availH / viewport.height) * lhZoom;
+        // Keep the backing canvas within ~24 MP: past that, zooming further
+        // only enlarges the pixels rather than exhausting memory.
+        const dpr = Math.min(window.devicePixelRatio || 1,
+          Math.sqrt(24e6 / (viewport.width * viewport.height)) / fit);
+        const scaledVp = pdfPage.getViewport({ scale: fit * dpr, rotation: page.rotation });
+
+        if (token !== lhPreviewToken) return;
+
+        lhPdfCanvas.width = scaledVp.width;
+        lhPdfCanvas.height = scaledVp.height;
+        lhPdfCanvas.style.width = Math.floor(viewport.width * fit) + 'px';
+        lhPdfCanvas.style.height = Math.floor(viewport.height * fit) + 'px';
+
+        // Frame geometry: only with a letterhead on an unrotated page (the
+        // frame maths is in unrotated page space).
+        let geom = null;
+        if (applies && selectedLh && !(page.rotation % 360)) {
+          const size = await lhContentSize(page);
+          if (token !== lhPreviewToken) return;
+          if (size && !size.rotated) geom = { page, fit, pageH: viewport.height, w: size.w, h: size.h };
+        }
+        lhGeom = geom;
+        lhPositionFrame();
+        // The overlay canvas is no longer drawn on — the letterhead is part of
+        // the rendered PDF now — but it is kept in sync so the layout holds.
+        lhOverlayCanvas.width = scaledVp.width;
+        lhOverlayCanvas.height = scaledVp.height;
+        lhOverlayCanvas.getContext('2d').clearRect(0, 0, lhOverlayCanvas.width, lhOverlayCanvas.height);
+
+        const ctx = lhPdfCanvas.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, lhPdfCanvas.width, lhPdfCanvas.height);
+
+        const task = pdfPage.render({
+          canvasContext: ctx,
+          viewport: scaledVp,
+          annotationMode: pdfjsLib.AnnotationMode.ENABLE,
+        });
+        lhRenderTask = task;
+        await task.promise;
+      } catch (err) {
+        if (err && err.name !== 'RenderingCancelledException') {
+          DBG.log('❌ letterhead preview render failed: ' + err.message);
+        }
+      } finally {
+        if (token === lhPreviewToken) lhBusy.classList.remove('active');
+      }
+    }
+
+    // What "Apply" will push onto each target page: the letterhead (carrying
+    // the content size), or, with no letterhead chosen, a plain content
+    // scale. null when there is nothing to apply.
+    function lhPendingOp() {
+      if (selectedLh) return { kind: 'letterhead', key: selectedLh, opts: lhReadOptions() };
+      const f = lhScaleFactor();
+      return Math.abs(f - 1) < 0.001 ? null : { kind: 'scale', factor: f };
+    }
+
+    function lhRefreshApplyBtn() {
+      lhApplyBtn.disabled = !lhPendingOp();
+      lhApplyBtn.textContent = selectedLh || lhApplyBtn.disabled ? 'Apply Letterhead' : 'Apply Content Size';
+    }
+
+    function lhShouldApply(idx) {
+      const mode = lhApplyMode.value;
+      if (mode === 'all') return true;
+      if (mode === 'first') return idx === 0;
+      if (mode === 'allExceptFirst') return idx !== 0;
+      if (mode === 'selected') return selectedIds.has(pages[idx]?.id);
+      return false;
+    }
+
+    let lhPreviewTimer = null;
+    function lhUpdatePreview() {
+      if (pages.length === 0) {
+        lhPlaceholder.classList.remove('hidden');
+        return;
+      }
+      lhPlaceholder.classList.add('hidden');
+      // The frame follows at once; the page itself catches up below.
+      lhPositionFrame();
+      // Each preview builds a real PDF, so coalesce bursts of slider input.
+      clearTimeout(lhPreviewTimer);
+      lhPreviewTimer = setTimeout(() => renderLhPreview(), 120);
+    }
+
+    lhOffsetSlider.addEventListener('input', () => {
+      lhOffsetVal.textContent = lhOffsetSlider.value + ' mm';
+      lhUpdatePreview();
+    });
+
+    function lhSetScale(pct) {
+      lhScaleSlider.value = pct;
+      lhScaleVal.textContent = lhScaleSlider.value + '%';
+      lhRefreshApplyBtn();
+      lhUpdatePreview();
+    }
+    lhScaleSlider.addEventListener('input', () => lhSetScale(lhScaleSlider.value));
+    document.querySelectorAll('[data-lh-scale]').forEach(b => {
+      b.addEventListener('click', () => lhSetScale(b.dataset.lhScale));
+    });
+
+    // ── Gold frame (move / resize / crop the content like a photo) ──────
+    // The frame is the content's visible box, drawn from lhContentBox: the
+    // same function that places the content in the composed PDF. Dragging it
+    // only writes the size / offset sliders and lhCrop, so whatever the frame
+    // does reaches the saved file by the same path the sliders always have.
+    let lhGeom = null;   // { page, fit, pageH, w, h } from the last render
+    let lhDrag = null;
+    const lhSizeCache = new WeakMap();   // page.pdfBytes → content page size
+
+    // Size of the page the letterhead op will receive (the page as it stands,
+    // ops so far included) exactly as composeLetterheadBytes embeds it.
+    async function lhContentSize(page) {
+      const key = page.pdfBytes;
+      if (lhSizeCache.has(key)) return lhSizeCache.get(key);
+      try {
+        const doc = await PDFDocument.load(key, { ignoreEncryption: true });
+        const src = doc.getPage(page.pageIndex);
+        const { width, height } = (await doc.embedPage(src)).size();
+        const size = { w: width, h: height, rotated: (src.getRotation().angle % 360) !== 0 };
+        lhSizeCache.set(key, size);
+        return size;
+      } catch (err) {
+        DBG.log('❌ letterhead frame size failed: ' + err.message);
+        return null;
+      }
+    }
+
+    function lhPositionFrame() {
+      const g = lhGeom;
+      const show = !!g && !!selectedLh && pages[lhPreviewPage] === g.page && lhShouldApply(lhPreviewPage);
+      lhFrame.hidden = !show;
+      lhFrameHint.hidden = !show;
+      if (!show) return;
+      const v = lhContentBox(lhReadOptions(), g.w, g.h).visible;
+      lhFrame.style.left = (lhPdfCanvas.offsetLeft + v.x * g.fit) + 'px';
+      lhFrame.style.top = (lhPdfCanvas.offsetTop + (g.pageH - v.y - v.h) * g.fit) + 'px';
+      lhFrame.style.width = Math.max(v.w * g.fit, 8) + 'px';
+      lhFrame.style.height = Math.max(v.h * g.fit, 8) + 'px';
+    }
+
+    function lhShowCrop() {
+      const pct = x => Math.round(x * 100) + '%';
+      lhCropVal.textContent = lhHasCrop()
+        ? `Cropped: left ${pct(lhCrop.l)}, top ${pct(lhCrop.t)}, right ${pct(lhCrop.r)}, bottom ${pct(lhCrop.b)}`
+        : 'No crop';
+    }
+
+    function lhSetMm(slider, label, mm) {
+      slider.value = Math.round(mm * 2) / 2;
+      label.textContent = slider.value + ' mm';
+    }
+
+    const lhClamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+    function lhDragTo(dx, dy) {
+      const g = lhGeom, d = lhDrag;
+      if (!g || !d) return;
+      const mmPerPx = 25.4 / 72 / g.fit;
+      const MIN_VISIBLE = 0.05;   // a crop never hides more than 95% of a side
+
+      if (d.handle === 'move') {
+        lhSetMm(lhHorizSlider, lhHorizVal, d.o.horizMm + dx * mmPerPx);
+        lhSetMm(lhOffsetSlider, lhOffsetVal, d.o.offsetMm + dy * mmPerPx);
+      } else if (d.handle.length === 1) {
+        // Edge: crop that side. Fractions are of the content box, so a crop
+        // moves and scales with the content afterwards.
+        const c = { ...d.crop };
+        const bw = d.box.w * g.fit, bh = d.box.h * g.fit;
+        if (d.handle === 'w') c.l = lhClamp(d.crop.l + dx / bw, 0, 1 - c.r - MIN_VISIBLE);
+        if (d.handle === 'e') c.r = lhClamp(d.crop.r - dx / bw, 0, 1 - c.l - MIN_VISIBLE);
+        if (d.handle === 'n') c.t = lhClamp(d.crop.t + dy / bh, 0, 1 - c.b - MIN_VISIBLE);
+        if (d.handle === 's') c.b = lhClamp(d.crop.b - dy / bh, 0, 1 - c.t - MIN_VISIBLE);
+        lhCrop = c;
+        lhShowCrop();
+      } else {
+        // Corner: proportional resize with the opposite corner held still.
+        const sx = d.handle.includes('e') ? 1 : -1;
+        const sy = d.handle.includes('s') ? 1 : -1;
+        const v = d.box.visible;
+        const grow = ((v.w * g.fit + sx * dx) / (v.w * g.fit) + (v.h * g.fit + sy * dy) / (v.h * g.fit)) / 2;
+        const pct = lhClamp(Math.round(d.o.scale * grow * 100), +lhScaleSlider.min, +lhScaleSlider.max);
+        const f = pct / 100;
+        const k = f / d.o.scale;
+        // Anchor in PDF points (y up): dragging a south corner holds the top.
+        const ax = sx > 0 ? v.x : v.x + v.w;
+        const ay = sy > 0 ? v.y + v.h : v.y;
+        const bx = ax + (d.box.x - ax) * k;
+        const by = ay + (d.box.y - ay) * k;
+        const ptsToMm = 25.4 / 72;
+        lhScaleSlider.value = pct;
+        lhScaleVal.textContent = pct + '%';
+        lhSetMm(lhHorizSlider, lhHorizVal, (bx - (g.w - g.w * f) / 2) * ptsToMm);
+        lhSetMm(lhOffsetSlider, lhOffsetVal, ((g.h - g.h * f) / 2 - by) * ptsToMm);
+      }
+      lhRefreshApplyBtn();
+      lhUpdatePreview();
+    }
+
+    lhFrame.addEventListener('pointerdown', (e) => {
+      if (!lhGeom || e.button !== 0) return;
+      e.preventDefault();
+      const o = lhReadOptions();
+      lhDrag = {
+        handle: e.target.dataset.h || 'move',
+        x0: e.clientX, y0: e.clientY,
+        o, crop: { ...lhCrop },
+        box: lhContentBox(o, lhGeom.w, lhGeom.h),
+      };
+      lhFrame.setPointerCapture(e.pointerId);
+      lhFrame.classList.add('dragging');
+    });
+    lhFrame.addEventListener('pointermove', (e) => {
+      if (lhDrag) lhDragTo(e.clientX - lhDrag.x0, e.clientY - lhDrag.y0);
+    });
+    const lhEndDrag = () => { lhDrag = null; lhFrame.classList.remove('dragging'); };
+    lhFrame.addEventListener('pointerup', lhEndDrag);
+    lhFrame.addEventListener('pointercancel', lhEndDrag);
+
+    document.getElementById('lhFrameReset').addEventListener('click', () => {
+      lhSetMm(lhOffsetSlider, lhOffsetVal, LH_DEFAULT_OFFSET);
+      lhSetMm(lhHorizSlider, lhHorizVal, LH_DEFAULT_HORIZ);
+      lhCrop = { l: 0, t: 0, r: 0, b: 0 };
+      lhShowCrop();
+      lhSetScale(100);
+    });
+
+    // ── Preview zoom ────────────────────────────────────────────────────
+    // Purely a viewing size: nothing here reaches the composed PDF. The new
+    // size is applied to the canvas (and frame) at once and the page is then
+    // re-rendered sharp at that size; the point under the cursor (or the
+    // centre of the view) stays where it was.
+    let lhZoom = 1;
+    const lhZoomSlider = document.getElementById('lhZoomSlider');
+    const lhZoomVal = document.getElementById('lhZoomVal');
+
+    function lhSetZoom(pct, clientX, clientY) {
+      pct = lhClamp(Math.round(pct / 10) * 10, +lhZoomSlider.min, +lhZoomSlider.max);
+      const next = pct / 100;
+      lhZoomSlider.value = pct;
+      lhZoomVal.textContent = pct + '%';
+      if (next === lhZoom) return;
+      const ratio = next / lhZoom;
+      lhZoom = next;
+
+      const wrap = lhCanvasWrap.getBoundingClientRect();
+      const px = (clientX ?? wrap.left + wrap.width / 2) - wrap.left;
+      const py = (clientY ?? wrap.top + wrap.height / 2) - wrap.top;
+      // Point under the cursor, as a fraction of the canvas.
+      const cw = lhPdfCanvas.offsetWidth || 1, ch = lhPdfCanvas.offsetHeight || 1;
+      const fx = (lhCanvasWrap.scrollLeft + px - lhPdfCanvas.offsetLeft) / cw;
+      const fy = (lhCanvasWrap.scrollTop + py - lhPdfCanvas.offsetTop) / ch;
+
+      lhPdfCanvas.style.width = Math.floor(cw * ratio) + 'px';
+      lhPdfCanvas.style.height = Math.floor(ch * ratio) + 'px';
+      if (lhGeom) lhGeom = { ...lhGeom, fit: lhGeom.fit * ratio };
+      lhCanvasWrap.scrollLeft = lhPdfCanvas.offsetLeft + fx * lhPdfCanvas.offsetWidth - px;
+      lhCanvasWrap.scrollTop = lhPdfCanvas.offsetTop + fy * lhPdfCanvas.offsetHeight - py;
+      lhUpdatePreview();
+    }
+
+    lhZoomSlider.addEventListener('input', () => lhSetZoom(+lhZoomSlider.value));
+    document.getElementById('lhZoomIn').addEventListener('click', () => lhSetZoom(lhZoom * 100 + 25));
+    document.getElementById('lhZoomOut').addEventListener('click', () => lhSetZoom(lhZoom * 100 - 25));
+    document.getElementById('lhZoomFit').addEventListener('click', () => lhSetZoom(100));
+    lhCanvasWrap.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey) return;   // plain wheel scrolls the zoomed page
+      e.preventDefault();
+      lhSetZoom(lhZoom * 100 * (e.deltaY < 0 ? 1.15 : 1 / 1.15), e.clientX, e.clientY);
+    }, { passive: false });
+
+    // The dialog is full-screen, so the preview re-fits when the window resizes.
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => { if (lhModal.classList.contains('active')) lhUpdatePreview(); })
+        .observe(lhCanvasWrap);
+    }
+
+    lhApplyMode.addEventListener('change', () => lhUpdatePreview());
+
+    lhPrevPage.addEventListener('click', () => {
+      if (lhPreviewPage > 0) { lhPreviewPage--; lhUpdatePreview(); }
+    });
+
+    lhNextPage.addEventListener('click', () => {
+      if (lhPreviewPage < pages.length - 1) { lhPreviewPage++; lhUpdatePreview(); }
+    });
+
+    const origUpdateSelectionUI = updateSelectionUI;
+    updateSelectionUI = function() {
+      origUpdateSelectionUI();
+      btnLetterhead.disabled = selectedIds.size === 0 && pages.length === 0;
+    };
+
+    const origLoadPdf2 = loadPdf;
+    loadPdf = async function(file) {
+      await origLoadPdf2(file);
+      btnLetterhead.disabled = false;
+    };
+
+    btnLetterhead.addEventListener('click', () => {
+      selectedLh = null;
+      lhOverlayImg = null;
+      // "Selected pages only" with nothing selected applies to nothing.
+      if (selectedIds.size === 0 && lhApplyMode.value === 'selected') lhApplyMode.value = 'all';
+
+      // Start preview at first selected page, or page 1
+      lhPreviewPage = 0;
+      if (selectedIds.size > 0) {
+        for (let i = 0; i < pages.length; i++) {
+          if (selectedIds.has(pages[i].id)) { lhPreviewPage = i; break; }
+        }
+      }
+
+      document.querySelectorAll('.lh-choice').forEach(c => c.classList.remove('active'));
+      lhScaleSlider.value = 100;
+      lhScaleVal.textContent = '100%';
+      lhCrop = { l: 0, t: 0, r: 0, b: 0 };
+      lhShowCrop();
+      lhGeom = null;
+      lhRefreshApplyBtn();
+      lhOffsetSlider.value = LH_DEFAULT_OFFSET;
+      lhOffsetVal.textContent = LH_DEFAULT_OFFSET + ' mm';
+      lhHorizSlider.value = LH_DEFAULT_HORIZ;
+      lhHorizVal.textContent = LH_DEFAULT_HORIZ + ' mm';
+      lhReplaceToggle.checked = false;
+      lhReplaceControls.classList.add('disabled');
+      lhCoverHeight.value = 30;
+      lhCoverHeightVal.textContent = '30 mm';
+      lhCoverY.value = 0;
+      lhCoverYVal.textContent = '0 mm';
+      lhFooterCoverHeight.value = 0;
+      lhFooterCoverHeightVal.textContent = '0 mm';
+      lhFooterCoverY.value = 0;
+      lhFooterCoverYVal.textContent = '0 mm';
+      lhPageStatus.textContent = '';
+      lhPageStatus.className = 'lh-preview-status';
+
+      lhModal.classList.add('active');
+      lhUpdatePreview();
+    });
+
+    document.getElementById('lhModalClose').addEventListener('click', () => lhModal.classList.remove('active'));
+    document.getElementById('lhCancel').addEventListener('click', () => lhModal.classList.remove('active'));
+    lhModal.addEventListener('click', (e) => { if (e.target === lhModal) lhModal.classList.remove('active'); });
+
+    // Quick ✕ / ✓ beside the title: the same Cancel / Apply as the buttons at
+    // the bottom of the controls. ✓ follows Apply's disabled state.
+    const lhQuickApply = document.getElementById('lhQuickApply');
+    document.getElementById('lhQuickCancel').addEventListener('click', () => document.getElementById('lhCancel').click());
+    lhQuickApply.addEventListener('click', () => { if (!lhApplyBtn.disabled) lhApplyBtn.click(); });
+    const lhSyncQuickApply = () => { lhQuickApply.disabled = lhApplyBtn.disabled; };
+    new MutationObserver(lhSyncQuickApply).observe(lhApplyBtn, { attributes: true, attributeFilter: ['disabled'] });
+    lhSyncQuickApply();
+
+    document.querySelectorAll('.lh-choice').forEach(choice => {
+      choice.addEventListener('click', () => {
+        document.querySelectorAll('.lh-choice').forEach(c => c.classList.remove('active'));
+        choice.classList.add('active');
+        selectedLh = choice.dataset.lh;
+        lhRefreshApplyBtn();
+        lhUpdatePreview();
+
+        const img = new Image();
+        img.onload = () => { lhOverlayImg = img; lhUpdatePreview(); };
+        img.src = lhAssets[selectedLh].previewPng;
+      });
+    });
+
+    // ─── Draft Watermark Feature ───
+    const btnDraftWatermark = document.getElementById('btnDraftWatermark');
+
+    {
+      const origLoadPdf3 = loadPdf;
+      loadPdf = async function(file) {
+        await origLoadPdf3(file);
+        btnDraftWatermark.disabled = false;
+      };
+    }
+
+    btnDraftWatermark.addEventListener('click', async () => {
+      if (pages.length === 0) return;
+      btnDraftWatermark.disabled = true;
+      btnDraftWatermark.textContent = 'Applying...';
+      saveHistory();
+
+      try {
+        for (const page of pages) {
+          await pushOp(page, { kind: 'draft' });
+        }
+
+        renderGrid();
+        showToast(`Draft watermark applied to ${pages.length} page(s)`);
+      } catch (err) {
+        console.error('Draft watermark error:', err);
+        showToast('Error applying draft watermark');
+      }
+
+      btnDraftWatermark.disabled = false;
+      btnDraftWatermark.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Draft Watermark
+      `;
+    });
+
+    // ─── Scale Page Content ───
+    // The standalone Scale Content tool now lives inside the Letterhead dialog
+    // (as "Content size", folded into the letterhead op). This compose function
+    // stays for 'scale' ops already on a page's stack — and for a size change
+    // applied without choosing a letterhead.
+    // Redraw one page with its content scaled about the page centre.
+    async function composeScaledBytes(bytes, pageIndex, factor) {
+      const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const outputDoc = await PDFDocument.create();
+      const [copied] = await outputDoc.copyPages(srcDoc, [pageIndex]);
+      const embed = await outputDoc.embedPage(copied);
+      const { width, height } = embed.size();
+
+      const outPage = outputDoc.addPage([width, height]);
+      outPage.drawPage(embed, {
+        xScale: factor,
+        yScale: factor,
+        x: (width - width * factor) / 2,
+        y: (height - height * factor) / 2,
+      });
+
+      return new Uint8Array(await outputDoc.save());
+    }
+
+    // ─── White Block (whiteout) Feature ─────────────────────────────────
+    // Rectangles are stored normalised to the page's *unrotated* box, with y
+    // measured down from the top, so baking them is a straight mediabox
+    // multiplication regardless of how the page is turned in the grid.
+    const btnWhiteout = document.getElementById('btnWhiteout');
+    const woModal = document.getElementById('whiteoutModal');
+    const woStage = document.getElementById('woStage');
+    const woCanvas = document.getElementById('woCanvas');
+    const woOverlay = document.getElementById('woOverlay');
+    const woBusy = document.getElementById('woBusy');
+    const woPageLabel = document.getElementById('woPageLabel');
+    const woPrevPage = document.getElementById('woPrevPage');
+    const woNextPage = document.getElementById('woNextPage');
+    const woSelCount = document.getElementById('woSelCount');
+    const woScopeSelected = document.getElementById('woScopeSelected');
+    const woCount = document.getElementById('woCount');
+    const woApply = document.getElementById('woApply');
+
+    let woPageIdx = 0;
+    let woPending = new Map();   // page id → [rect, …] not yet applied
+    let woToken = 0;
+    let woRenderTask = null;
+
+    {
+      const origLoadPdfWo = loadPdf;
+      loadPdf = async function(file) {
+        await origLoadPdfWo(file);
+        btnWhiteout.disabled = false;
+      };
+    }
+
+    // Displayed (u, v) — fractions from the left/top of the rotated view —
+    // back to fractions of the unrotated page.
+    function woDisplayToPage(u, v, rotation) {
+      const rot = ((rotation % 360) + 360) % 360;
+      if (rot === 90)  return { x: v, y: 1 - u };
+      if (rot === 180) return { x: 1 - u, y: 1 - v };
+      if (rot === 270) return { x: 1 - v, y: u };
+      return { x: u, y: v };
+    }
+
+    // …and back the other way, to place the handles over the preview.
+    function woPageToDisplay(x, y, rotation) {
+      const rot = ((rotation % 360) + 360) % 360;
+      if (rot === 90)  return { u: 1 - y, v: x };
+      if (rot === 180) return { u: 1 - x, v: 1 - y };
+      if (rot === 270) return { u: y, v: 1 - x };
+      return { u: x, v: y };
+    }
+
+    function woRectDisplayBox(r, rotation) {
+      const a = woPageToDisplay(r.x, r.y, rotation);
+      const b = woPageToDisplay(r.x + r.w, r.y + r.h, rotation);
+      return {
+        u: Math.min(a.u, b.u),
+        v: Math.min(a.v, b.v),
+        w: Math.abs(b.u - a.u),
+        h: Math.abs(b.v - a.v),
+      };
+    }
+
+    function woCurrentPage() { return pages[woPageIdx]; }
+
+    function woRectsFor(page) {
+      if (!page) return [];
+      if (!woPending.has(page.id)) woPending.set(page.id, []);
+      return woPending.get(page.id);
+    }
+
+    function woScope() {
+      const checked = document.querySelector('input[name="woScope"]:checked');
+      return checked ? checked.value : 'page';
+    }
+
+    function woRenderHandles() {
+      const page = woCurrentPage();
+      woOverlay.innerHTML = '';
+      if (!page) return;
+      const rects = woRectsFor(page);
+
+      rects.forEach((r, i) => {
+        const box = woRectDisplayBox(r, page.rotation);
+        const el = document.createElement('div');
+        el.className = 'wo-rect';
+        el.style.left = (box.u * 100) + '%';
+        el.style.top = (box.v * 100) + '%';
+        el.style.width = (box.w * 100) + '%';
+        el.style.height = (box.h * 100) + '%';
+
+        const del = document.createElement('button');
+        del.className = 'wo-rect-del';
+        del.type = 'button';
+        del.textContent = '×';
+        del.title = 'Remove this block';
+        del.addEventListener('pointerdown', e => e.stopPropagation());
+        del.addEventListener('click', (e) => {
+          e.stopPropagation();
+          rects.splice(i, 1);
+          woRefresh({ immediate: true });
+        });
+        el.appendChild(del);
+        woOverlay.appendChild(el);
+      });
+
+      const n = rects.length;
+      woCount.textContent = n === 0
+        ? 'No blocks on this page'
+        : `${n} block${n !== 1 ? 's' : ''} on this page`;
+      woApply.disabled = ![...woPending.values()].some(list => list.length > 0);
+    }
+
+    // Re-render the page through the real layer stack so the preview shows the
+    // blocks sitting *under* whatever overlays the page already carries.
+    async function woRenderPreview() {
+      const page = woCurrentPage();
+      if (!page) return;
+
+      woPageLabel.textContent = `Page ${woPageIdx + 1} / ${pages.length}`;
+      woPrevPage.disabled = woPageIdx <= 0;
+      woNextPage.disabled = woPageIdx >= pages.length - 1;
+
+      const token = ++woToken;
+      woBusy.classList.add('active');
+      try {
+        const rects = woRectsFor(page);
+        const extra = rects.length ? [{ kind: 'whiteout', rects }] : [];
+        const { bytes, index } = await composePage(page, extra);
+        if (token !== woToken) return;
+
+        if (woRenderTask) { try { woRenderTask.cancel(); } catch {} }
+        const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+        const pdfPage = await pdf.getPage(index + 1);
+        const base = pdfPage.getViewport({ scale: 1, rotation: page.rotation });
+        const viewport = pdfPage.getViewport({ scale: 440 / base.width, rotation: page.rotation });
+        if (token !== woToken) return;
+
+        woCanvas.width = viewport.width;
+        woCanvas.height = viewport.height;
+        const ctx = woCanvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, woCanvas.width, woCanvas.height);
+        woRenderTask = pdfPage.render({
+          canvasContext: ctx,
+          viewport,
+          annotationMode: pdfjsLib.AnnotationMode.ENABLE,
+        });
+        await woRenderTask.promise;
+        woRenderTask = null;
+      } catch (err) {
+        if (err && err.name !== 'RenderingCancelledException') {
+          DBG.log('❌ white block preview: ' + err.message);
+        }
+      } finally {
+        if (token === woToken) woBusy.classList.remove('active');
+      }
+    }
+
+    let woPreviewTimer = null;
+    function woRefresh({ immediate = false } = {}) {
+      woRenderHandles();
+      clearTimeout(woPreviewTimer);
+      if (immediate) woRenderPreview();
+      else woPreviewTimer = setTimeout(woRenderPreview, 140);
+    }
+
+    // ── drawing ──
+    let woDrag = null;
+
+    function woStagePoint(e) {
+      const rect = woStage.getBoundingClientRect();
+      return {
+        u: Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)),
+        v: Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height)),
+      };
+    }
+
+    woStage.addEventListener('pointerdown', (e) => {
+      if (!woCurrentPage() || e.button !== 0) return;
+      const p = woStagePoint(e);
+      const ghost = document.createElement('div');
+      ghost.className = 'wo-rect drawing';
+      woOverlay.appendChild(ghost);
+      woDrag = { start: p, ghost };
+      woStage.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    woStage.addEventListener('pointermove', (e) => {
+      if (!woDrag) return;
+      const p = woStagePoint(e);
+      const u = Math.min(woDrag.start.u, p.u);
+      const v = Math.min(woDrag.start.v, p.v);
+      woDrag.ghost.style.left = (u * 100) + '%';
+      woDrag.ghost.style.top = (v * 100) + '%';
+      woDrag.ghost.style.width = (Math.abs(p.u - woDrag.start.u) * 100) + '%';
+      woDrag.ghost.style.height = (Math.abs(p.v - woDrag.start.v) * 100) + '%';
+    });
+
+    function woEndDrag(e) {
+      if (!woDrag) return;
+      const drag = woDrag;
+      woDrag = null;
+      drag.ghost.remove();
+      try { woStage.releasePointerCapture(e.pointerId); } catch {}
+
+      const page = woCurrentPage();
+      if (!page) return;
+      const p = woStagePoint(e);
+      const u0 = Math.min(drag.start.u, p.u), u1 = Math.max(drag.start.u, p.u);
+      const v0 = Math.min(drag.start.v, p.v), v1 = Math.max(drag.start.v, p.v);
+      // Ignore stray clicks — a block has to be big enough to mean something.
+      if (u1 - u0 < 0.008 || v1 - v0 < 0.004) { woRenderHandles(); return; }
+
+      const a = woDisplayToPage(u0, v0, page.rotation);
+      const b = woDisplayToPage(u1, v1, page.rotation);
+      woRectsFor(page).push({
+        x: Math.min(a.x, b.x),
+        y: Math.min(a.y, b.y),
+        w: Math.abs(b.x - a.x),
+        h: Math.abs(b.y - a.y),
+      });
+      woRefresh({ immediate: true });
+    }
+
+    woStage.addEventListener('pointerup', woEndDrag);
+    woStage.addEventListener('pointercancel', woEndDrag);
+
+    // ── modal wiring ──
+    function openWhiteoutModal() {
+      if (pages.length === 0) return;
+      woPending = new Map();
+      woPageIdx = 0;
+      if (selectedIds.size > 0) {
+        for (let i = 0; i < pages.length; i++) {
+          if (selectedIds.has(pages[i].id)) { woPageIdx = i; break; }
+        }
+      }
+      woSelCount.textContent = String(selectedIds.size);
+      woScopeSelected.disabled = selectedIds.size === 0;
+      document.querySelector('input[name="woScope"][value="page"]').checked = true;
+      woApply.disabled = true;
+      woModal.classList.add('active');
+      woRefresh({ immediate: true });
+    }
+
+    function closeWhiteoutModal() {
+      woModal.classList.remove('active');
+      woPending = new Map();
+      woOverlay.innerHTML = '';
+    }
+
+    btnWhiteout.addEventListener('click', openWhiteoutModal);
+    document.getElementById('whiteoutClose').addEventListener('click', closeWhiteoutModal);
+    document.getElementById('woCancel').addEventListener('click', closeWhiteoutModal);
+    woModal.addEventListener('click', (e) => { if (e.target === woModal) closeWhiteoutModal(); });
+
+    document.getElementById('woClearPage').addEventListener('click', () => {
+      const page = woCurrentPage();
+      if (!page) return;
+      woPending.set(page.id, []);
+      woRefresh({ immediate: true });
+    });
+
+    woPrevPage.addEventListener('click', () => {
+      if (woPageIdx > 0) { woPageIdx--; woRefresh({ immediate: true }); }
+    });
+    woNextPage.addEventListener('click', () => {
+      if (woPageIdx < pages.length - 1) { woPageIdx++; woRefresh({ immediate: true }); }
+    });
+
+    function woTargetPages(sourcePage) {
+      const scope = woScope();
+      if (scope === 'all') return pages.slice();
+      if (scope === 'selected' && selectedIds.size > 0) {
+        return pages.filter(p => selectedIds.has(p.id));
+      }
+      return [sourcePage];
+    }
+
+    woApply.addEventListener('click', async () => {
+      // Only pages the user actually drew on carry rects; with a wider scope
+      // those same rects get stamped onto the other pages as well.
+      const drawn = pages.filter(p => (woPending.get(p.id) || []).length > 0);
+      if (drawn.length === 0) { closeWhiteoutModal(); return; }
+
+      const plan = new Map();   // page id → rects to add
+      for (const src of drawn) {
+        const rects = woPending.get(src.id);
+        for (const target of woTargetPages(src)) {
+          const list = plan.get(target.id) || [];
+          plan.set(target.id, list.concat(rects.map(r => ({ ...r }))));
+        }
+      }
+
+      woApply.disabled = true;
+      woApply.textContent = 'Applying...';
+      saveHistory();
+
+      try {
+        for (const page of pages) {
+          const rects = plan.get(page.id);
+          if (!rects || rects.length === 0) continue;
+          await pushOp(page, { kind: 'whiteout', rects });
+        }
+        renderGrid();
+        const n = plan.size;
+        showToast(`White blocks applied to ${n} page${n !== 1 ? 's' : ''}`);
+        closeWhiteoutModal();
+      } catch (err) {
+        DBG.log('❌ white block: ' + (err.stack || err.message));
+        console.error('White block error:', err);
+        showToast('Error applying white blocks');
+      }
+
+      woApply.disabled = false;
+      woApply.textContent = 'Apply White Blocks';
+    });
+
+    // ─── Page Numbers Feature ───
+    const btnPageNumbers = document.getElementById('btnPageNumbers');
+    const pageNumModal = document.getElementById('pageNumModal');
+    const pnumFormat = document.getElementById('pnumFormat');
+    const pnumStart = document.getElementById('pnumStart');
+    const pnumSize = document.getElementById('pnumSize');
+    const pnumSkipFirst = document.getElementById('pnumSkipFirst');
+    const pnumApply = document.getElementById('pnumApply');
+
+    {
+      const origLoadPdf4 = loadPdf;
+      loadPdf = async function(file) {
+        await origLoadPdf4(file);
+        btnPageNumbers.disabled = false;
+      };
+    }
+
+    document.querySelectorAll('.pnum-position').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.pnum-position').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+      });
+    });
+
+    function pnumPosition() {
+      const checked = document.querySelector('input[name="pnumPos"]:checked');
+      return checked ? checked.value : 'center';
+    }
+
+    function closePageNumModal() { pageNumModal.classList.remove('active'); }
+    btnPageNumbers.addEventListener('click', () => {
+      if (pages.length === 0) return;
+      pageNumModal.classList.add('active');
+    });
+    document.getElementById('pageNumClose').addEventListener('click', closePageNumModal);
+    document.getElementById('pnumCancel').addEventListener('click', closePageNumModal);
+    pageNumModal.addEventListener('click', (e) => { if (e.target === pageNumModal) closePageNumModal(); });
+
+    const PNUM_MARGIN_BOTTOM_MM = 12;   // from the bottom edge of the page
+    const PNUM_MARGIN_RIGHT_MM = 18;    // from the right edge, for bottom-right
+
+    // Work out where the number goes in the page's *unrotated* coordinate
+    // space, so it still lands at the visual bottom on rotated pages.
+    // Displayed point (X = from left, Y = from bottom) maps back as:
+    //   0°   x = X,      y = Y
+    //   90°  x = w - Y,  y = X
+    //   180° x = w - X,  y = h - Y
+    //   270° x = Y,      y = h - X
+    // and the text itself is rotated to match.
+    function pnumPlacement(rotation, w, h, textWidth, position) {
+      const mmToPts = 72 / 25.4;
+      const marginY = PNUM_MARGIN_BOTTOM_MM * mmToPts;
+      const marginX = PNUM_MARGIN_RIGHT_MM * mmToPts;
+      const rot = ((rotation % 360) + 360) % 360;
+
+      const dispW = (rot % 180 === 0) ? w : h;
+      const X = position === 'right'
+        ? dispW - marginX - textWidth
+        : (dispW - textWidth) / 2;
+      const Y = marginY;
+
+      if (rot === 90)  return { x: w - Y,  y: X,     angle: 90 };
+      if (rot === 180) return { x: w - X,  y: h - Y, angle: 180 };
+      if (rot === 270) return { x: Y,      y: h - X, angle: 270 };
+      return { x: X, y: Y, angle: 0 };
+    }
+
+    function pnumText(format, n, total) {
+      if (format === 'page') return `Page ${n}`;
+      if (format === 'pageOf') return `Page ${n} of ${total}`;
+      return String(n);
+    }
+
+    pnumApply.addEventListener('click', async () => {
+      if (pages.length === 0) return;
+
+      const position = pnumPosition();
+      const format = pnumFormat.value;
+      const startAt = parseInt(pnumStart.value);
+      const size = Math.min(24, Math.max(6, parseInt(pnumSize.value) || 10));
+      const skipFirst = pnumSkipFirst.checked;
+      const start = Number.isFinite(startAt) ? startAt : 1;
+
+      closePageNumModal();
+      pnumApply.disabled = true;
+      saveHistory();
+
+      const targets = pages.filter((_, i) => !(skipFirst && i === 0));
+      const total = targets.length;
+
+      try {
+        for (let t = 0; t < targets.length; t++) {
+          const page = targets[t];
+          // The page's own /Rotate plus any rotation applied here in the app
+          // (which is only baked in on export) decide the visual bottom; that
+          // is worked out at replay time inside applyPnumOp.
+          await pushOp(page, {
+            kind: 'pnum',
+            text: pnumText(format, start + t, total),
+            size,
+            position,
+          });
+        }
+
+        renderGrid();
+        showToast(`Page numbers added to ${total} page${total !== 1 ? 's' : ''}`);
+      } catch (err) {
+        DBG.log('❌ page numbers: ' + (err.stack || err.message));
+        console.error('Page number error:', err);
+        showToast('Error adding page numbers');
+      }
+
+      pnumApply.disabled = false;
+    });
+
+    // ─── Split PDF Feature ───
+    const splitModal = document.getElementById('splitModal');
+    const splitModalClose = document.getElementById('splitModalClose');
+    const splitCancel = document.getElementById('splitCancel');
+    const splitConfirm = document.getElementById('splitConfirm');
+    const splitSegmentsEl = document.getElementById('splitSegments');
+    const splitMethodPicker = document.getElementById('splitMethodPicker');
+    const splitMethodDownload = document.getElementById('splitMethodDownload');
+    const btnExportSplits = document.getElementById('btnExportSplits');
+    const splitSeparator = document.getElementById('splitSeparator');
+
+    if (!window.showSaveFilePicker) {
+      splitMethodPicker.disabled = true;
+      splitMethodPicker.closest('.split-radio').style.opacity = '0.4';
+      splitMethodPicker.closest('.split-radio').title = 'Not supported in this browser';
+    }
+
+    // ─── Add-PDF destination picker ───
+    const addDestModal = document.getElementById('addDestModal');
+    const addDestList = document.getElementById('addDestList');
+    let pendingAddFiles = null;
+
+    function openAddDestModal() {
+      const segments = getSplitSegments();
+      addDestList.innerHTML = '';
+
+      segments.forEach((seg, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'add-dest-option';
+        const isEmpty = seg.pages.length === 0;
+        const pageRange = isEmpty
+          ? 'Empty — new PDF goes here'
+          : (seg.startIdx === seg.endIdx
+            ? `Page ${seg.startIdx + 1}`
+            : `Pages ${seg.startIdx + 1}–${seg.endIdx + 1}`);
+        btn.innerHTML = `
+          <span class="add-dest-num">${idx + 1}</span>
+          <span>${isEmpty ? `New segment ${idx + 1}` : `End of segment ${idx + 1}`}</span>
+          <span class="add-dest-pages">${pageRange}</span>
+        `;
+        btn.addEventListener('click', async () => {
+          addDestModal.classList.remove('active');
+          const files = pendingAddFiles;
+          pendingAddFiles = null;
+          if (files) await addFilesAt(files, idx);
+        });
+        addDestList.appendChild(btn);
+      });
+
+      addDestModal.classList.add('active');
+    }
+
+    function closeAddDestModal() {
+      addDestModal.classList.remove('active');
+      pendingAddFiles = null;
+    }
+
+    document.getElementById('addDestClose').addEventListener('click', closeAddDestModal);
+    document.getElementById('addDestCancel').addEventListener('click', closeAddDestModal);
+    addDestModal.addEventListener('click', (e) => { if (e.target === addDestModal) closeAddDestModal(); });
+
+    // ─── Duplicate destination picker ───
+    const dupDestModal = document.getElementById('dupDestModal');
+    const dupDestList = document.getElementById('dupDestList');
+    const dupDestTitle = document.getElementById('dupDestTitle');
+    let pendingDuplicate = null;
+
+    function openDupDestModal(count) {
+      const segments = getSplitSegments();
+      dupDestTitle.textContent = count === 1
+        ? 'Where should the copy go?'
+        : `Where should the ${count} copies go?`;
+      dupDestList.innerHTML = '';
+
+      // Keeping the original behaviour as the first option means the split
+      // picker never takes an option away - it only adds the other files.
+      const inPlace = document.createElement('button');
+      inPlace.className = 'add-dest-option';
+      inPlace.innerHTML = `
+        <span class="add-dest-num">&#8615;</span>
+        <span>Right after the original${count !== 1 ? 's' : ''}</span>
+        <span class="add-dest-pages">Same file</span>
+      `;
+      inPlace.addEventListener('click', () => finishDuplicate(null));
+      dupDestList.appendChild(inPlace);
+
+      segments.forEach((seg, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'add-dest-option';
+        const isEmpty = seg.pages.length === 0;
+        const pageRange = isEmpty
+          ? 'Empty — the copy goes here'
+          : (seg.startIdx === seg.endIdx
+            ? `Page ${seg.startIdx + 1}`
+            : `Pages ${seg.startIdx + 1}–${seg.endIdx + 1}`);
+        btn.innerHTML = `
+          <span class="add-dest-num">${idx + 1}</span>
+          <span>${isEmpty ? `New segment ${idx + 1}` : `End of segment ${idx + 1}`}</span>
+          <span class="add-dest-pages">${pageRange}</span>
+        `;
+        btn.addEventListener('click', () => finishDuplicate(idx));
+        dupDestList.appendChild(btn);
+      });
+
+      dupDestModal.classList.add('active');
+    }
+
+    function finishDuplicate(segIdx) {
+      dupDestModal.classList.remove('active');
+      const indices = pendingDuplicate;
+      pendingDuplicate = null;
+      if (indices) duplicateAt(indices, segIdx);
+    }
+
+    function closeDupDestModal() {
+      dupDestModal.classList.remove('active');
+      pendingDuplicate = null;
+    }
+
+    document.getElementById('dupDestClose').addEventListener('click', closeDupDestModal);
+    document.getElementById('dupDestCancel').addEventListener('click', closeDupDestModal);
+    dupDestModal.addEventListener('click', (e) => { if (e.target === dupDestModal) closeDupDestModal(); });
+
+    function toggleSplitPoint(pageIdx) {
+      if (pageIdx < 0 || pageIdx >= pages.length) return;
+      if (splitPoints.has(pageIdx)) splitPoints.delete(pageIdx);
+      else splitPoints.add(pageIdx);
+      renderGrid();
+    }
+
+    function updateSplitToolbar() {
+      const hasSplits = splitPoints.size > 0;
+      btnExportSplits.style.display = hasSplits ? '' : 'none';
+      splitSeparator.style.display = hasSplits ? '' : 'none';
+    }
+
+    function getSplitSegments() {
+      const sorted = [...splitPoints].sort((a, b) => a - b);
+      const segments = [];
+      let start = 0;
+      for (const sp of sorted) {
+        segments.push({ startIdx: start, endIdx: sp, pages: pages.slice(start, sp + 1) });
+        start = sp + 1;
+      }
+      segments.push({ startIdx: start, endIdx: pages.length - 1, pages: pages.slice(start) });
+      return segments;
+    }
+
+    // Uploads normally arrive as "PG Reports - <Business name> <year end>.pdf".
+    // Pull the business name out so split exports can be named automatically.
+    const MONTHS = 'jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec';
+    const escapeAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+    function parseBusinessName(fileName) {
+      if (!fileName) return '';
+      let s = fileName.replace(/\.pdf$/i, '').trim();
+      s = s.replace(/^pg\s*reports?\s*[-–—:]?\s*/i, '');
+      // Strip a trailing year end in any of the usual shapes:
+      // "2025", "Feb 2025", "28 February 2025", "2025-02-28", "FYE 2025".
+      s = s.replace(
+        new RegExp(
+          `[\\s,\\-–—]*(f\\.?y\\.?e\\.?|y\\.?e\\.?|year\\s*end(ed|ing)?)?` +
+          `[\\s,\\-–—]*(\\d{1,2}[\\s,\\-\\/.]*)?` +
+          `((${MONTHS})[a-z]*[\\s,\\-\\/.]*)?` +
+          `(19|20)\\d{2}([\\s,\\-\\/.]*\\d{1,2}){0,2}\\s*$`,
+          'i'
+        ),
+        ''
+      );
+      return s.replace(/[\s,\-–—]+$/, '').trim();
+    }
+
+    // The financial-year-end year, taken from the document itself rather than
+    // the clock. Uploads are named "PG Reports - <Business> <year end>.pdf",
+    // where the year end is the date the user typed into the generator, so a
+    // 2025 set of statements prepared during 2026 still splits as "2025 PDF".
+    // Falls back to the current year only when the name carries no year at all.
+    function parseYearEnd(fileName) {
+      if (!fileName) return null;
+      const s = fileName.replace(/\.pdf$/i, '').trim();
+      const years = s.match(/(?:19|20)\d{2}/g);
+      if (!years || !years.length) return null;
+      // Take the last year in the name: the business name comes first and the
+      // year end is appended after it.
+      return years[years.length - 1];
+    }
+
+    // "2025 PDF - COMPL DOCS - KWABRO CC"
+    function defaultSegmentName(idx) {
+      const business = parseBusinessName(sourceFileName);
+      if (!business) return `split-${idx + 1}`;
+      // The usual two-file split is compliance docs first, financial statements
+      // second; anything beyond that is numbered but still named automatically.
+      const label = idx === 0 ? 'COMPL DOCS' : idx === 1 ? 'FS' : `PART ${idx + 1}`;
+      const year = parseYearEnd(sourceFileName) || String(new Date().getFullYear());
+      return `${year} PDF - ${label} - ${business}`;
+    }
+
+    btnExportSplits.addEventListener('click', openSplitExportModal);
+
+    function buildSwapControl(idxA, idxB) {
+      const el = document.createElement('div');
+      el.className = 'split-swap';
+      el.innerHTML = `
+        <div class="split-swap-line"></div>
+        <button type="button" class="split-swap-btn" title="Swap the names of segment ${idxA + 1} and ${idxB + 1}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+          Swap
+        </button>
+        <div class="split-swap-line"></div>
+      `;
+      el.querySelector('button').addEventListener('click', () => swapSegmentNames(idxA, idxB));
+      return el;
+    }
+
+    function swapSegmentNames(idxA, idxB) {
+      const inputA = splitSegmentsEl.querySelector(`input[data-seg-idx="${idxA}"]`);
+      const inputB = splitSegmentsEl.querySelector(`input[data-seg-idx="${idxB}"]`);
+      if (!inputA || !inputB) return;
+
+      const tmp = inputA.value;
+      inputA.value = inputB.value;
+      inputB.value = tmp;
+
+      // Brief highlight so it's obvious which two names moved.
+      [idxA, idxB].forEach(i => {
+        const row = splitSegmentsEl.querySelector(`.split-segment[data-seg-row="${i}"]`);
+        if (!row) return;
+        row.classList.remove('name-swapped');
+        void row.offsetWidth;
+        row.classList.add('name-swapped');
+        setTimeout(() => row.classList.remove('name-swapped'), 700);
+      });
+    }
+
+    function openSplitExportModal() {
+      // Drop empty segments (e.g. an unfilled "split at end") — they'd only
+      // export as blank PDFs.
+      const segments = getSplitSegments().filter(s => s.pages.length > 0);
+      splitSegmentsEl.innerHTML = '';
+
+      segments.forEach((seg, idx) => {
+        // Between every pair of rows sits a Swap button, so a name that landed
+        // on the wrong segment can be moved across with one click.
+        if (idx > 0) splitSegmentsEl.appendChild(buildSwapControl(idx - 1, idx));
+
+        const row = document.createElement('div');
+        row.className = 'split-segment';
+        row.dataset.segRow = idx;
+        const pageRange = seg.startIdx === seg.endIdx
+          ? `Page ${seg.startIdx + 1}`
+          : `Pages ${seg.startIdx + 1}–${seg.endIdx + 1}`;
+        row.innerHTML = `
+          <span class="split-segment-num">${idx + 1}</span>
+          <span class="split-segment-pages">${pageRange}</span>
+          <div class="split-segment-name">
+            <input type="text" value="${escapeAttr(defaultSegmentName(idx))}" spellcheck="false" data-seg-idx="${idx}">
+            <span class="split-segment-ext">.pdf</span>
+          </div>
+        `;
+        splitSegmentsEl.appendChild(row);
+      });
+
+      if (!window.showSaveFilePicker) splitMethodDownload.checked = true;
+      splitModal.classList.add('active');
+      const firstInput = splitSegmentsEl.querySelector('input');
+      if (firstInput) { firstInput.focus(); firstInput.select(); }
+    }
+
+    splitModalClose.addEventListener('click', () => splitModal.classList.remove('active'));
+    splitCancel.addEventListener('click', () => splitModal.classList.remove('active'));
+    splitModal.addEventListener('click', (e) => { if (e.target === splitModal) splitModal.classList.remove('active'); });
+
+    splitConfirm.addEventListener('click', async () => {
+      const segments = getSplitSegments().filter(s => s.pages.length > 0);
+      const nameInputs = splitSegmentsEl.querySelectorAll('input[data-seg-idx]');
+      const filenames = [...nameInputs].map(inp => (inp.value.trim() || defaultSegmentName(parseInt(inp.dataset.segIdx))) + '.pdf');
+
+      const usePicker = splitMethodPicker.checked && window.showSaveFilePicker;
+
+      splitConfirm.disabled = true;
+      splitConfirm.textContent = 'Exporting...';
+
+      try {
+        for (let s = 0; s < segments.length; s++) {
+          const seg = segments[s];
+          const outputPdf = await PDFDocument.create();
+          for (const page of seg.pages) {
+            const srcPdf = await PDFDocument.load(page.pdfBytes, { ignoreEncryption: true });
+            const [copied] = await outputPdf.copyPages(srcPdf, [page.pageIndex]);
+            if (page.rotation !== 0) {
+              copied.setRotation(degrees((copied.getRotation().angle + page.rotation) % 360));
+            }
+            outputPdf.addPage(copied);
+          }
+          const pdfData = await outputPdf.save();
+
+          if (usePicker) {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: filenames[s],
+              types: [{ description: 'PDF Document', accept: { 'application/pdf': ['.pdf'] } }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(pdfData);
+            await writable.close();
+          } else {
+            const blob = new Blob([pdfData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filenames[s];
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            // Revoking immediately can cancel a download that hasn't started;
+            // browsers also block rapid-fire downloads, so space them out.
+            setTimeout(() => URL.revokeObjectURL(url), 10000);
+            if (s < segments.length - 1) await new Promise(r => setTimeout(r, 600));
+          }
+        }
+
+        splitModal.classList.remove('active');
+        showToast(`Exported ${segments.length} PDF files`);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Split error:', err);
+          showToast('Error exporting PDFs');
+        }
+      }
+
+      splitConfirm.disabled = false;
+      splitConfirm.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export All
+      `;
+    });
+
+    lhApplyBtn.addEventListener('click', async () => {
+      const op = lhPendingOp();
+      if (!op || (selectedLh && !lhAssets[selectedLh])) return;
+      lhModal.classList.remove('active');
+
+      const mode = lhApplyMode.value;
+      let targetIds;
+      if (mode === 'all') {
+        targetIds = new Set(pages.map(p => p.id));
+      } else if (mode === 'first') {
+        targetIds = new Set(pages.length > 0 ? [pages[0].id] : []);
+      } else if (mode === 'allExceptFirst') {
+        targetIds = new Set(pages.slice(1).map(p => p.id));
+      } else {
+        targetIds = new Set(selectedIds);
+      }
+
+      if (targetIds.size === 0) {
+        showToast('No pages to apply this to');
+        return;
+      }
+
+      saveHistory();
+      const isLh = op.kind === 'letterhead';
+      showToast(isLh ? 'Applying letterhead...' : 'Scaling content...');
+
+      try {
+        // Exactly the op the preview showed (lhPendingOp), so the saved pages
+        // match what was on screen.
+        for (const page of pages) {
+          if (!targetIds.has(page.id)) continue;
+          await pushOp(page, op);
+          if (isLh) page.letterhead = selectedLh;
+        }
+
+        renderGrid();
+        showToast(isLh
+          ? `Letterhead applied to ${targetIds.size} page(s)`
+          : `Content scaled to ${Math.round(op.factor * 100)}% on ${targetIds.size} page(s)`);
+      } catch (err) {
+        console.error('Letterhead error:', err);
+        showToast(isLh ? 'Error applying letterhead' : 'Error scaling page content');
+      }
+    });
+
+    // ─── Hand-off from the Policy Generator ──────────────────────────────
+    // NOT part of upstream ILoveINF181 — re-apply this block whenever this file is
+    // refreshed from the standalone repo. The generator (or its Electron shell)
+    // delivers a freshly generated PDF straight into the editor, skipping the
+    // upload screen. Bytes arrive one of four ways:
+    //   1. window.ILoveINF181Receive(base64, filename, pageOrder) — called by the
+    //      Electron main process once this window has loaded.
+    //   2. postMessage 'ILoveINF181:handoff' — used when the editor runs in the
+    //      generator's overlay iframe. A direct contentWindow call is blocked
+    //      under file://, where every document gets its own opaque origin.
+    //   3. window.__ILoveINF181_HANDOFF__ — a global set before this script runs.
+    //   4. sessionStorage 'ILoveINF181:handoff' — set by a browser opener.
+    //
+    // pageOrder is the generator's split plan: one entry per PDF page, saying
+    // which of the two output files it belongs to. Applying it here is what
+    // removes the manual splitting step the generator exists to automate.
+    function base64ToBytes(b64) {
+      const bin = atob(b64);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    // Reorders the loaded pages into COMPL DOCS first, FS second, and drops a
+    // single split point between them — the arrangement the user was making by
+    // hand. A page marked 'both' is duplicated so it heads both files.
+    //
+    // Order inside each group is the document's own order, so the two files read
+    // exactly as the generated document does.
+    function applySplitPlan(order) {
+      if (!Array.isArray(order) || order.length !== pages.length) {
+        DBG.log(`SPLIT PLAN: ignored — ${Array.isArray(order) ? order.length : 'no'} entries for ${pages.length} page(s)`);
+        return false;
+      }
+
+      const complDocs = [];
+      const financials = [];
+      // A duplicate needs its own id (ids key the grid) but shares the source
+      // bytes — nothing is re-parsed. The canvas is deliberately left off: it is
+      // a live DOM node, and two entries pointing at one node would move it.
+      const duplicate = (p) => {
+        const copy = clonePage(p);
+        copy.id = nextId++;
+        delete copy.canvas;
+        return copy;
+      };
+
+      pages.forEach((page, i) => {
+        const split = String(order[i] && order[i].split);
+        if (split === '1') {
+          complDocs.push(page);
+        } else if (split === 'both') {
+          complDocs.push(page);
+          financials.push(duplicate(page));
+        } else {
+          financials.push(page);
+        }
+      });
+
+      // One-sided plan: there is no split to make, so leave the document whole
+      // rather than exporting an empty second file.
+      if (!complDocs.length || !financials.length) {
+        DBG.log('SPLIT PLAN: every page landed in one file — left unsplit');
+        return false;
+      }
+
+      pages = complDocs.concat(financials);
+      splitPoints.clear();
+      splitPoints.add(complDocs.length - 1);
+      renderGrid();
+      showToast(`Organised: ${complDocs.length} compliance page(s), ${financials.length} financial statement page(s)`);
+      return true;
+    }
+
+    async function deliverHandoff(bytes, filename = 'Generated document.pdf', pageOrder = null) {
+      // Routed through loadPdf (not loadPdfFromBytes) so every post-load hook —
+      // letterhead/watermark enabling, page rasterisation, sourceFileName for the
+      // split names — runs exactly as it would for a user-opened file.
+      const file = new File([bytes], filename, { type: 'application/pdf' });
+      await loadPdf(file);
+      if (pageOrder) applySplitPlan(pageOrder);
+    }
+
+    window.ILoveINF181Receive = (b64, filename, pageOrder) => {
+      deliverHandoff(base64ToBytes(b64), filename, pageOrder)
+        .catch(err => { console.error('Hand-off failed:', err); showToast('Could not open the handed-off PDF'); });
+    };
+
+    window.addEventListener('message', (e) => {
+      const data = e && e.data;
+      if (data && data.type === 'ILoveINF181:handoff' && typeof data.base64 === 'string') {
+        window.ILoveINF181Receive(data.base64, data.filename, data.pageOrder);
+      } else if (data && data.type === 'ILoveINF181:status-request' && e.source) {
+        // The generator hides (not unloads) this editor when its X is clicked,
+        // and asks on the way back in whether there is work here to return to.
+        e.source.postMessage({ type: 'ILoveINF181:status', pages: pages.length }, '*');
+      }
+    });
+
+    // Embedded in the generator's overlay: the overlay has no title bar of its
+    // own any more, so this editor carries the X (next to Save PDF).
+    if (window.parent !== window) {
+      const closeBtn = document.getElementById('btnCloseEmbed');
+      closeBtn.style.display = '';
+      closeBtn.addEventListener('click', () => window.parent.postMessage({ type: 'ILoveINF181:close' }, '*'));
+    }
+
+    // Keep the frozen toolbar sitting exactly under the sticky header, whatever
+    // height the header wraps to on a narrow laptop screen.
+    (function trackHeaderHeight() {
+      const header = document.querySelector('.header');
+      if (!header) return;
+      const set = () => document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+      set();
+      if (window.ResizeObserver) new ResizeObserver(set).observe(header);
+    })();
+
+    (function receiveHandoff() {
+      // Global set before load (e.g. by a preload script).
+      if (window.__ILoveINF181_HANDOFF__) {
+        const data = window.__ILoveINF181_HANDOFF__;
+        delete window.__ILoveINF181_HANDOFF__;
+        deliverHandoff(
+          typeof data === 'string' ? base64ToBytes(data) : new Uint8Array(data.bytes || data),
+          data.filename,
+          data.pageOrder
+        ).catch(err => console.error('Hand-off failed:', err));
+        return;
+      }
+      // Opened from the Policy Generator: read the bytes straight off the opener
+      // window (same origin, no size limit).
+      try {
+        if (window.opener && window.opener.__ILoveINF181Handoff) {
+          const data = window.opener.__ILoveINF181Handoff;
+          window.opener.__ILoveINF181Handoff = null;
+          deliverHandoff(new Uint8Array(data)).catch(err => console.error('Hand-off failed:', err));
+          return;
+        }
+      } catch (_) { /* cross-origin or closed opener — fall through */ }
+      // Fallback: the generator stashed a base64 copy in sessionStorage.
+      try {
+        const stashed = sessionStorage.getItem('ILoveINF181:handoff');
+        if (stashed) {
+          sessionStorage.removeItem('ILoveINF181:handoff');
+          deliverHandoff(base64ToBytes(stashed)).catch(err => console.error('Hand-off failed:', err));
+        }
+      } catch (_) { /* sessionStorage unavailable — ignore */ }
+    })();
+    // Everything is wired up and both PDF engines are in — show the real UI.
+    document.body.classList.remove('booting');
+  </script>
+</body>
+</html>

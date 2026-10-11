@@ -1,0 +1,216 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   editor.css — PDF editor chrome.
+
+   Palette lifted from web/css/styles.css so the tool reads as part of the
+   same app when it is eventually folded into the UI.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink: #1a1a2e;
+  --ink-mid: #252540;
+  --ink-light: #4a4a6a;
+  --ink-muted: #7a7a9a;
+  --gold: #c9a84c;
+  --gold-dark: #a8882e;
+  --gold-pale: #fffbf0;
+  --cream: #faf8f3;
+  --cream-dark: #f2ede3;
+  --white: #fff;
+  --border: #e2ddd3;
+  --border-light: #ede9e0;
+  --error: #c0392b;
+  --success: #2d7a4f;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, .08);
+  --shadow-md: 0 4px 18px rgba(0, 0, 0, .10);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--cream-dark);
+}
+
+button {
+  font-family: inherit; font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+button:hover:not(:disabled) { background: var(--gold-pale); border-color: var(--gold); }
+button:disabled { opacity: .45; cursor: default; }
+button.primary {
+  background: var(--ink); color: var(--white); border-color: var(--ink);
+  font-weight: 500;
+}
+button.primary:hover:not(:disabled) { background: var(--gold-dark); border-color: var(--gold-dark); }
+
+
+/* ── Layout ──────────────────────────────────────────────────────────── */
+#app { display: flex; flex-direction: column; height: 100%; }
+
+header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+header .brand { font-weight: 600; letter-spacing: .02em; }
+header .brand span { color: var(--gold-dark); }
+header .tag {
+  font-size: 10.5px; color: var(--ink-muted);
+  border-left: 1px solid var(--border); padding-left: 12px;
+}
+header .spacer { flex: 1; }
+#doc-name { font-size: 11.5px; color: var(--ink-light); max-width: 280px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#counts { font-size: 11px; color: var(--ink-muted); }
+
+.toolbar {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 8px 16px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.toolbar .grp { display: flex; align-items: center; gap: 6px; }
+.toolbar .divider { width: 1px; height: 22px; background: var(--border); }
+#zoom-label { font-size: 11px; color: var(--ink-light); min-width: 38px; text-align: center; }
+#hint { font-size: 11px; color: var(--gold-dark); margin-left: auto; }
+
+main { flex: 1; display: flex; min-height: 0; }
+
+/* ── Page canvas area ────────────────────────────────────────────────── */
+#viewer { flex: 1; overflow: auto; padding: 24px; min-width: 0; }
+#pages { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+
+.pg-page {
+  position: relative;
+  background: #fff;
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+.pg-raster { position: absolute; inset: 0; display: block; }
+
+/* A block is an invisible hit target until you point at it. The original
+   pixels show through; nothing is covered up until something actually
+   changes. */
+.pg-block {
+  position: absolute;
+  cursor: text;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.pg-block:hover { border-color: rgba(201, 168, 76, .85); background: rgba(201, 168, 76, .10); }
+.pg-block.chrome { cursor: not-allowed; }
+.pg-block.chrome:hover { border-color: rgba(122, 122, 154, .6); background: rgba(122, 122, 154, .10); }
+.pg-block.dirty { border-color: rgba(45, 122, 79, .5); }
+.pg-block.dirty:hover { border-color: var(--success); background: rgba(45, 122, 79, .08); }
+
+/* The white patch and the re-typeset lines: what the exported PDF will hold,
+   drawn from the same layout call the exporter uses. */
+.pg-patch { position: absolute; background: #fff; pointer-events: none; }
+.pg-line {
+  position: absolute;
+  white-space: pre;
+  line-height: 1;
+  color: #111;
+  font-family: 'Poppins', sans-serif;
+  pointer-events: none;
+}
+
+.pg-under { position: absolute; background: #111; pointer-events: none; }
+
+/* Bold / Underline buttons above the open edit box. */
+.pg-fmtbar {
+  position: absolute; z-index: 41;
+  display: flex; gap: 4px;
+  padding: 3px;
+  background: var(--white, #fff);
+  border: 1px solid var(--gold-dark);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+.pg-fmtbar button {
+  width: 24px; height: 22px; padding: 0;
+  font-size: 13px; line-height: 1;
+}
+.pg-fmtbar button.on { background: var(--gold-pale); border-color: var(--gold-dark); }
+/* Format Painter armed: a copy cursor over the pages says the next selection paints. */
+body.pg-painting .pg-block,
+body.pg-painting .pg-editbox { cursor: copy; }
+.pg-editbox b, .pg-editbox strong { font-weight: 600; }
+
+.pg-editbox {
+  position: absolute; z-index: 40;
+  background: #fff;
+  color: #111;
+  font-family: 'Poppins', sans-serif;
+  padding: 1px 2px;
+  border: 1px solid var(--gold-dark);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, .2);
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* ── Drop zone ───────────────────────────────────────────────────────── */
+#drop-zone {
+  margin: auto;
+  max-width: 520px; padding: 48px 40px;
+  background: var(--white);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  text-align: center; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+#drop-zone.over { border-color: var(--gold); background: var(--gold-pale); }
+#drop-zone h2 { margin: 0 0 8px; font-size: 17px; font-weight: 500; }
+#drop-zone p { margin: 0 0 6px; color: var(--ink-light); font-size: 12px; line-height: 1.65; }
+#drop-zone .small { font-size: 11px; color: var(--ink-muted); margin-top: 16px; }
+#app.loaded #drop-wrap { display: none; }
+#app:not(.loaded) main > *:not(#drop-wrap) { display: none; }
+#drop-wrap { flex: 1; display: flex; }
+
+/* ── Progress overlay ────────────────────────────────────────────────── */
+#overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(26, 26, 46, .55);
+  backdrop-filter: blur(2px);
+  display: none; align-items: center; justify-content: center;
+}
+#overlay.on { display: flex; }
+.progress-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 26px 30px; width: 380px; box-shadow: var(--shadow-md);
+  text-align: center;
+}
+.progress-card h4 { margin: 0 0 4px; font-size: 13px; font-weight: 500; }
+#progress-note { font-size: 11.5px; color: var(--ink-light); min-height: 17px; }
+.track {
+  margin-top: 14px; height: 5px; border-radius: 3px;
+  background: var(--cream-dark); overflow: hidden;
+}
+#bar {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+  transition: width .25s ease;
+}
+.spinner {
+  width: 26px; height: 26px; margin: 0 auto 14px;
+  border: 2.5px solid var(--cream-dark);
+  border-top-color: var(--gold-dark);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,426 @@
+/* ── Letterhead modal ── */
+/* Full screen: on a laptop the page preview needs every pixel to be legible
+   while the content is sized into the letterhead. Controls scroll on the
+   left; the preview fills the rest. */
+#lhModal { padding: 0; }
+#lhModal .lh-modal-inner {
+  background: var(--surface);
+  border-radius: 0;
+  padding: 16px 20px;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#lhModal .lh-modal-inner h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+
+.lh-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (max-width: 800px) {
+  .lh-layout { grid-template-columns: 260px 1fr; gap: 14px; }
+}
+
+/* ── Controls column ── */
+.lh-controls-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.lh-scale-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: -10px 0 20px;
+}
+.lh-scale-presets .btn { padding: 4px 10px; font-size: 12px; }
+
+.lh-crop-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: -6px 0 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.lh-crop-row .btn { padding: 4px 10px; font-size: 12px; }
+
+/* ── Gold frame over the preview: the content's visible box ── */
+.lh-frame-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+  margin-right: 10px;
+}
+.lh-frame {
+  position: absolute;
+  z-index: 4;
+  box-sizing: border-box;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.8), 0 0 0 3px rgba(184,150,12,0.18);
+  cursor: move;
+  touch-action: none;
+}
+.lh-frame[hidden] { display: none; }
+.lh-frame.dragging { border-style: dashed; }
+
+.lh-fh {
+  position: absolute;
+  background: var(--gold);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+}
+/* Corners: resize */
+.lh-fh-c { width: 14px; height: 14px; border-radius: 50%; }
+.lh-fh[data-h="nw"] { left: -8px;  top: -8px;    cursor: nwse-resize; }
+.lh-fh[data-h="se"] { right: -8px; bottom: -8px; cursor: nwse-resize; }
+.lh-fh[data-h="ne"] { right: -8px; top: -8px;    cursor: nesw-resize; }
+.lh-fh[data-h="sw"] { left: -8px;  bottom: -8px; cursor: nesw-resize; }
+/* Edges: crop (bars, so they read differently from the round corners) */
+.lh-fh-e { border-radius: 3px; }
+.lh-fh[data-h="n"], .lh-fh[data-h="s"] { width: 28px; height: 8px; left: calc(50% - 14px); cursor: ns-resize; }
+.lh-fh[data-h="n"] { top: -5px; }
+.lh-fh[data-h="s"] { bottom: -5px; }
+.lh-fh[data-h="w"], .lh-fh[data-h="e"] { width: 8px; height: 28px; top: calc(50% - 14px); cursor: ew-resize; }
+.lh-fh[data-h="w"] { left: -5px; }
+.lh-fh[data-h="e"] { right: -5px; }
+
+#lhChoices {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.lh-choice {
+  flex: 1;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.lh-choice:hover { border-color: var(--accent); }
+.lh-choice.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.lh-choice img {
+  width: 100%;
+  display: block;
+  background: #fff;
+}
+
+.lh-choice .lh-label {
+  padding: 6px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#lhControls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#lhControls label {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#lhApplyMode {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-hover);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.lh-offset-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.lh-offset-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.lh-offset-row .lh-offset-val {
+  font-size: 13px;
+  color: var(--text-muted);
+  min-width: 46px;
+  text-align: right;
+}
+
+/* ── Replace letterhead toggle ── */
+.lh-replace-section {
+  margin-bottom: 16px;
+}
+
+.lh-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.lh-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.lh-toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.lh-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.lh-toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lh-toggle-track::before {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.lh-toggle input:checked + .lh-toggle-track {
+  background: var(--accent);
+}
+.lh-toggle input:checked + .lh-toggle-track::before {
+  transform: translateX(18px);
+}
+
+.lh-replace-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface-hover);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.lh-replace-controls.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.lh-replace-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.lh-replace-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lh-replace-slider-row label {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 56px;
+  white-space: nowrap;
+}
+.lh-replace-slider-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--accent);
+}
+.lh-replace-slider-row .lh-slider-val {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 42px;
+  text-align: right;
+}
+
+#lhActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+}
+
+/* ── Preview column ── */
+.lh-preview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.lh-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lh-preview-status {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.lh-preview-status.applied {
+  background: rgba(184, 150, 12, 0.15);
+  color: var(--gold);
+}
+.lh-preview-status.no-lh {
+  background: rgba(136, 136, 160, 0.1);
+  color: var(--text-muted);
+}
+
+.lh-preview-canvas-wrap {
+  position: relative;
+  background: #fff;
+  border-radius: var(--radius-sm);
+  /* Scrolls when the preview is zoomed past the whole-page fit. The canvas
+     centres itself with margin:auto rather than justify/align-content, which
+     would push an oversized canvas off the left/top where it can't be
+     scrolled to. */
+  overflow: auto;
+  display: flex;
+  padding: 12px;
+  /* Takes all the height left in the column; the canvas is fitted to it
+     by script (renderLhPreview). Grey surround shows the page edge. */
+  flex: 1 1 auto;
+  min-height: 0;
+  background: #e9e9ee;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.lh-preview-canvas-wrap canvas {
+  display: block;
+  flex: 0 0 auto;
+}
+#lhPdfCanvas { margin: auto; }
+#lhPdfCanvas { box-shadow: 0 2px 14px rgba(0,0,0,0.25); background: #fff; }
+
+/* Unused (the letterhead is part of the rendered PDF); kept out of layout. */
+#lhOverlayCanvas {
+  display: none;
+}
+
+.lh-preview-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: rgba(15, 15, 17, 0.85);
+  border-radius: var(--radius-sm);
+}
+.lh-preview-placeholder.hidden { display: none; }
+
+.lh-preview-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.lh-preview-nav .btn {
+  padding: 6px 12px;
+  min-width: 40px;
+}
+
+.lh-zoom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 24px;
+}
+.lh-zoom .btn { min-width: 32px; padding: 4px 10px; }
+.lh-zoom input[type="range"] { width: 140px; accent-color: var(--accent); }
+.lh-zoom-val {
+  font-size: 12px;
+  color: var(--text-muted);
+  min-width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Letterhead badge on page cards ── */
+.lh-badge {
+  position: absolute;
+  bottom: 34px;
+  left: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  z-index: 5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick cancel / apply beside the modal title */
+#lhModal .lh-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+#lhModal .lh-title-row h3 { margin-bottom: 0; }
+.lh-quick-actions { display: flex; gap: 6px; }
+.lh-quick-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.15s, opacity 0.15s;
+}
+.lh-quick-cancel { background: #d93025; }
+.lh-quick-apply { background: #1e8e3e; }
+.lh-quick-btn:hover:not(:disabled) { filter: brightness(1.12); }
+.lh-quick-btn:disabled { opacity: 0.35; cursor: not-allowed; }
