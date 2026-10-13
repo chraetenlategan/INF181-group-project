@@ -120,6 +120,12 @@ window.Analytics = (function () {
   /* Customer concentration. The question behind it is a risk question: how
      much of this shop's turnover walks out of the door if one contractor
      stops buying? */
+  /* CUS-001 is the generic "Walk-in customer" record used when somebody does
+     not want to give their details. It is a bucket, not a person, so it must be
+     excluded from any concentration measure — counting it would say the shop
+     depends on one big customer when it actually means the opposite. */
+  var ANONYMOUS = 'CUS-001';
+
   function customerValue(from, to) {
     var map = {};
     salesInRange(from, to).forEach(function (s) {
@@ -144,8 +150,29 @@ window.Analytics = (function () {
     }).sort(function (a, b) { return b.revenue - a.revenue; });
 
     var total = rows.reduce(function (t, r) { return t + r.revenue; }, 0);
-    rows.forEach(function (r) { r.share = total ? r.revenue / total : 0; });
+    rows.forEach(function (r) {
+      r.share = total ? r.revenue / total : 0;
+      r.anonymous = (r.customerId === ANONYMOUS);
+    });
     return rows;
+  }
+
+  /* The concentration question is "how much of our trade walks out of the door
+     if one buyer stops buying?" Only identifiable customers can answer it. */
+  function concentration(from, to) {
+    var rows = customerValue(from, to);
+    var named = rows.filter(function (r) { return !r.anonymous; });
+    var trade = rows.filter(function (r) { return r.type === 'Contractor' || r.type === 'Business'; });
+    var anon = rows.filter(function (r) { return r.anonymous; })
+                   .reduce(function (t, r) { return t + r.share; }, 0);
+    return {
+      top: named[0] || null,
+      topShare: named.length ? named[0].share : 0,
+      top3Share: named.slice(0, 3).reduce(function (t, r) { return t + r.share; }, 0),
+      top3: named.slice(0, 3),
+      tradeShare: trade.reduce(function (t, r) { return t + r.share; }, 0),
+      walkInShare: anon
+    };
   }
 
   function paymentMix(from, to) {
@@ -365,7 +392,7 @@ window.Analytics = (function () {
       outstanding: owed.reduce(function (t, d) { return t + d.outstanding; }, 0),
       debtorCount: owed.length,
       shrinkageValue: shrinkage().total,
-      topCustomerShare: (customerValue()[0] || { share: 0 }).share
+      concentration: concentration()
     };
   }
 
@@ -532,6 +559,7 @@ window.Analytics = (function () {
     productPerformance: productPerformance,
     categoryMix: categoryMix,
     customerValue: customerValue,
+    concentration: concentration,
     paymentMix: paymentMix,
     weekdayPattern: weekdayPattern,
     reorderList: reorderList,

@@ -75,6 +75,8 @@
     if (s.needsOrdering) alerts.push({ sev:'warn', text: s.needsOrdering + ' line' + (s.needsOrdering === 1 ? '' : 's') + ' at or below reorder level.', go:'analytics' });
     if (s.outstanding > 0) alerts.push({ sev:'warn', text: rand(s.outstanding) + ' is owed by ' + s.debtorCount + ' customer' + (s.debtorCount === 1 ? '' : 's') + ' on account.', go:'analytics' });
     if (q.errors) alerts.push({ sev:'bad', text: q.errors + ' record' + (q.errors === 1 ? ' has' : 's have') + ' a problem that must be fixed.', go:'quality' });
+    if (s.concentration.top3Share > 0.4) alerts.push({ sev:'warn', text: 'The three biggest trade accounts are ' +
+      A.pct(s.concentration.top3Share) + ' of turnover between them. Losing one would hurt.', go:'analytics' });
     if (s.deadStockValue > 0) alerts.push({ sev:'warn', text: rand(s.deadStockValue) + ' is tied up in ' + s.deadStockCount + ' line' + (s.deadStockCount === 1 ? '' : 's') + ' that have not sold at all this year.', go:'analytics' });
     if (s.shrinkageValue > 0) alerts.push({ sev:'warn', text: rand(s.shrinkageValue) + ' written off or lost to stock-take differences.', go:'analytics' });
 
@@ -587,7 +589,7 @@
     var shrink = A.shrinkage();
     var week = A.weekdayPattern();
     var owed = A.debtors();
-    var top = A.customerValue()[0] || { name:'—', share:0 };
+    var conc = A.concentration();
 
     return '<div class="panel">' +
       '<div class="panel__head"><div><h2>What the data is telling you</h2>' +
@@ -644,13 +646,18 @@
         }).join('') + '</tbody></table></div>' +
 
       '<h3 id="an-cust">5. How exposed are you to one customer?</h3>' +
-      '<p class="muted" style="font-size:.9rem"><strong>' + esc(top.name) + '</strong> accounts for ' + A.pct(top.share) +
-      ' of turnover. That is a risk question, not an accounting one: what happens to this shop if they stop buying?</p>' +
+      '<p class="muted" style="font-size:.9rem"><strong>' + esc(conc.top ? conc.top.name : '—') + '</strong> is the largest single buyer at ' +
+      A.pct(conc.topShare) + ' of turnover, and the three biggest trade accounts together are <strong>' + A.pct(conc.top3Share) +
+      '</strong>. That is a risk question, not an accounting one: what happens to this shop if one of them stops buying?</p>' +
+      '<p class="muted" style="font-size:.9rem">Trade accounts as a whole are ' + A.pct(conc.tradeShare) + ' of turnover. ' +
+      'The remaining ' + A.pct(conc.walkInShare) + ' is anonymous walk-in trade — recorded against the generic ' +
+      '"Walk-in customer" record, which is a bucket rather than a person and so is left out of the concentration figures above.</p>' +
       '<div class="chart">' + A.charts.hBar(cust, { value:'revenue', label:'name', labelWidth:230,
         alt:'Customers ranked by revenue', format:function (v) { return rand(v, 0); } }) + '</div>' +
       '<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Type</th><th class="num">Visits</th><th class="num">Revenue</th><th class="num">Share</th><th class="num">Avg sale</th><th class="num">Owes</th></tr></thead><tbody>' +
         cust.map(function (c) {
-          return '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.type) + '</td><td class="num">' + c.visits + '</td>' +
+          return '<tr><td>' + esc(c.name) + (c.anonymous ? ' <span class="badge badge--neutral">not one customer</span>' : '') +
+            '</td><td>' + esc(c.type) + '</td><td class="num">' + c.visits + '</td>' +
             '<td class="num">' + rand(c.revenue, 0) + '</td><td class="num">' + A.pct(c.share) + '</td>' +
             '<td class="num">' + rand(c.avgBasket, 0) + '</td>' +
             '<td class="num">' + (c.outstanding ? '<strong style="color:#9b2423">' + rand(c.outstanding) + '</strong>' : '—') + '</td></tr>';
