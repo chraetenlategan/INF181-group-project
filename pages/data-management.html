@@ -57,12 +57,8 @@
   <div class="wrap-narrow">
 
     <h2 id="data-information">Data, information, and why the difference costs money</h2>
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Explain data vs information vs knowledge, using the shop's own examples (250–350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Define <strong>data</strong>, <strong>information</strong> and <strong>knowledge</strong> in plain language — no textbook phrasing the owner would skip past.</li><li>Use one fact and follow it through all three. Suggested: &quot;12&quot; (data) → &quot;12 metres of 20mm polycop sold to Thandi Mabaso on 11 October&quot; (information) → &quot;plumbing pipe sells in bursts after month-end, so order before the 25th&quot; (knowledge).</li><li>Make the point that the shop already <em>produces</em> all the data it needs. The failure is not collection, it is retention and structure.</li><li>Explain why this is not word games: the owner cannot act on data, only on information. Every step in this resource is about closing that gap.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Your prescribed IS textbook's treatment of the DIKW hierarchy — cite the edition and page.</p>
-</div>
+    <p>Data refers to a bunch of facts collected and stored. Raw data does not mean anything on its own. That is why data has to be processed. Information is the result of how data is processed. Data can be manipulated, mined, or processed to become valuable information. This is done with smart algorithms, data mining, and some human guidance to find valuable patterns in the data. In a dataset the raw value “12” could be stored. This means nothing on its own. Taking it in context: information -&gt;  12 meters of  20mm polycop sold on 12 October 2026. This information does not mean that much. That is why knowledge needs to be applied. This information needs to be used to make valuable, best decisions in the scenario.</p>
+    <p>In this context it could mean Lerato hardware and home should order more stock before 20 October 2026 otherwise they would run out of stock.</p>
 
     <h2 id="row-record">A row versus a record</h2>
     <p>This is the central comparison of the whole resource. On the left is what the shop keeps today.
@@ -116,12 +112,10 @@
   </g>
 </svg></div></div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the row-versus-record explanation (300–400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Walk the reader through the diagram above in words. Do not assume they studied it.</li><li>Explain <strong>metadata</strong> in one sentence a non-technical person would repeat correctly: data about the data.</li><li>Give the shop's own example of each envelope field mattering. Who captured it: a disputed price. When: a warranty claim. Source: a stock figure typed from memory versus counted off a delivery note. Version: &quot;who changed this?&quot;.</li><li>Explain <strong>linking</strong> versus copying — the invoice points at the customer rather than containing their name. This is the single most important paragraph on the page.</li><li>Be fair to spreadsheets. Say what they are genuinely good at: a quick calculation, a one-off model, something you will throw away. The argument is against using one as a database, not against Excel.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> Open any record in the <a href='../demo/index.html#records'>Records screen</a> and read the _meta block. The pink keys in the JSON view are the envelope.</p>
-</div>
+<p>So a row would be a horizontal line on a spreadsheet. A record would be a complete set of related information about a specific thing, like a product, a customer or an invoice. Although a row can represent a record, a record is more than the values you just see in the table. It also needs context and information that can be understood and trusted later.</p>
+<p>A record would have two parts the actual business data and the envelope of the metadata. The business data would contain useless, useful facts like a product name, price, stock and quantity, the envelope stored in the meta blocks carries information about the data itself. Metadata would be your data about your data. It would help explain things like where did the information come from, who captured it, when it was recorded, which version of the application was used to view this data or to store this data.</p>
+<p>What this would mean at Lerauto Hardware and Home would be that if information is stored in a spreadsheet, the row would be the actual Row inside of the spreadsheet where the data is stored like the price, the quantity, description, the product name and the metadata could be Sales per season of the yearOr anything useful and meaningful that could be stored about the data additionally without needing to recapture some more information.</p>
+<p>Using a spreadsheet would still be valuable. It is excellent for quick calculations and exploring figures and building a quick analysis about your information. Excel is not the problem, the problem would be to rely on a spreadsheet as a database. A spreadsheet cannot be a database, it is just a quick analysis or capturing of data or calculation that could be done. Excel should not be excluded from the business idea, it should be used efficiently for its purpose as well as databases used efficiently for its purpose.</p>
 
     <div class="table-wrap">
       <table class="compare">
@@ -172,12 +166,12 @@
   }
 }</div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Explain the structured record and the schema (250–350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Point out that roughly half the record is the envelope. Explain why that is a feature, not waste.</li><li>Explain what a <strong>schema</strong> is — the shop's agreed definition of what a customer record contains — and why writing it down once means the form, the checks and the storage can never disagree.</li><li>Explain the difference between <strong>master data</strong> (customers, products, suppliers — things that exist) and <strong>transaction data</strong> (sales, stock movements — things that happened). Master data is corrected; transaction data is never edited, only reversed. Explain why that rule matters for trust.</li><li>Address the obvious objection: &quot;this looks complicated.&quot; Nobody types this. It is produced by filling in a form with eight boxes.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The whole schema is in <code>data/schema.js</code> and drives the capture forms in the demonstration.</p>
-</div>
+<p>If we would take a look at our records, it would appear that half of the information would be a waste, but it would serve a purpose. Some of the data stored could look meaningless, but using metadata we can extract valuable information out of all of these data stored.</p>
+<p>This would store a lot of context that could be used to make meaningful decisions. These records don’t provide any meaning outside of the context, It could be regarded as unnecessary paperwork, but it would make all of the information and conclusions with the data trustworthy.</p>
+<p>A Schema of the shop would determine how a record would look and contain what field names.</p>
+<p>Examples of this could be if there is a needed customer ID as well as contact details and maybe other agreed fields. Writing this definition would determine a lot of things like validation checks, ranges, storage, and a bunch of set of rules for the business that can be implemented inside of the data fields.</p>
+<p>Structured data would Distinguish between master data and your transactional data. Master data describes something that already exists, like a customer, product and suppliers. If a customer’s phone number is incorrect, the customer record can’t be corrected.</p>
+<p>Transaction data describes things that happens such as sales and stock movement. Once a transaction has been recorded, it should not be edited or deleted to hide a mistake, since the delta mostly follow-ups and used for valuable information. Inaccurate data would cause problems. That is why it is so important to validate the input and ensure once data is captured it cannot be edited or deleted for transacational data.</p>
 
     <h2 id="quality">Information quality: six questions, one score</h2>
     <p>&quot;Is the data good?&quot; is too vague to act on. These six questions are not. Each one is a check
@@ -204,12 +198,13 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the information quality section (350–450 words — this is a marked sub-topic)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Introduce the six dimensions properly. Your textbook will have its own list; use it and cite it, then map it to the table above.</li><li>Make the cost concrete. Pick the duplicate customer and follow the consequence: two records, one person, a credit limit applied twice, a bad debt that was never authorised.</li><li>Explain the &quot;cost of poor quality&quot; idea — it is usually cheapest to prevent at capture, more expensive to correct later, most expensive when a decision has already been made on it.</li><li>Explain why the score on the demonstration is deliberately calculated over master data and not over thousands of routine sales. A score that cannot go down is worse than no score.</li><li>Be honest: no system reaches 100%, and chasing it is a waste. The useful question is which failures cost money.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#quality'>Data quality screen</a> lists every failing record by name, with the rule it broke.</p>
-</div>
+    <p>Information quality would describe how suitable information is for the job and what it needs to do. We would make use of six dimensions to help evaluate the shop. These six dimensions would be accuracy, completeness, consistency, timeline, validity, and uniqueness.</p>
+    <p>Accuracy would ask whether the information reflects what is in reality. For example, if five stocks were sold, then the number five was recorded on the dataset And if the phone number stored would be the exact same phone number the user would use. It refers to the data syntax you could argue.</p>
+    <p>Consistency would check if the information would agree across the entire system. A system without accuracy has no consistency.</p>
+    <p>Timelines would prefer if the information is useful in today’s context and if It would be up to date.</p>
+    <p>Validility would check whether or not the data would follow all of the shop rules.  For example ranges, price being a valid number and so on.</p>
+    <p>Uniqueness will check whether the same real world occurrence Would appear once or more. In the context of if something happened, was it recorded twice. It would cause data inconsistency.</p>
+    <p>Making use of this information quality is really important since it would make our data trustworthy. If our data is inaccurate or incomplete or is just out of date, we cannot process it into valuable information since the decisions used with this information to apply knowledge and wisdom to this data would be inaccurate since the data is not correct. So validating data, storing it accurately and reliable would be very important at Leratu Home and Hardware</p>
 
     <h2 id="validation">Catching it at the counter, not at month-end</h2>
     <p>A rule that fires while the customer is still standing there costs thirty seconds. The same error
@@ -240,12 +235,13 @@
       </div>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Explain why there are two severities and not one (200–300 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>This is the most quietly important design decision in the whole system, and it is worth a paragraph of its own in the pitch.</li><li>Shops have genuine exceptions: a damaged item sold cheap, a trusted customer let past their limit, stock that is physically there but was never booked in.</li><li>A system that refuses every exception gets worked around — staff stop using it, or start entering fiction to make it accept the save. A system that is worked around holds <em>worse</em> data than no system at all.</li><li>So warnings let the human overrule the machine, and the overrule is recorded. The owner can later ask how often a limit was overridden and by whom.</li><li>Connect this to the broader point about designing systems for the people who will actually use them — it links forward to the <a href='adapting-is.html'>Making it fit</a> page.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> In the <a href='../demo/index.html#till'>Till screen</a>, try selling 500 bags of cement. You can, but you have to tick the acknowledgement, and it is stored on the record.</p>
-</div>
+    <p>One of the most. important design decisions in the system would be having two levels of security. One would be warning and the other one would be errors.</p>
+    <p>An error would prevent a record from being saved when a rule has been broken in the way that the system cannot safely accept the transaction.</p>
+    <p>A warning, however, would identify something unusual that still might be legitimate.</p>
+    <p>making use of both a warning and an error would make the shop able to operate in an imperfect world that we live in today.</p>
+    <p>Let’s consider a few real scenarios. A damaged bag of cement might be sold at a discount by a trusted customer might not be allowed to exceed the credit limit temporarily, or the stock might not be present, although it has been booked on the system. These situations deserve attention, but automatically rejecting every one of them would prevent staff from doing their jobs. So with The use of data validation. Some of these transactions would look sketchy. For example, the broken cement bag sold for cheaper. The system would flag this, but this error should only be a warning, making it able to sell this bag of cement at a cheaper price, even though it broke the rules. But this is an imperfect world.</p>
+    <p>On the other hand, errors are still necessary. For example, what if someone would purchase something while their money goes out of their bank account, and then before it goes back into the business bank account, they use connection. Then they would lose their money, and the business bank account would not receive any money. In this transaction, while an error occurred in the middle of the transaction, this would cause the money just to plainly get lost. So, since it is sent but not received, the money is deducted from the customer’s bank account but not received. If this happens, a transaction needs to be re-rolled and an error needs to be occurred.</p>
+    <p>Using the errors and warnings would make it possible for the business to operate efficiently, to catch errors, but also be able to manage in real-world exceptions</p>
 
     <h2 id="sources">Where the shop's data actually comes from</h2>
     <p>Before deciding what to build, it is worth writing down every place a fact currently enters the
@@ -266,12 +262,10 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the data sources section (250–300 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain why mapping sources comes before choosing software. You cannot integrate what you have not listed.</li><li>The last row is the serious one. Knowledge that exists only in the owner's head is a risk to the business — if they are ill, on leave, or want to sell the shop one day, it is not transferable.</li><li>Explain &quot;single source of truth&quot; here: for each fact, decide which place is authoritative. Two places holding a stock figure means they will disagree, and nobody will know which is right.</li><li>Suggest the practical first exercise: the owner writes this table out for their own shop before talking to any vendor.</li></ul>
-</div>
+    <p>Before choosing a software, the shop must first understand where some of its information currently comes from. So the business could record something on spreadsheets, invoices, supplier notes, accounting systems, or even writing down on paper. Mapping these resources would reveal what information exists, who maintains it, and how it moves through the business. Things can be recognized like the current validation being done. Without this overview, the business cannot know what system needs to be used to communicate. For example, you cannot use some fancy software when the users mainly make use of pen and paper</p>
+    <p>An experienced business owner could remember what customers paid late, which suppliers offer special arrangement, and how stock is kept for busy payments. This knowledge is valuable, but it creates a risk for the business. What if the owner becomes ill and takes leave or decides to sell the shop? All of this knowledge now is unavailable. This becomes a single point of failure for knowledge inside of the business. It makes the entire business hard to transfer to a new owner. That is why documenting all of this knowledge is very important and it would turn personal into experience to something that people in the business can reuse.</p>
+    <p>This is why the shop should establish a single source of truth. For example, document special customer needs, Techniques inside of the business used to make it run smoothly and efficiently, Same method of capturing the same data in the same format.</p>
+    <p>Before any software can be chosen, the owner should complete the data source of truth table for their own shop, knowing what is required in the shop and how information and knowledge can be carried over.</p>
 
     <h2 id="flow">Reuse: the part that pays for the whole exercise</h2>
     <p>Capturing well is an investment. This is the return on it.</p>
@@ -365,12 +359,10 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the reuse section (250–350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>This is where the owner is persuaded, so spend the words. Anchor it in an afternoon they recognise.</li><li>Make the agreement point: the quote and the invoice cannot disagree, because they are two views of the same records rather than two separately typed documents.</li><li>Explain &quot;provenance&quot; — each generated document in the demonstration lists the record IDs it was built from, so an argument about an invoice is settled by looking rather than remembering.</li><li>Mention the compliance by-product: a tax invoice has required particulars under the VAT Act. Getting them onto every invoice automatically is worth money the first time SARS or a VAT-registered customer asks.</li><li>Verify the current required particulars for a tax invoice against SARS guidance and cite it — do not state the list from memory.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> <a href='../demo/index.html#documents'>Documents screen</a>. Generate an invoice and read the grey provenance line at the bottom.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> SARS guidance on tax invoices and the VAT Act requirements; the Information Regulator for the POPIA report.</p>
-</div>
+    <p>Imagine that there would be a busy afternoon at the shop. A customer would request a quote for building materials and accepts it to return later to collect the order. Without using any data reuse, staff would have to retype the customer’s detail each time, including their ID, product descriptions, quantity, price into the invoice. Every repeated entry creates an opportunity where a typo may occur, an incorrect price, or a disagreement between documents. With a structured system, the quote and invoice would be generated with the same underlying records.</p>
+    <p>Instead of the user going in and typing all of the things manually, the user would instead just validate and check that all of the data generated on the invoice would be correct. Workers can give more attention to correctness than speed, since the system does everything automatically for them. They just have to double-check it.</p>
+    <p>By using this system it also makes it easier to track errors. For example, if someone would just fill in a typo, it would be very difficult to trace where exactly the problem came from. But if there was  An incorrect update in the database or some type of flaw in the program, it would be able to trace where the error came from.</p>
+    <p>Our value would not necessarily come from producing the document faster. It would come from producing it consistently, tracing it back to its source and reusing information accurate and consistent throughout the entire business.</p>
 
     <h2 id="dashboards">Dashboards: what to put on one, and what to leave off</h2>
     <p>Most small-business dashboards fail the same way — they show everything that can be counted, so
@@ -406,12 +398,11 @@
         test on most of their tiles.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the dashboards and data visualisation section (350–450 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain the difference between a dashboard (daily, short, action-oriented) and a report (periodic, detailed, for review).</li><li>Cover the visualisation basics properly, because &quot;data visualisation&quot; is named in the brief: pick the chart for the question, not for decoration. Columns for change over time, horizontal bars when the labels are words, a donut only for share-of-whole with few slices. Say plainly that 3-D and pie charts with fifteen slices communicate nothing.</li><li>Explain why the demonstration's main chart puts revenue columns and a margin line together: selling more and earning more are different things, and a shop can do the first while losing the second.</li><li>Cover one honest pitfall each: truncated axes that exaggerate, comparing a part-month against a full month, and averages hiding the thing that matters. The demonstration deliberately fixes the second one — explain how and why.</li><li>Explain why exceptions (band 3) are the part staff actually use, and that it is a <em>list of names</em>, not a number.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html'>Today screen</a> is built to this structure. Note the revenue tile compares the first 11 days of this month against the first 11 days of last month, not against a full month.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> A recognised data-visualisation source — Few, Tufte, or your textbook's chapter — cited properly.</p>
-</div>
+    <p>A dashboard and a report would serve different purposes. A dashboard is a short and action-oriented view of the business that helps the owner monitor conditions and decides what needs attention today and right now. A report is usually more detailed and produced periodically for review, comaparisson and investigation.</p>
+    <p>Data visualization must also match the question being asked. Coulomb charts work well for comparing value across days or months, especially when showing a change over time. Horizontal bar charts are useful when category labels are long or certain words. Using a donut chart, you can also show how data is divided among small number of categories. But it becomes difficult to interpret when it contains too many slices. Three-dimensional charts distorts visual components.</p>
+    <p>We must take note that charts can also be misleading without showing false numbers. Truncated axes exaggerates small changes by making their appearance look dramatic. Comparison an incomplete month with a completed month creates an unfair comparison. Averages can hide important details, such as an unusual large customer depth in the business</p>
+    <p>Exceptions are often the most immediately useful part of a dashboard. The demonstration third band presents a list of name records that needs attention. Rather than simplifying an exception count, knowing that five problems exist is less useful than knowing which five problems are effective and what needs to be done.</p>
+    <p>The dashboard summarizes today’s performance and reveal trends. While the report shows required action that needs to be taken.</p>
 
     <h2 id="measure">What a shop this size should actually measure</h2>
     <p>Six figures. The demonstration calculates all of them from records captured during ordinary trading,
@@ -431,12 +422,11 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the measurement section (250–350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Define each measure in one plain sentence — assume the reader has never seen &quot;stock turn&quot; written down.</li><li>Explain why gross margin matters more than turnover to a shop of this size, with a worked example in rands.</li><li>Take the customer concentration figure seriously. 20.9% from one contractor is a risk, not an achievement. Say what the owner should do about it.</li><li>Make the point that none of these required any new data collection. They are all by-products of ringing up sales properly.</li><li>Caution against vanity metrics — numbers that feel good and change nothing.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> All six are on the <a href='../demo/index.html#analytics'>Analytics screen</a>, each with the underlying records behind it.</p>
-</div>
+    <p>A useful dashboard would turn everyday business transactions into measures that help owners make better decisions. Each measure should answer a practical question rather than simply just provide another number to look at</p>
+    <p>Examples like turnovers, gross margin, stock turn, debtor pays and customer concentration</p>
+    <p>For a small business, gross margin can matter more than the turnover alone. High sales do not guarantee that the business is making enough money. For example, suppose the shop sells 100,000 Rand worth of cement and building materials in a month, with those goods costing R85,000 to purchase. It’s the gross profit is R15,000 and the gross margin is 15%. If the turnover increases to 120,000 but the cost raised to 108,000 gross profit falls to 12,000 Rand and the margin drops to 10%.</p>
+    <p>Customer concentration would also be very important and deserves a lot of attention. If one contractor accounts for 20% of the total sales, then most of your business relies on those transactions. If the customer would leave or anything significant might happen, it would have a huge effect on your business</p>
+    <p>The owner should instead not look at vanity matrics. So instead of chasing the highest numbers, the owner should instead try and chase the best decision at the specific time given the scenario and the context.</p>
 
     <h2 id="protect">Keeping it: backups, retention and the stolen laptop</h2>
     <div class="callout callout--risk">
@@ -446,12 +436,9 @@
         nobody would find out until they needed it.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the data protection and retention section (300–400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Cover backups properly: more than one copy, at least one of them not in the shop, and — the part everyone skips — a restore that has actually been tested. An untested backup is a hope, not a backup.</li><li>Explain the trade-off between cloud and on-premise honestly for a South African small business: load shedding, data costs, patchy connectivity, versus the risk of the one laptop.</li><li>Cover retention from both sides: SARS requires business records to be kept for a set period, while POPIA requires personal information <em>not</em> to be kept longer than needed. These pull in opposite directions and the shop needs a written answer. Verify both periods against SARS and the Information Regulator and cite them — do not state them from memory.</li><li>Cover access: who can see what, and why that is about not asking staff to be careful with screens they never needed, rather than about distrust.</li><li>Mention the audit trail as the thing that answers &quot;who changed this?&quot; — unanswerable in a shared spreadsheet.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#audit'>Audit trail</a> records every change with the old and new value. The <a href='../demo/index.html#data'>Your data screen</a> exports everything to a file the owner can keep.</p><p style="margin-top:.5rem"><strong>Where to look it up:</strong> SARS record-retention requirements; POPIA sections 14 and 19; the Information Regulator's guidance notes.</p>
-</div>
+    <p>Business information is valuable only if it remains available, protected and recoverable. A laptop containing every customer record, invoice and stock figure creates a serious risk if it gets stolen, damages, or just starts failing. The shop should keep multiple copies of its data, including at least one backup stored outside the premises. Backups should be tested by restoring them to confirm that the information can actually be recovered. An untested backup would only be a hoop, not a backup. The shop should establish regular backup schedules and periodically verify that both the records and the relationships remain usable within the system and the backups.</p>
+    <p>Cloud storage and on-prem-premise storage have the advantages and disadvantages. Cloud services can protect against the loss of equip ment at the shop and allow access for files from different locations. However, South African businesses must consider load shedding, mobile delta costs and unreliable internet connectivity. On-premises storage can allow access without the internet connection, but it would remain vulnerable to theft, physical damage, and power problems.</p>
+    <p>There should also be a data trail. For example, who changed this data? It would demonstrate records for old and new value, making investigation possible instead of relying on memory. So it would make people responsible but also help track changes. Together, these features would support accountability, portability, and recover the original system when the files become unavailable</p>
 
     <h2 id="monday">What to do on Monday</h2>
     <p>Nothing on this page needs software to start.</p>

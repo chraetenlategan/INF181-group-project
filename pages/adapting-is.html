@@ -106,12 +106,11 @@
   </g>
 </svg></div></div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the buy-configure-customise-build section (350&ndash;450 words &mdash; marked sub-topic)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Define each of the four clearly. The <strong>configure versus customise</strong> distinction is the important one and is routinely blurred by salespeople &mdash; configuration is changing settings the product offers; customisation is code written against the product.</li><li>Explain why customisation is where small businesses get hurt: every upgrade has to be retested, the person who wrote it moves on, and the shop now owns a software project it did not plan to own.</li><li>Make the recommendation and defend it. For a four-person shop: configure heavily, customise almost never, build only the one thing that is genuinely unique to the business.</li><li>Explain <strong>fit-gap analysis</strong> in plain terms: list what the shop needs, see what the product does, and for every gap decide to change the process, accept the gap, or pay to close it. Most gaps should be the first two.</li><li>Give the test for when building is justified: the thing is central to how this business competes, no product does it, and the shop can maintain it afterwards. Very few things pass all three.</li></ul>
-</div>
+<p>To define each, buying means purchasing a ready-made package from an outside company which is generally a quicker and cheaper option and can be running within a month. Configuring is setting parameters from a systems standard process to fit your organisation without customising the code. Customising is different to configuring as the organisation writes new code in software where the product does something it did not before, and every change must be managed. To build is when the organisation develops the software itself instead of purchasing where building could take months to years.</p>
+<p>Most small businesses get hurt by customisation as it needs maintenance for the lifespan of the system, the cost of bug fixes, and regulatory upgrades are underestimated in the original business case. Every upgrade from the vendor also has to be retested against the custom code. For a shop with four staff members whose jobs are not related in IT, a freelancer would need to be paid and if they disappear the risk of nobody understanding the code, fixing bugs, and managing the software is high.</p>
+<p>To recommend one, configuring would be the most suitable for a four-person shop as risks and costs associated with outside developers are low and with no IT specialist it is more beneficial compared to customising.</p>
+<p>To configure effectively we can do a fit gap analysis where it is an evaluation that compares the operational requirements to what the software is capable of. We can do this by assessing the shop needs, evaluating what the product does, and how to fit the gaps. An example would be that the shop needs to sell by the metre, using a software called Lightspeed sets up the product by selling it by the unit of measure sold, fitting it into the business would be setting up pipe and cable as per metre products and the gap would be manual entry of the length.</p>
+<p>Building custom software is only worth the cost when it benefits the business or if the business wants to differentiate on a process. If no product does it after evaluating the fit gap, then building one only if the shop can maintain it afterwards would be beneficial.</p>
 
     <h2 id="bend">Where to bend the shop, and where to bend the system</h2>
     <p>Before shopping, split what the shop does into two lists. Most of the argument during an
@@ -140,12 +139,10 @@
         </ul></div>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the bend-the-shop versus bend-the-system section (300&ndash;400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain how to tell the two lists apart. The test: does the customer notice, and would they go elsewhere if it changed?</li><li>Take the handshake pricing example seriously. It looks like untidy data and it is actually a competitive advantage in a market built on relationships. A system that forbids it will be bypassed within a week.</li><li>Take the offline requirement seriously. Load shedding is not an edge case in South Africa; it is Tuesday. A cloud-only point of sale that cannot take a sale during an outage fails at the exact moment the shop needs it. Say what the shop should require instead.</li><li>Cover the language point. Staff and customers move between languages mid-sentence. Software in English only is usable by staff but adds friction, and a customer-facing screen in English only sends a message.</li><li>Make the organisational point: this list is a business decision, not an IT one, and the owner must make it before the demonstrations start, not during them.</li></ul>
-</div>
+    <p>Bending the shop refers to administrative routines that do not affect the customer's experience, and bending the system refers to providing value to the customers that competitors cannot match. Applying a customer test can help distinguish between the lists, if a customer would not notice the change, then it is an internal habit, if the customer would then it is defined as a competitive advantage. The test has two parts, would the customer notice and would they go somewhere else if it changed.</p>
+    <p>The handshake pricing example gives a real advantage over competitors like giving discounts to loyal customers or rounding down a total if a customer is short by a few cents or rand by bending the system to allow for manual overrides avoiding the software to kill the relationship with the client. A system that forbids this will be bypassed within a week, so overrides should be allowed and recorded. The power cut example is a real issue in South Africa so using a cloud-based POS system where use will be lost during loadshedding and turning down customers because of it would mean that the system has failed the shop. The recommendation would be going for a POS system that has an offline first architecture.</p>
+    <p>In a multilingual country, your customers and staff would use words and phrases that are not only in English, and most software is in English. Bending the system by renaming categories in local languages helps the customer feel more welcome and speeds up transactions if the staff can use the software in their home language.</p>
+    <p>This is a business decision and not an IT one. Having an IT consultant make this decision means being suggested systems with cloud features, handshake pricing not being prioritised, and software being prioritised over the customer and staff. Having a list of non-negotiables for the system helps the store have an edge over competitors.</p>
 
     <h2 id="worked">A worked example: the capture form</h2>
     <p>The demonstration's customer form is the argument of this page made concrete. It is generated from
@@ -172,12 +169,10 @@
     </div>
     <p style="margin-top:1.25rem"><a class="btn btn--ghost btn--sm" href="../demo/index.html#customers">Try the adaptive form →</a></p>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the adaptive interface section (300&ndash;400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain <strong>progressive disclosure</strong> in plain language: show what is relevant now, reveal the rest when it becomes relevant. Then explain why it matters at a counter with a customer waiting.</li><li>Connect it to data quality. A shorter, more relevant form gets filled in properly; a long form with irrelevant fields gets filled with anything that lets the person move on. The interface design <em>is</em> a data quality control.</li><li>Explain schema-driven design without jargon: describe the thing once, and let the screen, the checks and the storage all read from that description. Say why that makes the system cheap to change &mdash; which is the whole topic of this page.</li><li>Cover accessibility and real conditions honestly: the screen is used standing up, on a counter, sometimes with dusty hands, by staff with varying levels of computer confidence. Big targets, clear errors, no jargon in messages.</li><li>Give the counter-example from the demonstration: the stock take sheet deliberately omits the system's own figure, because a counter who can see the expected number will tend to agree with it. Design decisions like that are what fitting a system to a business actually means.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> <a href='../demo/index.html#customers'>The customer form</a>, and the stock take sheet under <a href='../demo/index.html#documents'>Documents</a>.</p>
-</div>
+    <p>Progressive disclosure is when information is given only when it is needed. In a POS system this can be seen with a VAT number where the field is hidden unless a staff member explicitly selects it in the settings if a customer needs one. It reduces visual clutter and lowers any chance for errors in data entry.</p>
+    <p>More relevant forms get filled in more correctly, if the staff is forced to fill out a long form with irrelevant data to get past the validation it wastes time and causes inconsistencies in the data. Having an adaptive form that only allows for specific customer information depending on the type of customer helps with the correctness of the data.</p>
+    <p>We use a schema driven design, which means the customer is described in a single central file. The screen reads the file to draw itself, then the database reads it to store the record. If the store needs to start recording delivery zones, then it is changed in one place and the entire system updates. This makes the system cheap to modify as the business evolves.</p>
+    <p>The design is suitable for real world use, buttons are large enough to be tapped quickly with a finger or a mouse, the error messages are in English explaining what is wrong and it is not in computer code. The stock take sheet has the expected quantity removed. If the system tells the staff that there should be 50 bolts, then they will count 50 bolts. Hiding the number makes the staff answer honestly which makes the software fit the reality of the business.</p>
 
     <h2 id="adoption">The part that decides whether any of this works</h2>
     <div class="callout callout--risk">
@@ -187,12 +182,10 @@
         and a management problem, and it is where most small-business IT spending is actually lost.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the user adoption section (300&ndash;400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain resistance fairly rather than dismissively. Staff resist for rational reasons: it is slower at first, it makes their mistakes visible, and nobody asked them.</li><li>Describe what the shop should actually do: involve Sipho and Thabo in choosing it, start with one thing that makes <em>their</em> day easier rather than the owner's, and let the person who learns it fastest teach the others.</li><li>Make the point about visibility honestly. A system does make individual performance visible, and that is genuinely uncomfortable. The owner should say out loud what that information will and will not be used for.</li><li>Explain why &quot;make the right thing the easy thing&quot; beats enforcement every time, with an example from the till screen.</li><li>Describe the failure signal to watch for: staff entering fiction to make the system accept a save. When that starts, the system is now producing worse data than the book it replaced, and the rule that caused it must change.</li></ul>
-</div>
+    <p>Staff resist for rational reasons, if customers are lined up down an aisle on a busy Saturday, the staff will use what the fastest method is to avoid customer complaints. At first a new system is slower, and mistakes are more visible compared to a paper, so resistance is understandable. Involving the staff like Sipho and Thabo early on to get used to the new system and whoever learns the fastest can teach the other staff members. Focusing on returns or checking stock across aisles to make their day easier instead of solely focusing on the owners reporting is more efficient.</p>
+    <p>A system makes individual performance more visible which is uncomfortable for staff when seeing what each staff does is tracked. The best way to approach this is if Lerato explains what the system will and will not be used for such as understanding how a mistake happened or not punishing honest mistakes.</p>
+    <p>Making the right thing the easy thing instead of enforcing helps adoption of the system efficiently. If entering a specific department code requires going through multiple sub menus while the customer grows impatient, the cashiers will find a workaround.</p>
+    <p>When staff starts to enter false data to make the system save then the system will start to fail and will capture worse data compared to the book. This needs to be watched and the workflow needs to be assessed to see the reasoning behind it otherwise the digital system is no longer helpful.</p>
 
     <h2 id="conditions">Designing for South African conditions</h2>
     <div class="table-wrap">
@@ -224,12 +217,12 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the South African conditions section (250&ndash;350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>This section is where the Scenario Application marks are won. Keep every example specific to this country and this kind of business.</li><li>Lead with load shedding and treat it as a design requirement rather than a complaint. What does the shop do during stage 4 at 5pm on a Friday?</li><li>Cover the cost of data honestly, and what that means for choosing software.</li><li>Cover the cash point properly: a system that assumes card payments will not reconcile for a shop where a third of takings are cash.</li><li>Find and cite at least one credible South African source on small-business digital adoption or load shedding's impact on SMEs.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Statistics South Africa, a reputable SME survey, or a South African banking or business-association report. Cite it properly.</p>
-</div>
+    <p>South African conditions are not edge cases and are requirements a system needs to be judged on. In the Business Partners SME Confidence Index for the fourth quarter of 2025, 73.4% of small businesses said reduced load shedding had improved their operations (Lechman, 2026).</p>
+    <p>More research found that small enterprises in Klerksdorp had their operating costs raised due to loadshedding and financial losses occurred (Schoeman, van Wyk and Blaauw, 2024). A scenario to prepare for is when there is stage 4 loadshedding at 5pm on a Friday when the shop is the busiest. The shop needs offline capture that syncs when there is power again as cloud only systems would have the tills close. The shop also needs a battery and a 4G router, which are costed on the roadmap, and the paper book stays as the last fallback. In 2025 mobile data averaged R20.50 per gigabyte (StatRanker, cited in Bettencourt, 2026) so choosing a product that will work on a slow connection, does not have videos playing and does not have unnecessary syncs is important for the system.</p>
+    <p>Systems that assume every sale is card will fail if a third of transactions are cash. Proper handling to make sure that the transactions are balanced by the end of the day needs to be done such as having a float and a cash up that matched the drawer and a record of what was counted and by who so that any shortcomings can be traced.</p>
+    <p>Lechman, A. (2026). Power stability fuels SME optimism as seasonal trade falls short, survey finds. [online] IOL. Available at: https://iol.co.za/business-report/entrepreneurs/2026-06-16-power-stability-fuels-sme-optimism-as-seasonal-trade-falls-short-survey-finds/ [Accessed 12 Oct. 2026].</p>
+    <p>Schoeman, E., van Wyk, A. and Blaauw, D. (2024). Investigating the impact of loadshedding on Small, Medium, and Micro enterprises in Klerksdorp, South Africa. [online] Nwu.ac.za. Available at: https://repository.nwu.ac.za/items/1293852b-4fe1-4ba8-a3d3-03e145ef16ed [Accessed 12 Oct. 2026].</p>
+    <p>Bettencourt, D. (2026). South Africa pays more for data than 27 other African countries, new report finds. [online] Scrolla allAfrica.com. Available at: https://allafrica.com/stories/202602170116.html [Accessed 12 Oct. 2026].</p>
   </div>
 </section>
 

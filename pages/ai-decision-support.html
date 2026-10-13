@@ -98,12 +98,17 @@
   </g>
 </svg></div></div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the analytics maturity section (300&ndash;400 words &mdash; marked sub-topic)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain each of the four levels in plain language with a Lerato's example for each. Use the examples in the diagram or better ones.</li><li>Make the dependency argument clearly: a prediction is only as trustworthy as the records underneath it. Tie this straight back to the information-quality work on the <a href='data-management.html'>data page</a>.</li><li>State the honest recommendation: this shop should get level 1 right and most of level 2, and that alone will pay for the system. Level 3 can wait until there are two or three years of clean trading data.</li><li>Explain why vendors sell level 4 and rarely deliver it &mdash; and what the owner should ask a salesperson to prove.</li><li>Cite your textbook's treatment of decision support and analytics maturity.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#analytics'>Analytics screen</a> is entirely levels 1 and 2. Nothing on it is predicted; everything is calculated from what actually happened.</p>
-</div>
+<p>Level 1: Descriptive Analytics – "What happened?"</p>
+<p>Summaries of data in language. At Lerato’s a simple example is a sales report that shows R15 000 worth of stock sold yesterday.</p>
+<p>Level 2: Diagnostic Analytics – "Why did it happen?"</p>
+<p>Looks at transaction details to find reasons. At Lerato’s this means digging into sales to see that cement sales jumped because a local building contractor bought twenty bags on credit.</p>
+<p>Level 3: Predictive Analytics – "What will happen?"</p>
+<p>Uses patterns to guess trends. For Lerato’s this is estimating that cement demand will rise by 25 % this month because of building activity.</p>
+<p>Level 4: Prescriptive Analytics – "What should we do?"</p>
+<p>Gives advice based on models. At Lerato’s this could be a computer instruction to order fifty cement bags.</p>
+<p>Core Dependency – A prediction or advice is only as good as the data below it. If Lerato’s handwritten pointofsale logs contain mistakes or missing amounts even the advanced algorithms will give results that look convincing but are wrong.</p>
+<p>Honest Recommendation–  For a shop like Lerato’s Person 3 should first master Level 1 and then develop Level 2 habits. Clean and consistent data on sales and stock will bring benefits. Justify the cost of the system. Person 3 may wait on Level 3 until two or three years of trading history are available.</p>
+<p>Vendor Reality– Vendors sell Level 4 features because they seem advanced and cost more. In reality they often fail for shops because there is not data. Before Person 3 buys the vendor must prove: "Can your system give advice with the history of a singlestore hardware shop like ours?”</p>
 
     <h2 id="decisions">Which decisions should a system make?</h2>
     <p>Not all decisions are the same shape. The useful split is how repeatable they are.</p>
@@ -128,12 +133,9 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the decision types section (250&ndash;350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Define structured, semi-structured and unstructured decisions, citing your textbook.</li><li>Make the practical point: automate the structured ones because they are boring, repetitive and done badly by tired people at 5pm on a Friday &mdash; not because computers are clever.</li><li>Explain &quot;decision support&quot; properly: the system's job on a semi-structured decision is to put the evidence in front of the person, not to make the call.</li><li>Give the counter-example: the reorder calculation in the demonstration suggests a quantity. It does not place the order. Explain why that boundary is deliberate.</li></ul>
-</div>
+    <p>Core Dependency – A prediction or advice is only as good as the data below it. If Lerato’s handwritten pointofsale logs contain mistakes or missing amounts even the advanced algorithms will give results that look convincing but are wrong.</p>
+    <p>Honest Recommendation–  For a shop like Lerato’s Person 3 should first master Level 1 and then develop Level 2 habits. Clean and consistent data on sales and stock will bring benefits. Justify the cost of the system. Person 3 may wait on Level 3 until two or three years of trading history are available.</p>
+    <p>Vendor Reality– Vendors sell Level 4 features because they seem advanced and cost more. In reality they often fail for shops because there is not data. Before Person 3 buys the vendor must prove: "Can your system give advice with the history of a singlestore hardware shop like ours?”</p>
 
     <h2 id="useful">What is actually useful to a shop this size</h2>
     <p>Honest assessment, in order of what returns the most for the least.</p>
@@ -172,12 +174,13 @@
         </ul></div>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the honest assessment of AI for a small retailer (350&ndash;450 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>This section is where the resource earns credibility with a sceptical client. Do not oversell.</li><li>Start with the deflation: most of what delivers value to a shop this size is arithmetic done consistently, not machine learning. Say so plainly.</li><li>Explain what a forecast actually is &mdash; an estimate with uncertainty &mdash; and that a forecast presented without a sense of how wrong it might be is worse than no forecast, because it invites confident bad decisions.</li><li>Explain the data requirement honestly: machine learning needs volume, history and consistency. A shop with eighteen months of spreadsheet data of uncertain quality does not have the inputs yet.</li><li>Cover <strong>bias</strong> with a retail example, not an abstract one. If the shop never stocked a line, the data shows no demand for it, and a model trained on that data will recommend never stocking it. The data records what the shop did, not what customers wanted.</li><li>Cover <strong>explainability</strong>: the owner must be able to ask &quot;why did it suggest that?&quot; and get an answer. A recommendation nobody can explain will be ignored the first time it looks odd &mdash; correctly.</li><li>Give three questions to ask any vendor selling AI, and make them questions a non-technical owner could actually ask out loud.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Your textbook on decision support systems and business intelligence; any reputable source on forecasting limitations or algorithmic bias.</p>
-</div>
+    <p>For a retailer like Lerato, the way to keep operations smooth is to do math all the time. Counting stock correctly and knowing sales numbers are more useful than machine learning. Stating these limits makes Lerato more trustworthy. It stops Lerato from spending money on technology.</p>
+    <p>A statistical forecast is an estimate that has uncertainty. Showing a sales number without telling the error margin makes Leratos think the number is certain which can lead to stock choices. For example saying Leratos will sell one hundred units but not showing how much that number could change might leave Leratos with stock if people buy less.</p>
+    <p>Machine learning models need a lot of data, deep history and clean data to work well. A small shop that has eighteen months of spreadsheet data does not give Leratos data for a useful machine learning model.</p>
+    <p>Algorithmic Bias in Retail: AI models copy patterns in data. If Leratos never stocked power tools the data will show zero sales for that category. A machine learning model that looks at this data will think there is no demand for power tools and will suggest Leratos never buy them. That mixes market demand with data.</p>
+    <p>Explainability Standard: Small business owners need to see why a system suggests something. If a system tells Leratos to double a bolt order but gives no logic Leratos owner will ignore it. A useful recommendation must show calculations.</p>
+    <p><strong>Three Practical Questions for AI Vendors:</strong></p>
+    <ol><li>"Can you show me the formula or logic your system used to calculate this recommendation?"</li><li>"How does this software perform when our store data is missing entry fields or contains formatting errors?"</li><li>"What volume and duration of sales history must we feed into the system before its suggestions become reliable?"</li></ol>
 
     <h2 id="judgement">What the system must never be allowed to decide</h2>
     <div class="callout callout--note">
@@ -187,12 +190,14 @@
         automation &mdash; it is automating a judgement call and then not noticing when the circumstances changed.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the human judgement section (200&ndash;300 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Give concrete examples specific to this shop: extending credit to a long-standing customer going through a hard patch, pricing for a neighbour, deciding whether to keep stocking a line that one loyal customer depends on.</li><li>Make the point that these decisions have social and relational content that is not in the data and never will be.</li><li>Connect to the ethics page: a system that quietly refuses credit based on purchase patterns is making a decision about a person's life with no accountability and no right of reply.</li><li>Close by saying what the system <em>should</em> do with these decisions instead: surface the evidence, record what was decided and by whom, and let the owner be answerable for it.</li></ul>
-</div>
+    <p>Core strategic decisions within a store must stay under Leratos control. Never be fully automated. Examples include:</p>
+    <p>Extending credit to a trade customer experiencing shortterm cash flow difficulties.</p>
+    <p>Adjusting product pricing for a neighboring business owner.</p>
+    <p>Continuing to stock a lowmargin hardware line because a key account customer relies on it.</p>
+    <p>These choices involve dynamics, community trust and longterm customer relationships—things that cannot be captured fully in numbers in a database.</p>
+    <p>Letting an automated system make these decisions creates risks. If an algorithm quietly denies Leratos credit based on payment patterns it makes a choice that hurts a customer’s life without Leratos knowing without Leratos being accountable and with no chance to appeal.</p>
+    <p>When an automated system makes decisions it should act as a helper. It must show Leratos facts—such as balances and buying trends—record the action along with the responsible manager’s name and make Leratos owner keep Leratos accountable for all client relationships.</p>
+    <p>Enterprise Systems &amp; Integration (<code>pages/enterprise-systems.html</code>)</p>
   </div>
 </section>
 

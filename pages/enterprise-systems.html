@@ -88,12 +88,13 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the enterprise systems overview (300&ndash;400 words &mdash; marked sub-topic)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Define each system properly in your own words. Define <strong>ERP</strong> carefully &mdash; it is the term most likely to come up in Q&amp;A and the one most often misused.</li><li>Make the point in the right-hand column explicit: the shop already performs every one of these functions. The question is never &quot;should we have inventory management&quot; but &quot;should it be done by a book or by a system&quot;.</li><li>Explain why a full ERP is usually wrong for a business this size: cost, implementation length, and the fact that it is designed to impose process discipline a four-person shop does not need yet.</li><li>Explain what a <strong>module</strong> is, and why buying one product that does two things well beats buying four that each do one thing.</li><li>Cite your textbook for the definitions, and name specific South African products only where you can verify what they do.</li></ul>
-</div>
+    <p>An Enterprise Resource Planning (ERP) system is a set of software that manages core business functions—inventory, accounting, pointofsale and customer records—inside one database. Many people misuse the word ERP to mean any business software. Real ERP needs a shared database for all operations.</p>
+    <p>Leratos already does every task: recording cash sales taking customer details tracking stock on shelves and calculating profits. The real question for Leratos is not whether to do these tasks but whether to use paper registers and separate spreadsheets or to use one integrated software application.</p>
+    <p><strong>Deploying a traditional enterprise ERP is not suitable for a shop for reasons:</strong></p>
+    <p>High Implementation &amp; Maintenance Costs: Software licenses and consulting fees are above Leratos budget.</p>
+    <p>Protracted Rollout Timelines: Implementation can take months. Distract Leratos staff from trade.</p>
+    <p>OverRigid Processes: Complex ERP systems force workflows made for corporations creating work for Leratos small team of four.</p>
+    <p>An expensive ERP suite can be difficult for businesses. Small businesses can gain from systems. A module is a software component that handles one task—like pointofsale transactions or inventory tracking—. That connects to operational modules. Choosing a solution thats very good at pointofsale and basic stock tracking gives overall reliability and lower costs than buying a complex multifeature ERP suite where many features are hard to set up.</p>
 
     <h2 id="islands">Islands of data</h2>
     <p>This is the single most common failure in small-business IT, and it is not caused by bad software.
@@ -190,12 +191,15 @@
   </g>
 </svg></div></div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the islands-of-data section (300&ndash;400 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain the term <strong>data silo</strong> / islands of data in plain language.</li><li>Trace one fact &mdash; the price of a bag of cement &mdash; through every place it currently lives at Lerato's, and show how they drift apart.</li><li>Explain <strong>single source of truth</strong>: for each fact, exactly one place is authoritative, and everything else reads from it.</li><li>Make the subtle point that matters most: the problem is not the duplicate copies. It is that nobody can tell which copy is right, so staff stop trusting all of them and go back to asking the owner.</li><li>Use the shop's real example: six places hold a stock figure, all six disagree, so the stock figure is effectively unknown.</li></ul>
-</div>
+<p>An island of data also called a data silo occurs when different software programs or handwritten records hold business information on their own without any synchronisation.</p>
+<p><strong>Think about how a small change in the price of a bag of cement can spread through records:</strong></p>
+<ol><li>The shop owner agrees to a price increase from the supplier. Writes R110 on a desk notepad.</li><li>Meanwhile the front counter clerk keeps charging R100 at the cash register because the pointofsale price list has not been updated.</li><li>The inventory clerk records the stock in a spreadsheet using  R105.</li><li>The accounting assistant enters R108 into the tax ledger based on a supplier invoice.</li></ol>
+<p>Because these systems are not connected one fact turns into four values across the business.</p>
+<p>To fix this the business should use a Single Source of Truth (SSOT).</p>
+<p>In an SSOT model every piece of business data—such as an item price— is defined in one place. Every other part of the business pulls information directly from that one place.</p>
+<p>The main problem with data stores is not just duplicate information but a loss of trust in the system.</p>
+<p>When people see numbers in places they stop trusting the software and start asking the owner for help.</p>
+<p>For example if six different inventory sheets show six numbers, for cement the real amount is unknown which makes the tracking tools useless.</p>
 
     <h2 id="joins">Four ways to join two systems</h2>
     <p>In rising order of cost and falling order of pain.</p>
@@ -232,12 +236,20 @@
         unavailable.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the integration approaches section (350&ndash;450 words &mdash; marked sub-topic)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Explain what an <strong>API</strong> is without jargon. A good analogy for a hardware shop: a trade counter. You do not walk into the warehouse; you hand a written order over the counter in an agreed format and get back what you asked for.</li><li>Explain <strong>real-time</strong> versus <strong>batch</strong> and why it matters here: a stock figure that updates monthly cannot support a reorder decision made today.</li><li>Work through the real integration challenges, not just the list: different systems meaning different things by the same word (is &quot;customer&quot; the person or the account?), different formats for dates and phone numbers, deciding which system wins when both have changed the same record, and what happens to data captured while the internet was down.</li><li>Cover <strong>vendor lock-in</strong> honestly: once a shop's three years of history is inside a product, moving becomes expensive and the vendor knows it. The defence is the data export test.</li><li>State the practical test to apply before signing anything: <em>can I export everything, in a readable format, without asking permission?</em> Link to the demonstration's export screen.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> The <a href='../demo/index.html#data'>Your data screen</a> exports every record with its metadata intact. Apply the same test to any product a vendor demonstrates.</p>
-</div>
+    <p>An Application Programming Interface (API) is a way for different software applications to talk to each other.</p>
+    <p>Think of it like a counter at a hardware store: you do not go into the back to get what you need; you give a form to the person at the counter. They give you what you asked for in a way.</p>
+    <p><strong>Knowing when data is moved is very important:</strong></p>
+    <p>Batch Transfer: Data is updated at set times, such as every night or every week.</p>
+    <p>RealTime Transfer: Data is updated as it happens.</p>
+    <p>Batch updates are not good for inventory. If stock is only updated once a month batch updates cannot help with decisions because stock levels change all the time during the day.</p>
+    <p><strong>There are data problems when systems are connected:</strong></p>
+    <p>Semantic Inconsistencies: One system calls a "customer" a person who pays cash while the accounting system calls a "customer" a company that has a credit account.</p>
+    <p>Data Formatting Differences: Problems such as dates written as <code>DD/MM/YYYY</code> or <code>YYYY-MM-DD</code> or different ways to write phone numbers can cause errors if not fixed.</p>
+    <p>Conflict Resolution: If a customer’s phone number is changed at the register and at the time in the accounting system clear rules must say which one is correct.</p>
+    <p>Offline Resilience: Systems must be able to store sales when the internets down. Send the data back when the connection is restored.</p>
+    <p><strong>Vendor Lockin Testing:</strong></p>
+    <p>Vendor lockin happens when a software company keeps your data in a format that’s hard to move to another program.</p>
+    <p>To stop this business owners should check if the system can provide all records in a format like CSV or JSON without paying fees.</p>
 
     <h2 id="choosing">Choosing between products</h2>
     <p>Rather than naming a winner, here is the scorecard to take into a demonstration. Make the
@@ -276,12 +288,13 @@
       </table>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the vendor selection section (250&ndash;350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Frame it as a buying guide for somebody who is not technical and will be sold to confidently.</li><li>Name actual South African options you have verified &mdash; accounting, point of sale, payments &mdash; and say what each is genuinely good at. Check current pricing on the vendors' own sites and cite the date you checked, because it will have changed.</li><li>Cover the total cost of ownership idea: subscription, hardware, training time, the cost of the fortnight where everything is slower, and the cost of getting out again.</li><li>Be explicit that the team is not recommending one product. A consultant who names a product without understanding the client's constraints is selling, not advising.</li></ul><p style="margin-top:.5rem"><strong>Where to look it up:</strong> Vendors' own published pricing pages, with the date you checked. Do not cite a review site as a price.</p>
-</div>
+    <p>Choosing business software requires a look at what software can do how software costs and the total cost to use software.</p>
+    <p><strong>In South Africa local companies have options:</strong></p>
+    <p>Sage Business Cloud Accounting (Checked: October 2026): A cloudbased accounting tool that starts at about R380 per month for businesses to handle VAT and local bank connections.</p>
+    <p>Yoco Point of Sale(Checked: October 2026): No fixed fees on plans a percentage for card payments which's useful for handling card payments at the front.</p>
+    <p>IQ Retail / IQ POS (Checked: October 2026): A local choice for hardware stores with stock control and direct account management.</p>
+    <p>Looking at the cost of software means checking the cost, not the price. The total cost covers buying hardware such as printers and scanners training staff, transactions when starting out and costs when moving to another system.</p>
+    <p>Experts should provide options that fit the business than forcing one choice. The decision should match what the owner can afford and what the owner needs.</p>
 
     <h2 id="reality">What integration actually feels like</h2>
     <div class="callout callout--risk">
@@ -293,12 +306,12 @@
         software work.</p>
     </div>
 
-<div class="todo">
-  <span class="todo__tag">Team writes this</span> <span class="todo__who">author: ____</span>
-  <h4>Write the implementation reality section (250&ndash;350 words)</h4>
-  <p>Cover, in your own words:</p>
-  <ul><li>Set honest expectations. An integration project of this size is weeks, not days, and most of the time goes on agreeing definitions and cleaning data rather than on configuration.</li><li>Explain <strong>data migration</strong> and the rule that matters: a migration imports whatever you give it. Migrating the old mess produces a new system full of the old mess, which the shop is now also paying for.</li><li>Describe parallel running &mdash; keeping the book going alongside the system for a few weeks &mdash; and the trade-off: more work for a fortnight, but a way back if it fails.</li><li>Describe what success and failure each look like three months in, concretely.</li></ul><p style="margin-top:.75rem"><strong>Evidence you can point at:</strong> Every record migrated from the old spreadsheet in the demonstration is marked <code>unverified</code> in its metadata. Explain why that honesty is deliberate &mdash; see the <a href='../demo/index.html#quality'>Data quality screen</a>.</p>
-</div>
+    <p>Implementing software requires time planning. For a hardware shop it usually takes weeks, not days. Most of the time is spent fixing naming problems cleaning up records and matching codes not setting up the software.</p>
+    <p>A key rule for moving data is: Garbage in garbage out. If old records are not checked they bring problems into the system making it expensive and full of data.</p>
+    <p>To avoid this companies should run the systems together for a time. This makes the work harder for the staff. Gives a backup if something goes wrong.</p>
+    <p><strong>Measuring Success:</strong></p>
+    <p>3 Month Success Indicators: Daily stock counts match the shelves. Checkouts are as fast or faster. Monthly money counts finish without work.</p>
+    <p>3 Month Failure Indicators: Staff skip the software. Use paper. Stock is still wrong. Managers use notes for choices.</p>
   </div>
 </section>
 

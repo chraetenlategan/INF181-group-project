@@ -154,7 +154,9 @@ Headline figures the content refers to:
 | Dead stock | R23 798 across 4 lines | Home hero, analytics |
 | Owed on account | R99 962 across 10 customers | Home hero, roadmap |
 | Shrinkage | R3 616 | Home hero, analytics |
-| Top customer share | 20.9% | Home hero, analytics |
+| Top named customer share | 16.0% (Mogale Construction CC) | Analytics |
+| Top three trade accounts | 43.4% of turnover | Home hero, analytics |
+| Walk-in (unidentified) share | 20.9% | Excluded from concentration — it is a bucket, not a buyer |
 | Information quality | 92% (6 errors, 8 warnings) | Quality screen |
 
 The catalogue is 35 lines — a representative sample, not a real shop's full
@@ -181,9 +183,15 @@ round-trips, and persistence stays under 2KB.
 
 There are **two** categories, and the team has to handle both:
 
-1. **The 36 `.todo` placeholders.** No draft text at all — just a brief saying
+1. **The `.todo` placeholders.** No draft text at all — just a brief saying
    what to cover, which demo screen proves it, and where to look the facts up.
-   Write these from scratch.
+   Written from scratch by the team. **34 of the 35 writing tasks are now on the
+   site**, applied from `Submission.docx` on 2026-10-13. Two placeholders remain,
+   both named in `docs/contributions.md`:
+   - `pages/references.html` — RF-01, the reference list (Oratile Nare)
+   - `pages/glossary.html` — 8 of the 46 definitions (Chraeten Lategan):
+     Knowledge, Metadata, Record versus row, Schema, Master data, Transaction
+     data, Information quality, Validation
 
 2. **The prose that is already on the pages** — table contents, callouts, card
    summaries, diagram labels, worked examples, the sentences between sections.
@@ -195,17 +203,34 @@ There are **two** categories, and the team has to handle both:
 Keep: the structure, the CSS, all the JavaScript, the diagrams, the data set.
 Rewrite: anything a visitor reads.
 
-Roughly 8 900 words of draft prose sit across the pages. Treat it as a detailed
-outline written in sentences, not as finished copy.
+Everything a visitor reads inside a section body is now team-written. The
+scaffolding prose that still needs rewriting is what sits *around* it: the
+tables, callouts, card summaries, ledes and diagram labels.
+
+## Applying a filled-in allocation pack
+
+`tools/build-allocation-pack.py` produces the Word pack the team writes into;
+`tools/apply-submission.py` puts a filled-in copy back onto the site:
+
+```bash
+python3 tools/apply-submission.py Submission.docx
+```
+
+It matches each answer box to its task ID, replaces that task's `.todo` block
+with the writing as paragraphs (numbered and bulleted runs become lists),
+fills glossary rows by term, and leaves any box that is still blank as a
+placeholder. Stdlib only — it does not need python-docx. It is safe to re-run
+only against the original placeholders, so restore the page from git before
+re-applying.
 
 ## Drafting placeholders
 
-36 orange `.todo` blocks across the site mark where the team's writing goes.
+Orange `.todo` blocks mark where the team's writing still goes.
 Each is a brief: what to cover, which demonstration screen proves it, and where
 to look the facts up. **Ctrl+Shift+D** hides them for previewing; the footer
 counts what is left.
 
-**Every one must be deleted from the HTML before submission.**
+**Every one must be deleted from the HTML before submission.** Two are left.
 
 ## Design and content standards
 
